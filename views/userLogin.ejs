@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Log In</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/css/userLogin.css">
+    </head>
+    <body>
+        <div id="container">
+            <div id="container-header">
+                <div class="container-header-text">
+                     Log In
+                </div>
+            </div>
+            <div id="container-body">
+                <form action="/users/create-session" method="post">
+                    <div id="form-item">
+                        <input type="email" id="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div id="form-item">
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                    </div>
+                    <div id="login-link">
+                        Forgot-Password? <a href="/users/reset-password">Reset Password</a>
+                    </div>
+                    <div id="login-link">
+                        Not a  member? <a href="/users/signup">Sign Up</a>
+                    </div>
+                    <div id="form-item">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
