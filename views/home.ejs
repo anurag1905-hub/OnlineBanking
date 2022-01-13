@@ -8,8 +8,9 @@
         <%if(locals.user) { %>
             <p><%=user.email%></p>
             <p><%=user.name%></p>
+            <a href="/user/signout">Sign Out</a>
         <% } else { %>
-        <a href="/user/login">Login</a>
+        <a href="/user/login">Login</a><br>
         <a href="/user/signup">Sign Up</a>
         <% } %>
     </body>
