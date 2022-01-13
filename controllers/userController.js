@@ -9,11 +9,24 @@ module.exports.signup = function(req,res){
 }
 
 module.exports.home = function(req,res){
-    return res.render('home');
+    if(req.isAuthenticated()){
+        User.findById(req.user,function(err,user){
+           if(err){
+               return res.redirect('/user/login');
+           }
+           else{
+               return res.render('home',{
+                   user:user
+               });
+           }
+        });
+    }
+    else{
+        return res.render('home');
+    }
 }
 
 module.exports.create = function(req,res){
-   console.log(req.body.isAdmin);
    User.findOne({email:req.body.email},function(err,user){
       if(err){
           console.log('Error in finding the user ',err);
@@ -34,4 +47,9 @@ module.exports.create = function(req,res){
           });
       }
    });
+}
+
+//sign in and create a session for the user
+module.exports.createSession = function(req,res){
+    return res.redirect('/user');
 }
