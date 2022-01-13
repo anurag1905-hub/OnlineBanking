@@ -13,7 +13,8 @@
                 </div>
             </div>
             <div id="container-body">
-                <form action="/users/create" method="post">
+                <form action="/user/create" method="post">
+                    <input type="hidden" name="isAdmin" value="false" required>
                     <div id="form-item">
                         <input type="email" id="email" name="email" placeholder="Email" required>
                     </div>
