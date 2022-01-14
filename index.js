@@ -7,6 +7,15 @@ const session = require('express-session'); // to create session cookie and stor
 const passport = require('passport'); // passport uses session-cookies to store the identity of the authenticated user.
 const passportLocal = require('./config/passport-local-strategy');
 const MongoStore = require('connect-mongodb-session')(session);  // Used for storing cookies, otherwies cookies get deleted as soon as server restarts due to limited storage.
+const sassMiddleware = require('node-sass-middleware'); // Used to convert sass files to css.
+
+app.use(sassMiddleware({
+    src:'./assets/scss',
+    dest:'./assets/css',
+    debug:true,  // whatever information we see in the terminal. It helps in debugging.
+    outputStyle:'extended',  //use multiple lines.
+    prefix:'/css' // place where server should look for css files.
+}));
 
 app.use(express.static('assets'));  // to access static files
 app.use(express.urlencoded());    // so that we can collect form data and store it in req.body 
