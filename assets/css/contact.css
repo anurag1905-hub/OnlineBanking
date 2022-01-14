@@ -145,3 +145,8 @@ section {
     margin-bottom: 5rem; }
   #message-section {
     width: 80%; } }
+
+.dropdown-menu {
+  padding: 0px; }
+  .dropdown-menu a {
+    border-bottom: 1px solid black; }

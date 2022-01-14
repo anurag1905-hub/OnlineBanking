@@ -15,5 +15,6 @@ router.post('/create-session',passport.authenticate(
 router.get('/signout',userController.destroySession);
 router.get('/contact',userController.contact);
 router.get('/branches',userController.branches);
+router.get('/faq',userController.faq);
 
 module.exports = router;

@@ -77,3 +77,7 @@ module.exports.contact = function(req,res){
 module.exports.branches = function(req,res){
     return res.render('branches');
 }
+
+module.exports.faq = function(req,res){
+    return res.render('faq');
+}

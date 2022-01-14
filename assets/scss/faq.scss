@@ -34,13 +34,13 @@ body{
     flex-direction:column;
 }
 
-.announcement-header{
+.faq-header{
     font-size:2rem;
     color:red;
     height:10%;
 }
 
-.announcement-box{
+.faq-box{
     height:90%;
     min-height:63vh;
     border:2px solid red;
@@ -51,6 +51,14 @@ body{
             color:black;
         }
     }
+    p{
+        padding-left:0.5rem;
+        padding-right:0.5rem;
+    }
+}
+
+.faq-answer{
+    font-weight:900;
 }
 
 .dropdown-menu{
@@ -59,5 +67,4 @@ body{
     }
     padding:0px;
 }
-
 
