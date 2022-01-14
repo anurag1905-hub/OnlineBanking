@@ -61,6 +61,43 @@ section{
     width:100%;
     height:auto;
     background:linear-gradient(90deg,#2857a4 60%,#403066);
+
+    #myaddress {
+
+        p {
+           color:white;
+           font-size:1.5rem;
+           font-weight:550;
+           display:inline-block;
+        }
+
+        #contact-location span {
+           color:white;
+           font-size:1.5rem;
+           display:inline-block;
+           margin-bottom:1rem;
+        }
+
+        #contact-mobile span{
+            color:white;
+            font-size:1.5rem;
+            display:inline-block;
+            margin-bottom:1rem;
+        }
+
+        #contact-email span{
+            color:white;
+            font-size:1.5rem;
+            display:inline-block;
+            margin-bottom:1rem;
+        }
+    }
+
+    #message-submit{
+        margin:auto;
+        margin-top:1rem;
+        display:block;
+    }
 }
 
 #contact-header{
@@ -85,49 +122,20 @@ section{
     box-sizing:border-box;
     width:35%;
     margin:auto;
-}
 
-#other-info #connect span{
-    display:inline-block;
-    color:white;
-    font-size:1.8rem;
-    font-weight:550;
-}
+    #connect span {
+       display:inline-block;
+       color:white;
+       font-size:1.8rem;
+       font-weight:550;
+    }
 
-
-#other-info #connect #connect-text{
-    display:inline-block;
-    color:white;
-    font-size:1.2rem;
-    text-align:justify;
-}
-
-#contact #myaddress p{
-    color:white;
-    font-size:1.5rem;
-    font-weight:550;
-    display:inline-block;
-}
-
-#contact #myaddress #contact-location span{
-    color:white;
-    font-size:1.5rem;
-    display:inline-block;
-    margin-bottom:1rem;
-}
-
-#contact #myaddress #contact-mobile span{
-    color:white;
-    font-size:1.5rem;
-    display:inline-block;
-    margin-bottom:1rem;
-}
-
-#contact #myaddress #contact-email span{
-    color:white;
-    font-size:1.5rem;
-    display:inline-block;
-    margin-bottom:1rem;
+    #connect #connect-text{
+       display:inline-block;
+       color:white;
+       font-size:1.2rem;
+       text-align:justify;
+    }
 }
 
 /*Contact Section's message-section*/
@@ -157,12 +165,6 @@ section{
     padding:0.8rem 0.8rem;
     font-weight:550;
     display:inline-block;
-}
-
-#contact #message-submit{
-    margin:auto;
-    margin-top:1rem;
-    display:block;
 }
 
 #contact #message-submit:hover{
