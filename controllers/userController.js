@@ -73,3 +73,7 @@ module.exports.destroySession = function(req,res){
 module.exports.contact = function(req,res){
     return res.render('contact');
 }
+
+module.exports.branches = function(req,res){
+    return res.render('branches');
+}

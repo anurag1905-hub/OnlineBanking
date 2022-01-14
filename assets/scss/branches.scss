@@ -1,0 +1,125 @@
+html{
+    font-size:16px;
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+    background-image: url("/images/backgroundimage.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; 
+}
+
+.heading{
+    font-size:2rem;
+}
+
+.header{
+    border-bottom:4px solid red;
+}
+
+.navbar-item{
+    background-color:orange;
+    border-right:4px solid red;
+}
+
+.box{
+    height:auto;
+    min-height:70vh;
+    background-color:lightgrey;
+    padding:1rem;
+    display:flex;
+    flex-direction:column;
+}
+
+.branches-header{
+    font-size:2rem;
+    color:red;
+    height:10%;
+}
+
+.branches-box{
+    height:90%;
+    min-height:63vh;
+    padding:1rem;
+    border:2px solid red;
+    display:flex;
+    flex-direction:column;
+}
+
+.branch{
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    padding-top:1rem;
+    padding-bottom:1rem;
+    border-bottom:4px solid black;
+}
+
+.branch-image{
+    width:40%;
+    height:100%;
+    img{
+        object-fit: cover;
+        width:100%;
+        height:100%;
+        min-height:500px;
+    }
+}
+
+.branch-information{
+    width:60%;
+    height:100%;
+    color:black;
+    text-align:center;
+    font-size:1rem;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    padding:1rem;
+    .branch-heading{
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+        font-size:2rem;
+        font-weight:800;
+    }
+    .text {
+        text-align:left;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .branch{
+        flex-direction:column;
+    }
+
+    .branch-image{
+        width:100%;
+        height:50%;
+        img{
+            object-fit: cover;
+            width:100%;
+            height:100%;
+            min-height:300px;
+        }
+    }
+
+    .branch-information{
+        width:100%;
+        height:50%;
+        color:black;
+        text-align:center;
+        font-size:1rem;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+        padding:1rem;
+        .branch-heading{
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+            font-size:2rem;
+            font-weight:800;
+        }
+        .text {
+            text-align:left;
+        }
+    }
+}
+
+
