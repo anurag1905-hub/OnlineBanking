@@ -7,10 +7,12 @@ router.get('/login',userController.login);
 router.get('/signup',userController.signup);
 router.get('/',userController.home);
 router.post('/create',userController.create);
+router.get('/profile',passport.checkAuthentication,userController.profile);
 router.post('/create-session',passport.authenticate(
     'local',
-    {failureRedirect:'/users/signup'}
+    {failureRedirect:'/user/signup'}
 ),userController.createSession);
 router.get('/signout',userController.destroySession);
+
 
 module.exports = router;

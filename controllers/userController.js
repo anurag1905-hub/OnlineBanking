@@ -14,6 +14,10 @@ module.exports.signup = function(req,res){
     return res.render('userSignUp');
 }
 
+module.exports.profile = function(req,res){
+    return res.render('userProfile');
+}
+
 module.exports.home = function(req,res){
     if(req.isAuthenticated()){
         User.findById(req.user,function(err,user){
@@ -57,7 +61,7 @@ module.exports.create = function(req,res){
 
 //sign in and create a session for the user
 module.exports.createSession = function(req,res){
-    return res.redirect('/user');
+    return res.redirect('/user/profile');
 }
 
 //sign out the currently signed in user
