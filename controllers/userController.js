@@ -69,3 +69,7 @@ module.exports.destroySession = function(req,res){
     req.logout();
     return res.redirect('/user/');
 }
+
+module.exports.contact = function(req,res){
+    return res.render('contact');
+}
