@@ -85,3 +85,7 @@ module.exports.faq = function(req,res){
 module.exports.personalise = function(req,res){
     return res.render('personalise');
 }
+
+module.exports.transferFunds = function(req,res){
+    return res.render('transferFunds');
+}

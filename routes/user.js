@@ -17,5 +17,6 @@ router.get('/contact',userController.contact);
 router.get('/branches',userController.branches);
 router.get('/faq',userController.faq);
 router.get('/personalise',userController.personalise);
+router.get('/transferFunds',userController.transferFunds);
 
 module.exports = router;

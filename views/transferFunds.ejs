@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/personalise.css">
+        <link rel="stylesheet" type="text/css" href="/css/transferFunds.css">
     </head>
     <body>
         <div class="container mt-3">
@@ -20,7 +20,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/user/profile">MY ACCOUNT</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="/user/transferFunds">TRANSFER FUNDS</a>
                         </li>
                         <li class="nav-item">
@@ -29,7 +29,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">NOTIFICATIONS</a>
                         </li> 
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="/user/personalise">PERSONALISE</a>
                         </li>
                         <li class="nav-item">
@@ -39,62 +39,39 @@
                 </div>  
             </nav>
             <div class="container-fluid box">
-                <div class="login-info-header">
-                    LOGIN INFO:
+                <div class="transfer-funds-header">
+                    TRANSFER FUNDS:
                 </div>
-                <div class="login-info-box">
+                <div class="transfer-funds-box">
                     <form action="" method="post">
                         <div class="form-group">
-                           <label for="email">Email:</label>
-                           <input type="email" class="form-control" id="email"  name="email" required>
+                            <label for="beneficiaryName">Beneficiary's Name:</label>
+                            <input type="text" class="form-control" id="beneficiaryName" name="beneficiaryName" required>
                         </div>
                         <div class="form-group">
-                           <label for="pwd">Password:</label>
-                           <input type="password" class="form-control" id="pwd" name="pswd" required>
-                        </div>
-                        <button type="submit" class="btn btn-success">Update</button>
-                    </form>
-                </div>
-                <div class="account-info-header">
-                     ACCOUNT INFO:
-                </div>
-                <div class="account-info-box">
-                    <form action="" method="post">
-                        <div class="form-group">
-                            <label for="account-holder-name">Account Holder Name:</label>
-                            <input type="text" class="form-control" id="account-holder-name" name="accountHolder" required>
+                            <label for="beneficiaryAddress">Beneficiary's Address:</label>
+                            <input type="text" class="form-control" id="beneficiaryAddress" name="beneficiaryAddress" required>
                         </div>
                         <div class="form-group">
-                            <label for="gender">Gender:</label>
-                            <input type="text" class="form-control" id="gender" name="gender" required>
+                            <label for="beneficiaryAccountNumber">Beneficiary's Account Number:</label>
+                            <input type="number" class="form-control" id="beneficiaryAccountNumber" name="beneficiaryAccountNumber" required>
                         </div>
                         <div class="form-group">
-                            <label for="phone">Phone Number:</label>
-                            <input type="number" class="form-control" id="phone" name="phone" required>
+                            <label for="ifscCode">IFSC Code of Beneficiary's Bank Branch:</label>
+                            <input type="text" class="form-control" id="ifscCode" name="ifscCode" required>
                         </div>
                         <div class="form-group">
-                            <label for="address">Address:</label>
-                            <input type="text" class="form-control" id="address" name="address" required>
+                            <label for="amount">Amount(in Rs) :</label>
+                            <input type="number" class="form-control" id="amount" name="amount" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="aadhar">Aadhar Number:</label>
-                            <input type="text" class="form-control" id="aadhar" name="aadhar" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="pan">PAN Card Number:</label>
-                            <input type="text" class="form-control" id="pan" name="pan" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="accountType">Account Type:</label>
-                            <select class="form-control" id="accountType" name="accountType" required>
-                                   <option>Savings</option>
+                            <label for="sel1">Mode of Transfer:</label>
+                            <select class="form-control" id="sel1" name="mode" required>
+                                <option>NEFT</option>
+                                <option>RTGS</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success">Transfer</button>
                     </form>
                 </div>
             </div>
