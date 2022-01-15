@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/home.css">
+        <link rel="stylesheet" type="text/css" href="/css/userProfile.css">
     </head>
     <body>
         <div class="container mt-3">
@@ -18,19 +18,19 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">My ACCOUNTS</a>
+                            <a class="nav-link" href="/user/profile">MY ACCOUNT</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">TRANSFER FUNDS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">PAY LOANS</a>
+                            <a class="nav-link" href="#">LOANS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">MAILS</a>
+                            <a class="nav-link" href="#">NOTIFICATIONS</a>
                         </li> 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">PERSONALISE</a>
+                            <a class="nav-link" href="/user/personalise">PERSONALISE</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/user/signout">LOGOUT</a>
@@ -39,11 +39,51 @@
                 </div>  
             </nav>
             <div class="container-fluid box">
-                <div class="announcement-header">
-                    Announcements:
+                <div class="create-account-header">
+                    CREATE ACCOUNT:
                 </div>
-                <div class="announcement-box">
-                    
+                <div class="create-account-box">
+                    <p class="text">You don't have an account with the bank. To create an account Please Fill the Form below.</p>
+                    <div class="account-opening-form">
+                        <form action="" method="post">
+                            <div class="form-group">
+                                <label for="account-holder-name">Account Holder Name:</label>
+                                <input type="text" class="form-control" id="account-holder-name" placeholder="Enter Account Holder's Name" name="accountHolder" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Gender:</label>
+                                <input type="text" class="form-control" id="gender" placeholder="Enter Gender" name="gender" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number:</label>
+                                <input type="number" class="form-control" id="phone" placeholder="Enter phone Number" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address:</label>
+                                <input type="text" class="form-control" id="address" placeholder="Enter Address" name="address" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter Address" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="aadhar">Aadhar Number:</label>
+                                <input type="text" class="form-control" id="aadhar" placeholder="Enter Aadhar Number" name="aadhar" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="pan">PAN Card Number:</label>
+                                <input type="text" class="form-control" id="pan" placeholder="Enter PAN Card Number" name="pan" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="accountType">Account Type:</label>
+                                <select class="form-control" id="accountType" name="accountType" required>
+                                   <option>Savings</option>
+                                   <option>Current</option>
+                                </select>
+                              </div>
+                            <button type="submit" class="btn btn-success">Create Account</button>
+                          </form>
+                    </div>
                 </div>
             </div>
         </div>

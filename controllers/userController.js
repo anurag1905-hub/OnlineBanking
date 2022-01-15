@@ -81,3 +81,7 @@ module.exports.branches = function(req,res){
 module.exports.faq = function(req,res){
     return res.render('faq');
 }
+
+module.exports.personalise = function(req,res){
+    return res.render('personalise');
+}

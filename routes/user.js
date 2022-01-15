@@ -16,5 +16,6 @@ router.get('/signout',userController.destroySession);
 router.get('/contact',userController.contact);
 router.get('/branches',userController.branches);
 router.get('/faq',userController.faq);
+router.get('/personalise',userController.personalise);
 
 module.exports = router;
