@@ -46,3 +46,12 @@ body {
 
 .account-opening-form {
   padding: 0.5rem; }
+
+.userInformationcontainer {
+  width: 100%; }
+  .userInformationcontainer table {
+    width: 100%; }
+    .userInformationcontainer table td, .userInformationcontainer table tr, .userInformationcontainer table th {
+      border: 2px solid black;
+      height: 100%;
+      padding: 1rem; }

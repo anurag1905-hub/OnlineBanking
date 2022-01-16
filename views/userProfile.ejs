@@ -39,13 +39,15 @@
                 </div>  
             </nav>
             <div class="container-fluid box">
+                <!-- <%=locals.user.account%> -->
+                <% if(locals.user&&!user.account) { %>
                 <div class="create-account-header">
                     CREATE ACCOUNT:
                 </div>
                 <div class="create-account-box">
                     <p class="text">You don't have an account with the bank. To create an account Please Fill the Form below.</p>
                     <div class="account-opening-form">
-                        <form action="" method="post">
+                        <form action="/user/createAccount" method="post">
                             <div class="form-group">
                                 <label for="account-holder-name">Account Holder Name:</label>
                                 <input type="text" class="form-control" id="account-holder-name" placeholder="Enter Account Holder's Name" name="accountHolder" required>
@@ -75,16 +77,52 @@
                                 <input type="text" class="form-control" id="pan" placeholder="Enter PAN Card Number" name="pan" required>
                             </div>
                             <div class="form-group">
+                                <input type="hidden" class="form-control" name="user" value="<%=user._id%>" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" name="status" value="active" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="accountType">Account Type:</label>
                                 <select class="form-control" id="accountType" name="accountType" required>
                                    <option>Savings</option>
                                    <option>Current</option>
                                 </select>
-                              </div>
+                            </div>
                             <button type="submit" class="btn btn-success">Create Account</button>
                           </form>
                     </div>
                 </div>
+                <% } else { %>
+                     <div class="userInformationcontainer">
+                              <table>
+                                  <tr>
+                                      <th>Account Holder Name:</th>
+                                      <td><%=user.account.accountHolder%></td>
+                                  </tr>
+                                  <tr>
+                                      <th>Account Number:</th>
+                                      <td><%=user.account.id%></td>
+                                  </tr>
+                                  <tr>
+                                       <th>Account Type:</th>
+                                       <td><%=user.account.accountType%></td>
+                                   </tr>
+                                   <tr>
+                                       <th>Account Status:</th>
+                                       <td><%=user.account.status%></td>
+                                   </tr>
+                                   <tr>
+                                        <th>Account Balance:</th>
+                                        <td><%=user.account.balance%></td>
+                                   </tr>
+                                   <tr>
+                                        <th>Account Opening Date:</th>
+                                        <td><%=user.account.createdAt.toDateString()%></td>
+                                   </tr>
+                              </table>
+                          </div>
+                <% } %>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

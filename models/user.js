@@ -13,8 +13,11 @@ const userSchema = new mongoose.Schema({
     isAdmin:{
         type:Boolean,
         required:true
+    },
+    account:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Account'
     }
-
 },{
     timestamps:true
 });
