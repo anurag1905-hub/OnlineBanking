@@ -97,7 +97,20 @@ module.exports.faq = function(req,res){
 }
 
 module.exports.personalise = function(req,res){
-    return res.render('personalise');
+
+    User.findById(req.user._id)
+    .populate('account')
+    .exec(function(err,user){
+        if(err){
+            console.log('Error in finding the error',err);
+            return;
+        }
+        else{
+            return res.render('personalise',{
+                user:user
+            });
+        }
+    });
 }
 
 module.exports.transferFunds = function(req,res){

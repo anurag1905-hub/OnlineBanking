@@ -42,6 +42,7 @@
                 <div class="transfer-funds-header">
                     TRANSFER FUNDS:
                 </div>
+                <% if(locals.user&&user.account) { %>
                 <div class="transfer-funds-box">
                     <form action="" method="post">
                         <div class="form-group">
@@ -74,6 +75,9 @@
                         <button type="submit" class="btn btn-success">Transfer</button>
                     </form>
                 </div>
+                <% } else { %>
+                    <p>You don't have an account in the bank :(</p>
+                <% } %>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
