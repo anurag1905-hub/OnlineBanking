@@ -43,6 +43,13 @@ const accountSchema = new mongoose.Schema({
     status:{
         type:String,
         required:true
+    },
+    branch:{
+        type:String,
+        required:true
+    },
+    ifscCode:{
+        type:String
     }
 },{
     timestamps:true

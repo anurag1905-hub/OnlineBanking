@@ -1,6 +1,14 @@
 const User = require('../models/user');
 const Account = require('../models/account');
 
+
+const branchToIFSC={
+    "Eastern":"TOB00001234",
+    "Western":"TOB00002345",
+    "Northern":"TOB00003456",
+    "Southern":"TOB00004567"
+};
+
 module.exports.login = function(req,res){
     if(req.isAuthenticated()){
         return res.redirect('/user/')
@@ -51,13 +59,15 @@ module.exports.home = function(req,res){
 }
 
 module.exports.create = function(req,res){
+    console.log(req.body);
    User.findOne({email:req.body.email},function(err,user){
       if(err){
           console.log('Error in finding the user ',err);
           return res.redirect('back');
       }
-      if(user||req.body.isAdmin){
-          return res.redirect('back');
+      if(user||!req.body.isAdmin.localeCompare("true")){
+          console.log(req.body.isAdmin.localeCompare("true"));
+          return res.redirect('/user/signup');
       }
       else{
           User.create(req.body,function(err,user){
@@ -139,6 +149,7 @@ module.exports.createAccount = function(req,res){
                }
                else{
                    account.balance=0;
+                   account.ifscCode=branchToIFSC[account.branch];
                    account.save();
                    user.account=account;
                    user.save();
