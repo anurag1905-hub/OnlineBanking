@@ -1,0 +1,44 @@
+html {
+  font-size: 16px; }
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background-image: url("/images/backgroundimage.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center; }
+
+.heading {
+  font-size: 2rem; }
+
+.header {
+  border-bottom: 4px solid red; }
+
+.navbar-item {
+  background-color: orange;
+  border-right: 4px solid red; }
+
+.box {
+  height: auto;
+  background-color: lightgrey;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column; }
+
+.transactions-header {
+  font-size: 2rem;
+  color: red;
+  height: 10%;
+  padding: 1rem; }
+
+.transactions-container {
+  display: flex;
+  flex-direction: column;
+  height: auto; }
+
+.transaction {
+  border: 2px solid white;
+  padding: 0.5rem;
+  margin: 0.5rem; }

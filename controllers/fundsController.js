@@ -1,5 +1,5 @@
 const Account = require('../models/account');
-const Notification = require('../models/notifications');
+const Transaction = require('../models/transaction');
 
 module.exports.transfer = function(req,res){
    Account.findById(req.params.id,function(err,account){
@@ -25,12 +25,12 @@ module.exports.transfer = function(req,res){
                    receiver.balance=+receiver.balance + +req.body.amount;
                    receiver.save();
                    let message="An amount of Rs. "+req.body.amount+" has been transferred to account number "+receiver.id;
-                   Notification.create({
+                   Transaction.create({
                        content:message,
                        user:req.user.id
                    },function(err,noti){
                        if(err){
-                           console.log('could not create notification',err);
+                           console.log('could not create transaction',err);
                            return;
                        }
                        else{

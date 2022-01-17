@@ -19,9 +19,9 @@ const userSchema = new mongoose.Schema({
         ref:'Account',
         required:false
     },
-    notifications:{
+    transactions:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Notification'
+        ref:'Transaction'
     }
 },{
     timestamps:true

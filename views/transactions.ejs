@@ -4,7 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/notifications.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/transactions.css">
     </head>
     <body>
         <div class="container mt-3">
@@ -27,7 +28,7 @@
                             <a class="nav-link" href="#">LOANS</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="/user/notifications">NOTIFICATIONS</a>
+                            <a class="nav-link" href="/user/transactions">TRANSACTIONS</a>
                         </li> 
                         <li class="nav-item">
                             <a class="nav-link" href="/user/personalise">PERSONALISE</a>
@@ -39,21 +40,21 @@
                 </div>  
             </nav>
             <div class="container-fluid box">
-                <div class="notifications-header">
-                    NOTIFICATIONS:
+                <div class="transactions-header">
+                    TRANSACTIONS HISTORY:
                 </div>
                 <% if(locals.user&&user.account) { %>
-                <div class="notifications-box">
-                    <ul>
-                        <% for(notif of notifs) {%>
-                            <li>
-                                 <%=notif.content%>
-                            </li>
-                       <% } %>
-                    </ul>
-                </div>
+                    <% for(transaction of transactions) {%>
+                        <div class="transactions-container">
+                            <div class="transaction">
+                                <span style="font-weight:850;"><%=transaction.content%></span><br><br>
+                                 -<span style="color:blue"> <%=transaction.createdAt.toDateString()%></span>&nbsp;
+                                 <span><a href="/user/destroy/transaction/<%=transaction.id%>" style="color:red;"><i class="fas fa-trash-alt"></i></a></span>
+                            </div>
+                        </div>
+                    <% } %>
                 <% } else { %>
-                    <p>You will receive notifications here after creating an account in the bank :)</p>
+                    <p>You can see your transactions history here after creating an account in the bank :)</p>
                 <% } %>
             </div>
         </div>

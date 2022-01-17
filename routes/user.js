@@ -13,7 +13,7 @@ router.post('/create-session',passport.authenticate(
     {failureRedirect:'/user/signup'}
 ),userController.createSession);
 router.get('/signout',userController.destroySession);
-router.get('/notifications',userController.notifications);
+router.get('/transactions',userController.transactions);
 router.get('/contact',userController.contact);
 router.get('/branches',userController.branches);
 router.get('/faq',userController.faq);
@@ -21,5 +21,6 @@ router.get('/personalise',userController.personalise);
 router.get('/transferFunds',userController.transferFunds);
 router.post('/createAccount',userController.createAccount);
 router.use('/funds',require('./funds'));
+router.use('/destroy',require('./destroy'));
 
 module.exports = router;
