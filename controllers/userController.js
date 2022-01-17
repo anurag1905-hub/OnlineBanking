@@ -159,3 +159,7 @@ module.exports.createAccount = function(req,res){
        }
    });
 }
+
+module.exports.notifications = function(req,res){
+    return res.render('notifications');
+}

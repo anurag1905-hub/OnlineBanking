@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/transferFunds.css">
+        <link rel="stylesheet" type="text/css" href="/css/notifications.css">
     </head>
     <body>
         <div class="container mt-3">
@@ -20,13 +20,13 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/user/profile">MY ACCOUNT</a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="/user/transferFunds">TRANSFER FUNDS</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">LOANS</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="/user/notifications">NOTIFICATIONS</a>
                         </li> 
                         <li class="nav-item">
@@ -39,44 +39,15 @@
                 </div>  
             </nav>
             <div class="container-fluid box">
-                <div class="transfer-funds-header">
-                    TRANSFER FUNDS:
+                <div class="notifications-header">
+                    NOTIFICATIONS:
                 </div>
                 <% if(locals.user&&user.account) { %>
-                <div class="transfer-funds-box">
-                    <form action="/user/funds/transfer/<%=user.account._id%>" method="post">
-                        <div class="form-group">
-                            <label for="beneficiaryName">Beneficiary's Name:</label>
-                            <input type="text" class="form-control" id="beneficiaryName" name="beneficiaryName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="beneficiaryAddress">Beneficiary's Address:</label>
-                            <input type="text" class="form-control" id="beneficiaryAddress" name="beneficiaryAddress" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="beneficiaryAccountNumber">Beneficiary's Account Number:</label>
-                            <input type="string" class="form-control" id="beneficiaryAccountNumber" name="beneficiaryAccountNumber" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="ifscCode">IFSC Code of Beneficiary's Bank Branch:</label>
-                            <input type="text" class="form-control" id="ifscCode" name="ifscCode" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="amount">Amount(in Rs) :</label>
-                            <input type="number" class="form-control" id="amount" name="amount" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="sel1">Mode of Transfer:</label>
-                            <select class="form-control" id="sel1" name="mode" required>
-                                <option>NEFT</option>
-                                <option>RTGS</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-success">Transfer</button>
-                    </form>
+                <div class="notifications-box">
+                    
                 </div>
                 <% } else { %>
-                    <p>You don't have an account in the bank :(</p>
+                    <p>You will receive notifications here after creating an account in the bank :)</p>
                 <% } %>
             </div>
         </div>
