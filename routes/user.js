@@ -22,5 +22,6 @@ router.get('/transferFunds',userController.transferFunds);
 router.post('/createAccount',userController.createAccount);
 router.use('/funds',require('./funds'));
 router.use('/destroy',require('./destroy'));
+router.use('/services',require('./services'));
 
 module.exports = router;
