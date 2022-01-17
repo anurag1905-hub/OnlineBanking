@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Account',
         required:false
+    },
+    notifications:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Notification'
     }
 },{
     timestamps:true

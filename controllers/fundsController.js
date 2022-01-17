@@ -1,4 +1,5 @@
 const Account = require('../models/account');
+const Notification = require('../models/notifications');
 
 module.exports.transfer = function(req,res){
    Account.findById(req.params.id,function(err,account){
@@ -20,9 +21,22 @@ module.exports.transfer = function(req,res){
                else{
                    account.balance=account.balance-req.body.amount;
                    account.save();
+                   //convert strings to numbers using unary operator.
                    receiver.balance=+receiver.balance + +req.body.amount;
                    receiver.save();
-                   return res.redirect('back');
+                   let message="An amount of Rs. "+req.body.amount+" has been transferred to account number "+receiver.id;
+                   Notification.create({
+                       content:message,
+                       user:req.user.id
+                   },function(err,noti){
+                       if(err){
+                           console.log('could not create notification',err);
+                           return;
+                       }
+                       else{
+                           return res.redirect('back');
+                       }
+                   });
                }
             });
         }

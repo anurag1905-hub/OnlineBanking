@@ -44,7 +44,13 @@
                 </div>
                 <% if(locals.user&&user.account) { %>
                 <div class="notifications-box">
-                    
+                    <ul>
+                        <% for(notif of notifs) {%>
+                            <li>
+                                 <%=notif.content%>
+                            </li>
+                       <% } %>
+                    </ul>
                 </div>
                 <% } else { %>
                     <p>You will receive notifications here after creating an account in the bank :)</p>

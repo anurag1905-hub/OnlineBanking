@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const Account = require('../models/account');
-
+const Notifications = require('../models/notifications');
 
 const branchToIFSC={
     "Eastern":"TOB00001234",
@@ -161,5 +161,15 @@ module.exports.createAccount = function(req,res){
 }
 
 module.exports.notifications = function(req,res){
-    return res.render('notifications');
+    Notifications.find({user:req.user._id},function(err,notifics){
+        if(err){
+            console.log('Error in finding the notifications',err);
+            return res.redirect('back');
+        }
+        else{
+            return res.render('notifications',{
+                notifs:notifics
+            });
+        }
+    });
 }
