@@ -44,7 +44,7 @@
                 </div>
                 <% if(locals.user&&user.account) { %>
                 <div class="transfer-funds-box">
-                    <form action="" method="post">
+                    <form action="/user/funds/transfer/<%=user.account._id%>" method="post">
                         <div class="form-group">
                             <label for="beneficiaryName">Beneficiary's Name:</label>
                             <input type="text" class="form-control" id="beneficiaryName" name="beneficiaryName" required>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="form-group">
                             <label for="beneficiaryAccountNumber">Beneficiary's Account Number:</label>
-                            <input type="number" class="form-control" id="beneficiaryAccountNumber" name="beneficiaryAccountNumber" required>
+                            <input type="string" class="form-control" id="beneficiaryAccountNumber" name="beneficiaryAccountNumber" required>
                         </div>
                         <div class="form-group">
                             <label for="ifscCode">IFSC Code of Beneficiary's Bank Branch:</label>

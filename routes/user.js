@@ -19,5 +19,6 @@ router.get('/faq',userController.faq);
 router.get('/personalise',userController.personalise);
 router.get('/transferFunds',userController.transferFunds);
 router.post('/createAccount',userController.createAccount);
+router.use('/funds',require('./funds'));
 
 module.exports = router;
