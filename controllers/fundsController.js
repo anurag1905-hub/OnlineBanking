@@ -33,6 +33,7 @@ module.exports.transfer = async function(req,res){
                            { content: message, user: req.user._id}, 
                            { content: secondMessage, user: beneficiaryUser._id}, 
                        ]);
+                       req.flash('success','Funds Transferred');
                        return res.redirect('back');
                    }
             }

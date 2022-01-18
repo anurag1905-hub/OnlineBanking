@@ -8,6 +8,8 @@ const passport = require('passport'); // passport uses session-cookies to store 
 const passportLocal = require('./config/passport-local-strategy');
 const MongoStore = require('connect-mongodb-session')(session);  // Used for storing cookies, otherwies cookies get deleted as soon as server restarts due to limited storage.
 const sassMiddleware = require('node-sass-middleware'); // Used to convert sass files to css.
+const flash = require('connect-flash');
+const customMware = require('./config/middleware');
 
 app.use(sassMiddleware({
     src:'./assets/scss',
@@ -48,6 +50,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
+
+app.use(flash());
+app.use(customMware.setFlash);
 
 app.use('/',require('./routes/index'));
 
