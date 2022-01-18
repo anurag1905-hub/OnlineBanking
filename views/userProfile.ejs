@@ -46,7 +46,7 @@
             </nav>
             <div class="container-fluid box">
                 <!-- <%=locals.user.account%> -->
-                <% if(locals.user&&!user.account) { %>
+                <% if(!profileUser.account) { %>
                 <div class="create-account-header">
                     CREATE ACCOUNT:
                 </div>
@@ -116,35 +116,35 @@
                               <table>
                                   <tr>
                                       <th>Account Holder Name:</th>
-                                      <td><%=user.account.accountHolder%></td>
+                                      <td><%=profileUser.account.accountHolder%></td>
                                   </tr>
                                   <tr>
                                       <th>Account Number:</th>
-                                      <td><%=user.account.id%></td>
+                                      <td><%=profileUser.account.id%></td>
                                   </tr>
                                   <tr>
                                        <th>Account Type:</th>
-                                       <td><%=user.account.accountType%></td>
+                                       <td><%=profileUser.account.accountType%></td>
                                    </tr>
                                    <tr>
                                        <th>Account Status:</th>
-                                       <td><%=user.account.status%></td>
+                                       <td><%=profileUser.account.status%></td>
                                    </tr>
                                    <tr>
                                         <th>Account Balance:</th>
-                                        <td><%=user.account.balance%></td>
+                                        <td><%=profileUser.account.balance%></td>
                                    </tr>
                                    <tr>
                                         <th>Account Opening Date:</th>
-                                        <td><%=user.account.createdAt.toDateString()%></td>
+                                        <td><%=profileUser.account.createdAt.toDateString()%></td>
                                    </tr>
                                    <tr>
                                         <th>IFSC Code:</th>
-                                        <td><%=user.account.ifscCode%></td>
+                                        <td><%=profileUser.account.ifscCode%></td>
                                    </tr>
                                    <tr>
                                         <th>Branch:</th>
-                                        <td><%=user.account.branch%></td>
+                                        <td><%=profileUser.account.branch%></td>
                                    </tr>
                               </table>
                           </div>

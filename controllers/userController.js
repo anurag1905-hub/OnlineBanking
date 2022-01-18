@@ -23,64 +23,39 @@ module.exports.signup = function(req,res){
     return res.render('userSignUp');
 }
 
-module.exports.profile = function(req,res){
+module.exports.profile = async function(req,res){
 
-    User.findById(req.user._id)
-    .populate('account')
-    .exec(function(err,user){
-        if(err){
-            console.log('Error in finding the error',err);
-            return;
+    try{
+        let profileUser = await User.findById(req.user._id)
+        .populate('account');
+
+        return res.render('userProfile',{
+            profileUser:profileUser
+        });
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('back');
+    }
+}
+
+module.exports.home =  function(req,res){
+    return res.render('home');
+}
+
+module.exports.create = async function(req,res){
+    try{
+        let user = await User.findOne({email:req.body.email});
+        if(user||!req.body.isAdmin.localeCompare("true")){
+            return res.redirect('/user/signup');
         }
         else{
-            return res.render('userProfile',{
-                user:user
-            });
+            await User.create(req.body);
+            return res.redirect('/user/login');
         }
-    });
-}
-
-module.exports.home = function(req,res){
-    if(req.isAuthenticated()){
-        User.findById(req.user,function(err,user){
-           if(err){
-               return res.redirect('/user/login');
-           }
-           else{
-               return res.render('home',{
-                   user:user
-               });
-           }
-        });
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('/user/signup');
     }
-    else{
-        return res.render('home');
-    }
-}
-
-module.exports.create = function(req,res){
-    console.log(req.body);
-   User.findOne({email:req.body.email},function(err,user){
-      if(err){
-          console.log('Error in finding the user ',err);
-          return res.redirect('back');
-      }
-      if(user||!req.body.isAdmin.localeCompare("true")){
-          console.log(req.body.isAdmin.localeCompare("true"));
-          return res.redirect('/user/signup');
-      }
-      else{
-          User.create(req.body,function(err,user){
-             if(err){
-                 console.log('Error in creating the user ',err);
-                 return res.redirect('back');
-             }
-             else{
-                 return res.redirect('/user/login');
-             }
-          });
-      }
-   });
 }
 
 //sign in and create a session for the user
@@ -127,55 +102,47 @@ module.exports.transferFunds = function(req,res){
     return res.render('transferFunds');
 }
 
-module.exports.createAccount = function(req,res){
-   User.findById(req.body.user,function(err,user){
-       if(err){
-           console.log('Error in finding the user',err);
-           return;
-       }
-       else if(!user){
-           console.log('User not found');
-           return res.redirect('back');
-       }
-       else if(user.account){
-           console.log('User already has an account');
-           return res.redirect('back');
-       }
-       else{
-           Account.create(req.body,function(err,account){
-               if(err){
-                   console.log('Error in creating the account ',err);
-                   return;
-               }
-               else{
-                   account.balance=0;
-                   account.ifscCode=branchToIFSC[account.branch];
-                   account.save();
-                   user.account=account;
-                   user.save();
-                   return res.redirect('back');
-               }
-           });
-       }
-   });
-}
-
-module.exports.transactions = function(req,res){
-    Transaction.find({user:req.user._id},function(err,transaction){
-        if(err){
-            console.log('Error in finding the transactions',err);
+module.exports.createAccount = async function(req,res){
+   try{
+       let user = await User.findById(req.body.user);
+       if(!user){
+            console.log('User not found');
+            return res.redirect('back');
+        }
+        else if(user.account){
+            console.log('User already has an account');
             return res.redirect('back');
         }
         else{
-            return res.render('transactions',{
-                transactions:transaction
-            });
+            let account = await Account.create(req.body);
+            account.balance=0;
+            account.ifscCode=branchToIFSC[account.branch];
+            account.save();
+            user.account=account;
+            user.save();
+            return res.redirect('back');
         }
-    });
+   }catch(err){
+        console.log('Error',err);
+        return res.redirect('back');
+   }
 }
 
-module.exports.destroytransaction =function(req,res){
-    Transaction.findById(req.params.id,function(err,transaction){
+module.exports.transactions = async function(req,res){
+    try{
+        let transaction = await Transaction.find({user:req.user._id});
+        return res.render('transactions',{
+            transactions:transaction
+        });
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('back');
+    }
+}
+
+module.exports.destroytransaction = async function(req,res){
+    try{
+        let transaction = await Transaction.findById(req.params.id);
         if(transaction){
             if(transaction.user!=req.user.id){
                 return res.redirect('back');
@@ -188,7 +155,10 @@ module.exports.destroytransaction =function(req,res){
         else{
             return res.redirect('back');
         }
-    });
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('back');
+    }
 }
 
 module.exports.services = function(req,res){
