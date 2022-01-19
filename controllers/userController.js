@@ -89,7 +89,7 @@ module.exports.personalise = function(req,res){
     .populate('account')
     .exec(function(err,user){
         if(err){
-            console.log('Error in finding the error',err);
+            console.log('Error in finding the user',err);
             return;
         }
         else{
@@ -168,5 +168,17 @@ module.exports.services = function(req,res){
 } 
 
 module.exports.loans = function(req,res){
-    return res.render('loans');
+    User.findById(req.user._id)
+    .populate('loans')
+    .exec(function(err,user){
+        if(err){
+            console.log('Error in finding the user',err);
+            return;
+        }
+        else{
+            return res.render('loans',{
+                profileUser:user
+            });
+        }
+    });
 }

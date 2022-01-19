@@ -21,9 +21,24 @@ module.exports.apply = async function(req,res){
         user.loans.push(loan);
         user.save();
         let message = "Your application for "+req.body.loantype+" has been received and will be processed shortly.";
+        let date = new Date();
+        let hours = date.getHours().toString();
+        if(hours.length==1){
+            hours="0"+hours;
+        }
+        let minutes = date.getMinutes().toString();
+        if(minutes.length==1){
+            minutes="0"+minutes;
+        }
+        let seconds = date.getSeconds().toString();
+        if(seconds.length==1){
+            seconds="0"+seconds;
+        }
+        let time = hours+":"+minutes+":"+seconds;
         await Notifications.create({
             content:message,
-            user:user
+            user:user,
+            time:time
         });
         req.flash('success','Applied Successfully'); 
         return res.redirect('back');

@@ -8,17 +8,17 @@ module.exports.transfer = async function(req,res){
         let targetAccount = await Account.findById(req.params.id);
         if(targetAccount){
             if(targetAccount.user!=req.user.id){
-                console.log('You are not permitted to perform this action.');
+                req.flash('error','Unauthorized');
                 return res.redirect('back');
             }
             else if(targetAccount.balance<req.body.amount){
-                console.log('Insufficient balance');
+                req.flash('error','Insufficient Balance');
                 return res.redirect('back');
             }
             else{
                    let receiver = await Account.findById(req.body.beneficiaryAccountNumber).populate('user');
                    if(receiver.ifscCode!=req.body.ifscCode||receiver.id==targetAccount.id){
-                       console.log('Beneficiary not supported');
+                       req.flash('error','Unauthorized');
                        return res.redirect('back');
                    }
                    else{
@@ -41,9 +41,23 @@ module.exports.transfer = async function(req,res){
                        );
                        beneficiaryUser.transactions.push(secondTransaction);
                        beneficiaryUser.save();
+                       let date = new Date();
+                       let hours = date.getHours().toString();
+                       if(hours.length==1){
+                           hours="0"+hours;
+                       }
+                       let minutes = date.getMinutes().toString();
+                       if(minutes.length==1){
+                           minutes="0"+minutes;
+                       }
+                       let seconds = date.getSeconds().toString();
+                       if(seconds.length==1){
+                           seconds="0"+seconds;
+                       }
+                       let time = hours+":"+minutes+":"+seconds;
                        await Notifications.insertMany([ 
-                            { content: message, user: req.user._id}, 
-                            { content: secondMessage, user: beneficiaryUser._id}, 
+                            { content: message, user: req.user._id,time:time}, 
+                            { content: secondMessage, user: beneficiaryUser._id,time:time}, 
                        ]);
                        req.flash('success','Funds Transferred');
                        return res.redirect('back');
@@ -51,11 +65,11 @@ module.exports.transfer = async function(req,res){
             }
         }
         else{
-            console.log('Account not found',err);
+            req.flash('error','Unauthorized');
             return res.redirect('back');
         }
     }catch(err){
-        console.log('Error',err);
+        req.flash('error','Unauthorized');
         return res.redirect('back');
     }
 }
@@ -82,9 +96,24 @@ module.exports.deposit = async function(req,res){
         });
         user.transactions.push(transaction);
         user.save();
+        let date = new Date();
+        let hours = date.getHours().toString();
+        if(hours.length==1){
+            hours="0"+hours;
+        }
+        let minutes = date.getMinutes().toString();
+        if(minutes.length==1){
+            minutes="0"+minutes;
+        }
+        let seconds = date.getSeconds().toString();
+        if(seconds.length==1){
+            seconds="0"+seconds;
+        }
+        let time = hours+":"+minutes+":"+seconds;
         await Notifications.create({
             content:message,
             user:user,
+            time:time
         });
         req.flash('success','Deposited');
         return res.redirect('back');
@@ -115,9 +144,24 @@ module.exports.withdraw = async function(req,res){
         });
         user.transactions.push(transaction);
         user.save();
+        let date = new Date();
+        let hours = date.getHours().toString();
+        if(hours.length==1){
+            hours="0"+hours;
+        }
+        let minutes = date.getMinutes().toString();
+        if(minutes.length==1){
+            minutes="0"+minutes;
+        }
+        let seconds = date.getSeconds().toString();
+        if(seconds.length==1){
+            seconds="0"+seconds;
+        }
+        let time = hours+":"+minutes+":"+seconds;
         await Notifications.create({
             content:message,
             user:user,
+            time:time
         });
         req.flash('success','Withdrawn');
         return res.redirect('back');

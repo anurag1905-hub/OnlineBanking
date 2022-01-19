@@ -9,6 +9,10 @@ const notificationsSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         required:true
+    },
+    time:{
+        type:String,
+        required:true
     }
 },{
     timestamps:true

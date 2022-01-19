@@ -38,7 +38,23 @@ body {
   border: 2px solid red;
   padding: 1rem; }
 
+.loans-box-desc {
+  height: 90%;
+  border: 2px solid red;
+  padding: 1rem;
+  margin-bottom: 1rem; }
+
 .dropdown-menu {
   padding: 0px; }
   .dropdown-menu a {
     border-bottom: 1px solid black; }
+
+.flex-loans-box .cancelButton {
+  width: 15%;
+  min-width: 150px; }
+
+.flex-loans-box a {
+  text-decoration: none;
+  color: white; }
+  .flex-loans-box a:hover {
+    color: red; }
