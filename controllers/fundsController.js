@@ -1,6 +1,7 @@
 const Account = require('../models/account');
 const Transaction = require('../models/transaction');
 const User = require('../models/user');
+const Notifications = require('../models/notification');
 
 module.exports.transfer = async function(req,res){
     try{
@@ -32,6 +33,10 @@ module.exports.transfer = async function(req,res){
                        await Transaction.insertMany([ 
                            { content: message, user: req.user._id, amount:req.body.amount,mode:'TO TRANSFER',increasedBalance:false}, 
                            { content: secondMessage, user: beneficiaryUser._id,amount:req.body.amount,mode:'BY TRANSFER',increasedBalance:true}, 
+                       ]);
+                       await Notifications.insertMany([ 
+                            { content: message, user: req.user._id}, 
+                            { content: secondMessage, user: beneficiaryUser._id}, 
                        ]);
                        req.flash('success','Funds Transferred');
                        return res.redirect('back');
@@ -67,6 +72,10 @@ module.exports.deposit = async function(req,res){
         mode:'CREDIT',
         increasedBalance:true
     });
+    await Notifications.create({
+        content:message,
+        user:user,
+    });
     req.flash('success','Deposited');
     return res.redirect('back');
 }
@@ -88,6 +97,10 @@ module.exports.withdraw = async function(req,res){
         amount:amountToBeReduced,
         mode:'DEBIT',
         increasedBalance:false
+    });
+    await Notifications.create({
+        content:message,
+        user:user,
     });
     req.flash('success','Withdrawn');
     return res.redirect('back');

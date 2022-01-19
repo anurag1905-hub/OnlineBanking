@@ -26,6 +26,6 @@ const transactionsSchema = new mongoose.Schema({
     timestamps:true
 });
 
-const Transaction = mongoose.model('Notification',transactionsSchema);
+const Transaction = mongoose.model('Transaction',transactionsSchema);
 
 module.exports = Transaction;

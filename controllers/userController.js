@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Account = require('../models/account');
 const Transaction = require('../models/transaction');
+const Notifications = require('../models/notification');
 
 const branchToIFSC={
     "Eastern":"TOB00001234",
@@ -130,11 +131,11 @@ module.exports.createAccount = async function(req,res){
    }
 }
 
-module.exports.transactions = async function(req,res){
+module.exports.notifications = async function(req,res){
     try{
-        let transaction = await Transaction.find({user:req.user._id});
-        return res.render('transactions',{
-            transactions:transaction
+        let notification = await Notifications.find({user:req.user._id});
+        return res.render('notifications',{
+            notifications:notification
         });
     }catch(err){
         console.log('Error',err);
@@ -142,15 +143,15 @@ module.exports.transactions = async function(req,res){
     }
 }
 
-module.exports.destroytransaction = async function(req,res){
+module.exports.destroyNotification = async function(req,res){
     try{
-        let transaction = await Transaction.findById(req.params.id);
-        if(transaction){
-            if(transaction.user!=req.user.id){
+        let notification = await Notifications.findById(req.params.id);
+        if(notification){
+            if(notification.user!=req.user.id){
                 return res.redirect('back');
             }
             else{
-                transaction.remove();
+                notification.remove();
                 return res.redirect('back');
             }
         }

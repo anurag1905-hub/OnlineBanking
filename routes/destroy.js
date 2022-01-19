@@ -3,6 +3,6 @@ const passport = require('passport');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
-router.get('/transaction/:id',passport.checkAuthentication,userController.destroytransaction);
+router.get('/Notification/:id',passport.checkAuthentication,userController.destroyNotification);
 
 module.exports = router;
