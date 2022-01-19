@@ -56,6 +56,7 @@ module.exports.deposit = async function(req,res){
         return res.redirect('back');
     }
     let amountToBeAdded = req.body.amount;
+    //convert strings to numbers using unary operator.
     user.account.balance = +user.account.balance + +amountToBeAdded;
     user.account.save();
     let message = "An amount of Rs "+amountToBeAdded+" has been deposited in your account";
@@ -64,5 +65,24 @@ module.exports.deposit = async function(req,res){
         user:user
     });
     req.flash('success','Deposited');
+    return res.redirect('back');
+}
+
+module.exports.withdraw = async function(req,res){
+    let user = await User.findById(req.body.user).populate('account');
+    
+    if(!user || user.password!=req.body.password||user.account.id!=req.body.accountNumber||user.account.balance<req.body.amount){
+        req.flash('error','Unauthorized');
+        return res.redirect('back');
+    }
+    let amountToBeReduced = req.body.amount;
+    user.account.balance = user.account.balance - amountToBeReduced;
+    user.account.save();
+    let message = "An amount of Rs "+amountToBeReduced+" has been withdrawn from your account";
+    await Transaction.create({
+        content:message,
+        user:user
+    });
+    req.flash('success','Withdrawn');
     return res.redirect('back');
 }

@@ -6,5 +6,6 @@ const passport = require('passport');
 const servicesController = require('../controllers/servicesController');
 
 router.get('/depositFunds',passport.checkAuthentication,servicesController.depositFunds);
+router.get('/withdrawFunds',passport.checkAuthentication,servicesController.withdrawFunds);
 
 module.exports = router;

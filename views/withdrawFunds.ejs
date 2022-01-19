@@ -6,7 +6,7 @@
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/depositFunds.css">
+        <link rel="stylesheet" type="text/css" href="/css/withdrawFunds.css">
     </head>
     <body>
         <div class="container mt-3">
@@ -57,10 +57,10 @@
             </nav>
             <div class="container-fluid box">
                 <div class="deposit-funds-header">
-                    DEPOSIT FUNDS:
+                    WITHDRAW FUNDS:
                 </div>
                 <div class="deposit-funds-box">
-                    <form action="/user/funds/deposit" method="post">
+                    <form action="/user/funds/withdraw" method="post">
                         <div class="form-group">
                             <input type="hidden" class="form-control" name="user" value="<%=profileUser._id%>"required>
                         </div>
@@ -76,7 +76,7 @@
                             <label for="amount">Amount:</label>
                             <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Deposit</button>
+                        <button type="submit" class="btn btn-primary">Withdraw</button>
                     </form>
                 </div>
             </div>
