@@ -39,6 +39,12 @@ body{
     color:red;
     height:10%;
     text-align:center;
+
+    .text{
+        color:black;
+        font-size:1rem;
+        font-weight:800;
+    }
 }
 
 .mini-statement-box{
@@ -85,6 +91,14 @@ body{
 @media screen and (max-width: 600px) {
     .header-information{
        font-size:1rem;
+    }
+
+    .mini-statement-header{
+        font-size:1rem;
+
+        .text{
+            font-size:0.6rem;
+        }
     }
   }
 

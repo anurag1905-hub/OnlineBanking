@@ -66,7 +66,7 @@
                             <form action="/user/loans/apply" method="post">
                                  <div class="form-group">
                                      <label for="accountNo">Enter your Account Number:</label>
-                                     <input type="text" class="form-control" id="accountNo" placeholder="Enter Account Number" name="accountNumber" required>
+                                     <input type="text" class="form-control" id="accountNo" placeholder="Enter Account Number" name="account" required>
                                  </div>
                                  <div class="form-group">
                                     <input type="hidden" class="form-control" name="user" value="<%=user._id%>"required>
@@ -81,7 +81,7 @@
                                 </div>
                                  <div class="form-group">
                                     <label for="sel1">Select Type of Loan</label>
-                                    <select class="form-control" id="sel1" name="type" required>
+                                    <select class="form-control" id="sel1" name="loantype" required>
                                       <option>Home Loan</option>
                                       <option>Car Loan</option>
                                       <option>Education Loan</option>
@@ -92,7 +92,7 @@
                             </form>
                         </div>
                     <% } else {%>
-                        <p>You can see your Notifications here after creating an account in the bank :)</p>
+                        <p>You can apply for loans after creating an account in the bank :)</p>
                     <% } %>
                 </div>
             </div>

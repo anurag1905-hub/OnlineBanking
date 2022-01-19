@@ -60,24 +60,26 @@
                     DEPOSIT FUNDS:
                 </div>
                 <div class="deposit-funds-box">
-                    <form action="/user/funds/deposit" method="post">
-                        <div class="form-group">
-                            <input type="hidden" class="form-control" name="user" value="<%=profileUser._id%>"required>
-                        </div>
-                        <div class="form-group">
-                            <label for="accountNumber">Your Account Number:</label>
-                            <input type="text" class="form-control" id="accountNumber" placeholder="Enter Account Number" name="accountNumber" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="pwd">Password:</label>
-                            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="amount">Amount:</label>
-                            <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Deposit</button>
-                    </form>
+                    <% if(locals.user&&user.account){ %>
+                        <form action="/user/funds/deposit" method="post">
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" name="user" value="<%=profileUser._id%>"required>
+                            </div>
+                            <div class="form-group">
+                                <label for="accountNumber">Your Account Number:</label>
+                                <input type="text" class="form-control" id="accountNumber" placeholder="Enter Account Number" name="accountNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Password:</label>
+                                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Amount:</label>
+                                <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Deposit</button>
+                        </form>
+                    <% } %>
                 </div>
             </div>
         </div>

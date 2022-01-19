@@ -19,10 +19,16 @@ const userSchema = new mongoose.Schema({
         ref:'Account',
         required:false
     },
-    transactions:{
+    transactions:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Transaction'
-    }
+    }],
+    loans:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Loan'
+        }
+    ]
 },{
     timestamps:true
 });

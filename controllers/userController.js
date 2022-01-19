@@ -1,6 +1,5 @@
 const User = require('../models/user');
 const Account = require('../models/account');
-const Transaction = require('../models/transaction');
 const Notifications = require('../models/notification');
 
 const branchToIFSC={
@@ -133,7 +132,7 @@ module.exports.createAccount = async function(req,res){
 
 module.exports.notifications = async function(req,res){
     try{
-        let notification = await Notifications.find({user:req.user._id});
+        let notification = await Notifications.find({user:req.user._id}).sort('-createdAt');
         return res.render('notifications',{
             notifications:notification
         });
