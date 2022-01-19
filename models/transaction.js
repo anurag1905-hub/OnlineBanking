@@ -9,6 +9,18 @@ const transactionsSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         required:true
+    },
+    amount:{
+        type:Number,
+        required:true,
+    },
+    mode:{
+        type:String,
+        required:true
+    },
+    increasedBalance:{
+        type:Boolean,
+        required:true
     }
 },{
     timestamps:true

@@ -30,8 +30,8 @@ module.exports.transfer = async function(req,res){
                        let beneficiaryUser = await User.findOne({account:receiver._id});
                        let secondMessage = "An amount of Rs. "+req.body.amount+" has been transferred to your account";
                        await Transaction.insertMany([ 
-                           { content: message, user: req.user._id}, 
-                           { content: secondMessage, user: beneficiaryUser._id}, 
+                           { content: message, user: req.user._id, amount:req.body.amount,mode:'TO TRANSFER',increasedBalance:false}, 
+                           { content: secondMessage, user: beneficiaryUser._id,amount:req.body.amount,mode:'BY TRANSFER',increasedBalance:true}, 
                        ]);
                        req.flash('success','Funds Transferred');
                        return res.redirect('back');
@@ -62,7 +62,10 @@ module.exports.deposit = async function(req,res){
     let message = "An amount of Rs "+amountToBeAdded+" has been deposited in your account";
     await Transaction.create({
         content:message,
-        user:user
+        user:user,
+        amount:amountToBeAdded,
+        mode:'CREDIT',
+        increasedBalance:true
     });
     req.flash('success','Deposited');
     return res.redirect('back');
@@ -81,7 +84,10 @@ module.exports.withdraw = async function(req,res){
     let message = "An amount of Rs "+amountToBeReduced+" has been withdrawn from your account";
     await Transaction.create({
         content:message,
-        user:user
+        user:user,
+        amount:amountToBeReduced,
+        mode:'DEBIT',
+        increasedBalance:false
     });
     req.flash('success','Withdrawn');
     return res.redirect('back');
