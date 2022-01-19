@@ -47,3 +47,22 @@ module.exports.transfer = async function(req,res){
         return res.redirect('back');
     }
 }
+
+module.exports.deposit = async function(req,res){
+    let user = await User.findById(req.body.user).populate('account');
+    
+    if(!user || user.password!=req.body.password||user.account.id!=req.body.accountNumber){
+        req.flash('error','Unauthorized');
+        return res.redirect('back');
+    }
+    let amountToBeAdded = req.body.amount;
+    user.account.balance = +user.account.balance + +amountToBeAdded;
+    user.account.save();
+    let message = "An amount of Rs "+amountToBeAdded+" has been deposited in your account";
+    await Transaction.create({
+        content:message,
+        user:user
+    });
+    req.flash('success','Deposited');
+    return res.redirect('back');
+}

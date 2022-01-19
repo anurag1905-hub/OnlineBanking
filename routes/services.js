@@ -3,8 +3,8 @@ const router = express.Router();
 
 const passport = require('passport');
 
-const userController = require('../controllers/userController');
+const servicesController = require('../controllers/servicesController');
 
-router.get('/',passport.checkAuthentication,userController.services);
+router.get('/depositFunds',passport.checkAuthentication,servicesController.depositFunds);
 
 module.exports = router;

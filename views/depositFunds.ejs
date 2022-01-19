@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/depositFunds.css">
+    </head>
+    <body>
+        <div class="container mt-3">
+            <div class="container-fluid text-center bg-dark py-1 header">
+                <p class="text-warning heading p-0 m-0">The Online Bank</p>
+            </div>
+            <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/profile">MY ACCOUNT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/transferFunds">TRANSFER FUNDS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">LOANS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/transactions">TRANSACTIONS</a>
+                        </li> 
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                SERVICES
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/user/services/depositFunds">Deposit Funds</a>
+                                <a class="dropdown-item" href="/user/services/withdrawFunds">Withdraw Funds</a>
+                                <a class="dropdown-item" href="/user/services/statementOfAccounts">Statement of Accounts</a>
+                                <a class="dropdown-item" href="/user/services/accountSummary">Account Summary</a>
+                                <a class="dropdown-item" href="/user/services/miniStatement">mini Statement</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/personalise">PERSONALISE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/signout">LOGOUT</a>
+                        </li>          
+                    </ul>
+                </div>  
+            </nav>
+            <div class="container-fluid box">
+                <div class="deposit-funds-header">
+                    DEPOSIT FUNDS:
+                </div>
+                <div class="deposit-funds-box">
+                    <form action="/user/funds/deposit" method="post">
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" name="user" value="<%=profileUser._id%>"required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accountNumber">Your Account Number:</label>
+                            <input type="text" class="form-control" id="accountNumber" placeholder="Enter Account Number" name="accountNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Password:</label>
+                            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount:</label>
+                            <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+        <script>
+            <% if(flash.success&&flash.success.length>0) { %>
+                new Noty({
+                theme:'relax',
+                text:"<%=flash.success%>",
+                type:'success',
+                layout:'topRight',
+                timeout:1500
+                }).show();
+            <% } %>
+            <% if(flash.error&&flash.error.length>0) { %>
+                new Noty({
+                theme:'relax',
+                text:"<%=flash.error%>",
+                type:'error',
+                layout:'topRight',
+                timeout:1500
+                }).show();
+            <% } %>
+        </script>
+    </body>
+</html>
