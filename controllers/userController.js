@@ -167,3 +167,7 @@ module.exports.destroyNotification = async function(req,res){
 module.exports.services = function(req,res){
     return res.render('services');
 } 
+
+module.exports.loans = function(req,res){
+    return res.render('loans');
+}

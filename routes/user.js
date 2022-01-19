@@ -23,5 +23,6 @@ router.post('/createAccount',userController.createAccount);
 router.use('/funds',require('./funds'));
 router.use('/destroy',require('./destroy'));
 router.use('/services',require('./services'));
+router.use('/loans',userController.loans);
 
 module.exports = router;
