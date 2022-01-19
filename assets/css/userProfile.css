@@ -55,3 +55,8 @@ body {
       border: 2px solid black;
       height: 100%;
       padding: 1rem; }
+
+.dropdown-menu {
+  padding: 0px; }
+  .dropdown-menu a {
+    border-bottom: 1px solid black; }

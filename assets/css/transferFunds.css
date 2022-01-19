@@ -36,3 +36,8 @@ body {
   height: 90%;
   border: 2px solid red;
   padding: 1rem; }
+
+.dropdown-menu {
+  padding: 0px; }
+  .dropdown-menu a {
+    border-bottom: 1px solid black; }
