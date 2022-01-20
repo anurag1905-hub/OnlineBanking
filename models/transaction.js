@@ -21,6 +21,10 @@ const transactionsSchema = new mongoose.Schema({
     increasedBalance:{
         type:Boolean,
         required:true
+    },
+    balance:{
+        type:Number,
+        required:true
     }
 },{
     timestamps:true

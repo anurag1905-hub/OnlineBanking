@@ -3,10 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/withdrawFunds.css">
+        <link rel="stylesheet" type="text/css" href="/css/accountStatement.css">
     </head>
     <body>
         <div class="container mt-3">
@@ -56,52 +54,77 @@
                 </div>  
             </nav>
             <div class="container-fluid box">
-                <div class="deposit-funds-header">
-                    WITHDRAW FUNDS:
+                <div class="account-statement-header">
+                    ACCOUNT STATEMENT:
                 </div>
-                <div class="deposit-funds-box">
-                    <form action="/user/funds/withdraw" method="post">
+                <div class="account-statement-box">
+                    <table class="table table-striped table-responsive-sm">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Account Number</th>
+                                <th>Account Type</th>
+                                <th>Branch</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white">
+                                <td><%=account._id%></td>
+                                <td><%=account.accountType%></td>
+                                <td><%=account.branch%></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br><br>
+                    <form action="/user/services/getaccountStatement" method="post">
                         <div class="form-group">
-                            <input type="hidden" class="form-control" name="user" value="<%=profileUser._id%>"required>
+                            <label for="startDate">Start Date:</label>
+                            <input type="date" class="form-control mb-2 mr-sm-2" id="startDate" name="startDate" required>
                         </div>
                         <div class="form-group">
-                            <label for="accountNumber">Your Account Number:</label>
-                            <input type="text" class="form-control" id="accountNumber" placeholder="Enter Account Number" name="accountNumber" required>
+                            <label for="endDate">End Date:</label>
+                            <input type="date" class="form-control mb-2 mr-sm-2" id="endDate" name="endDate" required>
                         </div>
-                        <div class="form-group">
-                            <label for="pwd">Password:</label>
-                            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="amount">Amount:</label>
-                            <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Withdraw</button>
+                        <button type="submit" class="btn btn-success">View Statements</button>
                     </form>
+                    <br><br>
+                    <table class="table table-striped table-responsive-sm">
+                        <%if (transactions){ %>
+                            <p class="text-black" style="font-weight:800;"><%=content%></p>
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Narration</th>
+                                    <th>Mode</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <% for(transaction of transactions) { %>
+                                <tbody>
+                                    <tr class="bg-white">
+                                        <td><%=transaction.createdAt.toDateString()%></td>
+                                        <% if(transaction.mode=="CREDIT") {%>
+                                            <td>DFT NO 66489</td>
+                                        <% } %>
+                                        <% if(transaction.mode=="DEBIT") {%>
+                                            <td>DFT NO 54723</td>
+                                        <% } %>
+                                        <% if(transaction.mode=="TO TRANSFER") {%>
+                                            <td>DFT NO 65896</td>
+                                        <% } %>
+                                        <% if(transaction.mode=="BY TRANSFER") {%>
+                                            <td>DFT NO 23765</td>
+                                        <% } %>
+                                        <td><%=transaction.mode%></td>
+                                        <td>Rs <%=transaction.balance%></td>
+                                    </tr>
+                                </tbody>
+                            <% } %>
+                        <% } %>
+                    </table>
                 </div>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-        <script>
-            <% if(flash.success&&flash.success.length>0) { %>
-                new Noty({
-                theme:'relax',
-                text:"<%=flash.success%>",
-                type:'success',
-                layout:'topRight',
-                timeout:1500
-                }).show();
-            <% } %>
-            <% if(flash.error&&flash.error.length>0) { %>
-                new Noty({
-                theme:'relax',
-                text:"<%=flash.error%>",
-                type:'error',
-                layout:'topRight',
-                timeout:1500
-                }).show();
-            <% } %>
-        </script>
     </body>
 </html>

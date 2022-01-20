@@ -31,13 +31,13 @@ module.exports.transfer = async function(req,res){
                        let beneficiaryUser = await User.findOne({account:receiver._id});
                        let secondMessage = "An amount of Rs. "+req.body.amount+" has been transferred to your account";
                        let firstTransaction = await Transaction.create( 
-                           { content: message, user: req.user._id, amount:req.body.amount,mode:'TO TRANSFER',increasedBalance:false},  
+                           { content: message, user: req.user._id, amount:req.body.amount,mode:'TO TRANSFER',increasedBalance:false,balance:targetAccount.balance},  
                        );
                        let senderUser = await User.findById(req.user._id); 
                        senderUser.transactions.push(firstTransaction);
                        senderUser.save();
                        let secondTransaction = await Transaction.create( 
-                        { content: secondMessage, user: beneficiaryUser._id,amount:req.body.amount,mode:'BY TRANSFER',increasedBalance:true}, 
+                        { content: secondMessage, user: beneficiaryUser._id,amount:req.body.amount,mode:'BY TRANSFER',increasedBalance:true,balance:receiver.balance}, 
                        );
                        beneficiaryUser.transactions.push(secondTransaction);
                        beneficiaryUser.save();
@@ -103,7 +103,8 @@ module.exports.deposit = async function(req,res){
             user:user,
             amount:amountToBeAdded,
             mode:'CREDIT',
-            increasedBalance:true
+            increasedBalance:true,
+            balance:user.account.balance
         });
         user.transactions.push(transaction);
         let date = new Date();
@@ -152,7 +153,8 @@ module.exports.withdraw = async function(req,res){
             user:user,
             amount:amountToBeReduced,
             mode:'DEBIT',
-            increasedBalance:false
+            increasedBalance:false,
+            balance:user.account.balance
         });
         user.transactions.push(transaction);
         let date = new Date();
