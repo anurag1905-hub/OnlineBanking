@@ -35,11 +35,13 @@ module.exports.apply = async function(req,res){
             seconds="0"+seconds;
         }
         let time = hours+":"+minutes+":"+seconds;
-        await Notifications.create({
+        let notification = await Notifications.create({
             content:message,
             user:user,
             time:time
         });
+        user.notifications.push(notification);
+        user.save();
         req.flash('success','Applied Successfully'); 
         return res.redirect('back');
     }catch(err){

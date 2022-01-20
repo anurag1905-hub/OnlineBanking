@@ -23,12 +23,14 @@ const userSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Transaction'
     }],
-    loans:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Loan'
-        }
-    ]
+    loans:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Loan'
+    }],
+    notifications:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Notifications'
+    }]
 },{
     timestamps:true
 });

@@ -132,13 +132,18 @@ module.exports.createAccount = async function(req,res){
 
 module.exports.notifications = async function(req,res){
     try{
-        let notification = await Notifications.find({user:req.user._id}).sort('-createdAt');
+        let user = await User.findById(req.user._id)
+        .populate({
+            path:'notifications',
+            options:{
+                sort:{createdAt:-1}
+            }
+        });
         return res.render('notifications',{
-            notifications:notification
+            notifications:user.notifications
         });
     }catch(err){
         console.log('Error',err);
-        return res.redirect('back');
     }
 }
 
@@ -150,7 +155,9 @@ module.exports.destroyNotification = async function(req,res){
                 return res.redirect('back');
             }
             else{
+                let userId = notification.user;
                 notification.remove();
+                await User.findByIdAndUpdate(userId,{$pull:{notifications:req.params.id}});
                 return res.redirect('back');
             }
         }

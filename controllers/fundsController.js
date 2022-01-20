@@ -55,10 +55,20 @@ module.exports.transfer = async function(req,res){
                            seconds="0"+seconds;
                        }
                        let time = hours+":"+minutes+":"+seconds;
-                       await Notifications.insertMany([ 
+
+                       let firstNotification = await Notifications.create(
                             { content: message, user: req.user._id,time:time}, 
-                            { content: secondMessage, user: beneficiaryUser._id,time:time}, 
-                       ]);
+                       );
+                       let secondNotification = await Notifications.create(
+                        { content: secondMessage, user: beneficiaryUser._id,time:time}, 
+                       );
+
+                       senderUser.notifications.push(firstNotification);
+                       senderUser.save();
+                        
+                       beneficiaryUser.notifications.push(secondNotification);
+                       beneficiaryUser.save();
+
                        req.flash('success','Funds Transferred');
                        return res.redirect('back');
                    }
@@ -69,7 +79,8 @@ module.exports.transfer = async function(req,res){
             return res.redirect('back');
         }
     }catch(err){
-        req.flash('error','Unauthorized');
+        req.flash('error','Error');
+        console.log(err);
         return res.redirect('back');
     }
 }
@@ -95,7 +106,6 @@ module.exports.deposit = async function(req,res){
             increasedBalance:true
         });
         user.transactions.push(transaction);
-        user.save();
         let date = new Date();
         let hours = date.getHours().toString();
         if(hours.length==1){
@@ -110,11 +120,13 @@ module.exports.deposit = async function(req,res){
             seconds="0"+seconds;
         }
         let time = hours+":"+minutes+":"+seconds;
-        await Notifications.create({
+        let notification = await Notifications.create({
             content:message,
             user:user,
             time:time
         });
+        user.notifications.push(notification);
+        user.save();
         req.flash('success','Deposited');
         return res.redirect('back');
     }catch(err){
@@ -143,7 +155,6 @@ module.exports.withdraw = async function(req,res){
             increasedBalance:false
         });
         user.transactions.push(transaction);
-        user.save();
         let date = new Date();
         let hours = date.getHours().toString();
         if(hours.length==1){
@@ -158,11 +169,13 @@ module.exports.withdraw = async function(req,res){
             seconds="0"+seconds;
         }
         let time = hours+":"+minutes+":"+seconds;
-        await Notifications.create({
+        let notification = await Notifications.create({
             content:message,
             user:user,
             time:time
         });
+        user.notifications.push(notification);
+        user.save();
         req.flash('success','Withdrawn');
         return res.redirect('back');
     }catch(err){
