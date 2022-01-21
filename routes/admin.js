@@ -9,10 +9,13 @@ router.post('/create-session',passport.authenticate(
     {failureRedirect:'/admin/login'}
 ),adminController.createSession);
 
-router.get('/dashboard',passport.checkAuthentication,adminController.dashboard);
+router.get('/announcements',passport.checkAuthentication,adminController.announcements);
 router.get('/adminLogin',adminController.adminLogin);
 router.get('/destroySession',adminController.destroySession);
 router.post('/addAnnouncement',adminController.addAnnouncement);
 router.get('/deleteAnnouncement/:id',adminController.deleteAnnouncement);
+router.get('/admins',adminController.admins);
+router.post('/addAdmin',adminController.addAdmin);
+router.get('/removeAdmin/:id',adminController.removeAdmin);
 
 module.exports = router;

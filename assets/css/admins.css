@@ -28,28 +28,22 @@ body {
   display: flex;
   flex-direction: column; }
 
-.announcement-header {
+.admin-header {
   font-size: 2rem;
   color: red;
   height: 10%; }
 
-.announcement-box {
+.admin-box {
   height: 90%;
-  min-height: 63vh;
   border: 2px solid red; }
-  .announcement-box ul li {
-    padding: 0.5rem;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: black; }
+  .admin-box a {
+    text-decoration: none; }
+    .admin-box a div {
+      background-color: red;
+      color: white; }
+      .admin-box a div:hover {
+        background-color: white;
+        color: red; }
 
-textarea {
-  width: 100%; }
-
-.add-announcement {
+.addAdmin {
   padding: 1rem; }
-
-a {
-  text-decoration: none;
-  font-size: 1rem; }
-  a .fas {
-    color: red; }

@@ -34,44 +34,30 @@ body{
     flex-direction:column;
 }
 
-.announcement-header{
+.admin-header{
     font-size:2rem;
     color:red;
     height:10%;
 }
 
-.announcement-box{
+.admin-box{
     height:90%;
-    min-height:63vh;
     border:2px solid red;
-    ul {
-        li {
-            padding:0.5rem;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            color:black;
+    a{
+        text-decoration: none;
+
+        div{
+            background-color:red;
+            color:white;
+
+            &:hover{
+                background-color:white;
+                color:red;
+            }
         }
     }
 }
 
-.dropdown-menu{
-    a{
-      border-bottom:1px solid black;
-    }
-    padding:0px;
-}
-
-textarea{
-    width:100%;
-}
-
-.add-announcement{
+.addAdmin{
     padding:1rem;
-}
-
-a{
-    text-decoration:none;
-    font-size:1rem;
-    .fas{
-        color:red;
-    }
 }

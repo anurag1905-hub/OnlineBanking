@@ -7,7 +7,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/dashboard.css">
+        <link rel="stylesheet" type="text/css" href="/css/admins.css">
     </head>
     <body>
         <div class="container mt-3">
@@ -20,7 +20,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="/admin/announcements">ANNOUNCEMENTS</a>
                         </li>
                         <li class="nav-item">
@@ -32,7 +32,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/viewAccountDetails">VIEW ACCOUNT DETAILS</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="/admin/Admins">ADMINS</a>
                         </li>
                         <li class="nav-item">
@@ -42,31 +42,37 @@
                 </div>  
             </nav>
             <div class="container-fluid box">
-                <div class="announcement-header">
-                    Announcements:
+                <div class="admin-header">
+                    ADMINS:
                 </div>
-                <div class="announcement-box">
-                    <div class="add-announcement">
-                        <form action="/admin/addAnnouncement" method="post">
-                            <textarea id="w3review" name="content" rows="5">
-                            
-                            </textarea>
-                            <br><br>
-                            <button type="submit" class="btn btn-success">ADD ANNOUNCEMENT</button>
+                <div class="admin-box">
+                    <div class="addAdmin">
+                        <form action="/admin/addAdmin" method="post">
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" name="isAdmin" value="true">
+                             </div>
+                            <div class="form-group">
+                               <label for="email">Email:</label>
+                               <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                            </div>
+                            <div class="form-group">
+                               <label for="pwd">Password:</label>
+                               <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
+                            </div>
+                            <button type="submit" class="btn btn-success">ADD ADMIN</button>
                         </form>
                     </div>
-                    <ul>
-                        <%for(announcement of announcements) { %>
-                            <li>
-                                <%=announcement.content%>
-                                <br>
-                                <a href="/admin/deleteAnnouncement/<%=announcement._id%>">
-                                    <span style="color:blue;text-decoration: none;">Delete Announcement&nbsp;</span> <i class="fas fa-trash-alt"></i>
-                                </a>
-                            </li>
-                            
-                        <% } %>
-                    </ul>
+                    <br><br>
+                    <% for(admin of admins) { %>
+                        <div class="d-flex bg-secondary m-2 justify-content-around">
+                            <div class="p-2  text-white bg-info m-1"><%=admin.email%></div>
+                            <a href="/admin/removeAdmin/<%=admin._id%>" class="removeAdminButton">
+                                <div class="p-2 m-1">Remove</div>
+                            </a>
+                        </div>
+                        <br>
+                    <% } %>
+
                 </div>
             </div>
         </div>
