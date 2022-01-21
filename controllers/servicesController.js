@@ -8,7 +8,7 @@ module.exports.depositFunds = async function(req,res){
             return res.redirect('/user/profile');
         }
         else{
-            return res.render('depositFunds',{
+            return res.render('./user/depositFunds',{
                 profileUser:user
             });
         }
@@ -25,7 +25,7 @@ module.exports.withdrawFunds = async function(req,res){
             return res.redirect('/user/profile');
         }
         else{
-            return res.render('withdrawFunds',{
+            return res.render('./user/withdrawFunds',{
                 profileUser:user
             });
         }
@@ -50,7 +50,7 @@ module.exports.miniStatement = async function(req,res){
             return res.redirect('/user/profile');
         }
         const date = new Date();
-        return res.render('miniStatement',{
+        return res.render('./user/miniStatement',{
             transactions:user.transactions,
             date:date
         });
@@ -65,7 +65,7 @@ module.exports.accountStatement = async function(req,res){
     if(!user||!user.account){
         return res.redirect('/user/profile');
     }
-    return res.render('accountStatement',{
+    return res.render('./user/accountStatement',{
         account:user.account,
         transactions:user.something
     });
@@ -89,7 +89,7 @@ module.exports.showaccountStatement = async function(req,res){
         });
         req.body="";
         let content = "Account statements for the period from "+startdate + " to "+enddate;
-        return res.render('accountStatement',{
+        return res.render('./user/accountStatement',{
             account:user.account,
             transactions:user.transactions,
             content:content
@@ -116,7 +116,7 @@ module.exports.accountSummary = async function(req,res){
     }
     let time = hours+":"+minutes+":"+seconds;
     const months = ["Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sept","Oct","Nov","Dec"]
-    return res.render('accountSummary',{
+    return res.render('./user/accountSummary',{
         profileUser:user,
         time:time,
         date:date,

@@ -13,14 +13,14 @@ module.exports.login = function(req,res){
     if(req.isAuthenticated()){
         return res.redirect('/user/')
     }
-    return res.render('userLogin');
+    return res.render('./user/userLogin');
 }
 
 module.exports.signup = function(req,res){
     if(req.isAuthenticated()){
         return res.redirect('/user/')
     }
-    return res.render('userSignUp');
+    return res.render('./user/userSignUp');
 }
 
 module.exports.profile = async function(req,res){
@@ -29,7 +29,7 @@ module.exports.profile = async function(req,res){
         let profileUser = await User.findById(req.user._id)
         .populate('account');
 
-        return res.render('userProfile',{
+        return res.render('./user/userProfile',{
             profileUser:profileUser
         });
     }catch(err){
@@ -39,7 +39,7 @@ module.exports.profile = async function(req,res){
 }
 
 module.exports.home =  function(req,res){
-    return res.render('home');
+    return res.render('./user/home');
 }
 
 module.exports.create = async function(req,res){
@@ -72,15 +72,15 @@ module.exports.destroySession = function(req,res){
 }
 
 module.exports.contact = function(req,res){
-    return res.render('contact');
+    return res.render('./user/contact');
 }
 
 module.exports.branches = function(req,res){
-    return res.render('branches');
+    return res.render('./user/branches');
 }
 
 module.exports.faq = function(req,res){
-    return res.render('faq');
+    return res.render('./user/faq');
 }
 
 module.exports.personalise = function(req,res){
@@ -93,7 +93,7 @@ module.exports.personalise = function(req,res){
             return;
         }
         else{
-            return res.render('personalise',{
+            return res.render('./user/personalise',{
                 user:user
             });
         }
@@ -101,7 +101,7 @@ module.exports.personalise = function(req,res){
 }
 
 module.exports.transferFunds = function(req,res){
-    return res.render('transferFunds');
+    return res.render('./user/transferFunds');
 }
 
 module.exports.createAccount = async function(req,res){
@@ -139,7 +139,7 @@ module.exports.notifications = async function(req,res){
                 sort:{createdAt:-1}
             }
         });
-        return res.render('notifications',{
+        return res.render('./user/notifications',{
             notifications:user.notifications
         });
     }catch(err){
@@ -171,7 +171,7 @@ module.exports.destroyNotification = async function(req,res){
 }
 
 module.exports.services = function(req,res){
-    return res.render('services');
+    return res.render('./user/services');
 } 
 
 module.exports.loans = function(req,res){
@@ -183,7 +183,7 @@ module.exports.loans = function(req,res){
             return;
         }
         else{
-            return res.render('loans',{
+            return res.render('./user/loans',{
                 profileUser:user
             });
         }

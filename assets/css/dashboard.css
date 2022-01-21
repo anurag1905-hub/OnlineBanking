@@ -1,0 +1,48 @@
+html {
+  font-size: 16px; }
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background-image: url("/images/backgroundimage.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center; }
+
+.heading {
+  font-size: 2rem; }
+
+.header {
+  border-bottom: 4px solid red; }
+
+.navbar-item {
+  background-color: orange;
+  border-right: 4px solid red; }
+
+.box {
+  height: auto;
+  min-height: 70vh;
+  background-color: lightgrey;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column; }
+
+.announcement-header {
+  font-size: 2rem;
+  color: red;
+  height: 10%; }
+
+.announcement-box {
+  height: 90%;
+  min-height: 63vh;
+  border: 2px solid red; }
+  .announcement-box ul li {
+    padding: 0.5rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: black; }
+
+.dropdown-menu {
+  padding: 0px; }
+  .dropdown-menu a {
+    border-bottom: 1px solid black; }
