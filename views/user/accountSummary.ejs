@@ -92,11 +92,13 @@
                         </thead>
                         <tbody>
                             <% for(loan of profileUser.loans) { %>
-                                <tr class="bg-white">
-                                     <td><%=loan._id%></td>
-                                     <td><%=loan.loantype%></td>
-                                     <td>Rs <%=loan.amount%></td>
-                                </tr>
+                                <% if(loan.approved) {%>
+                                    <tr class="bg-white">
+                                        <td><%=loan._id%></td>
+                                        <td><%=loan.loantype%></td>
+                                        <td>Rs <%=loan.amount%></td>
+                                    </tr>
+                                <% } %>
                             <% } %>
                         </tbody>
                     </table>

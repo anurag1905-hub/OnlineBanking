@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/loanRequests.css">
+    </head>
+    <body>
+        <div class="container mt-3">
+            <div class="container-fluid text-center bg-dark py-1 header">
+                <p class="text-warning heading p-0 m-0">ADMIN DASHBOARD</p>
+            </div>
+            <nav class="navbar navbar-expand-xl bg-dark navbar-dark">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/announcements">ANNOUNCEMENTS</a>
+                        </li>
+                        <li class="nav-item active">
+                                <a class="nav-link" href="/admin/loanRequests">LOAN REQUESTS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/pendingLoanPayments">PENDING LOAN PAYMENTS</a>
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/viewAccountDetails">VIEW ACCOUNT DETAILS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/Admins">ADMINS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/destroySession">LOGOUT</a>
+                        </li>          
+                    </ul>
+                </div>  
+            </nav>
+            <div class="container-fluid box">
+                <div class="loan-requests-header">
+                    LOAN REQUESTS:
+                </div>
+                <div class="loan-requests-box">
+                    <% for(loan of loans) { %>
+                        <div class="loan-box">
+                            <div class="d-flex flex-column mb-3">
+                                <div class="p-2 bg-info border-bottom border-white">Applicant's Name-<%=loan.account.accountHolder%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Applicant's Account Number-<%=loan.account._id%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Account Balance-<%=loan.account.balance%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Loan Type-<%=loan.loantype%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Loan Amount-<%=loan.amount%></div>
+                            </div>
+                            <a href="/admin/approveLoan/?loan=<%=loan._id%>&&type=<%=loan.loantype%>&&user=<%=loan.user._id%>">
+                                <button type="button" class="btn btn-success" style="width:100%;margin:0px;">Approve</button>
+                            </a>
+                            <a href="/admin/rejectLoan/?loan=<%=loan._id%>&&type=<%=loan.loantype%>&&user=<%=loan.user._id%>">
+                                <button type="button" class="btn btn-danger" style="width:100%;margin:0px;">Reject</button>
+                            </a>
+                        </div>
+                    <% } %>
+                </div>  
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    </body>
+</html>

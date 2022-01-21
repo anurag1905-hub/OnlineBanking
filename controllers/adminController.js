@@ -1,6 +1,8 @@
 const User = require('../models/user');
 const Announcement = require('../models/announcement');
 const Account = require('../models/account');
+const Loan = require('../models/loan');
+const Notifications = require('../models/notification');
 
 module.exports.announcements = async function(req,res){
     try{
@@ -14,8 +16,26 @@ module.exports.announcements = async function(req,res){
     }
 }
 
-module.exports.adminLogin = function(req,res){
-    return res.render('./admin/adminLogin');
+module.exports.adminLogin = async function(req,res){
+    try{
+        if(req.isAuthenticated()){
+            console.log(req.user);
+            let user = await User.findById(req.user._id);
+            if(user.isAdmin){
+                return res.redirect('/admin/announcements');
+            }
+            else{
+                return res.redirect('/');
+            }
+        }
+        else{
+           return res.render('./admin/adminLogin');
+        }
+    }catch(err){
+        req.flash('error','Error');
+        console.log('Error',err);
+        return res.redirect('/');
+    }
 }
 
 module.exports.createSession = function(req,res){
@@ -40,7 +60,7 @@ module.exports.createSession = function(req,res){
 module.exports.destroySession = function(req,res){
     req.logout();
     req.flash('success','Logged out Successfully');
-    return res.redirect('/admin/adminLogin');
+    return res.redirect('/');
 }
 
 module.exports.addAnnouncement = function(req,res){
@@ -50,6 +70,7 @@ module.exports.addAnnouncement = function(req,res){
           return res.redirect('back');
       }
       else{
+        req.flash('success','Announcement Added');
         return res.redirect('/admin/announcements');
       }
    });
@@ -140,7 +161,9 @@ module.exports.showDetails = async function(req,res){
         let user = await User.findById(account.user._id).populate('loans');
         let sum=0;
         for(loan of user.loans){
-            sum=+sum + +loan.amount;
+            if(loan.approved){
+              sum=+sum + +loan.amount;
+            }
         }
         return res.render('./admin/accountDetails',{
             account:account,
@@ -154,3 +177,58 @@ module.exports.showDetails = async function(req,res){
     }
     
 }
+
+module.exports.loanRequests = async function(req,res){
+    let loans = await Loan.find({approved:false}).sort('-createdAt').populate('account');
+    return res.render('./admin/loanRequests',{
+        loans:loans
+    });
+}
+
+module.exports.approveLoan = function(req,res){
+    return res.redirect('/admin/loanRequests');
+}
+
+module.exports.rejectLoan = async function(req,res){
+    let loanId = req.query.loan;
+    let userId = req.query.user;
+    let type = req.query.type;
+
+    let loan = await Loan.findById(loanId);
+    if(!loan){
+        return res.redirect('/admin/loanRequests')
+    }
+    loan.remove();
+    User.findByIdAndUpdate(userId,{$pull:{loans:loanId}});
+
+    let message = "Unfortunately your request for " +type+ " has been rejected.";
+    let date = new Date();
+    let hours = date.getHours().toString();
+    if(hours.length==1){
+        hours="0"+hours;
+    }
+    let minutes = date.getMinutes().toString();
+    if(minutes.length==1){
+        minutes="0"+minutes;
+    }
+    let seconds = date.getSeconds().toString();
+    if(seconds.length==1){
+        seconds="0"+seconds;
+    }
+    let time = hours+":"+minutes+":"+seconds;
+    
+    let user = await User.findById(userId);
+    console.log(user);
+
+    let notification = await Notifications.create({
+        content:message,
+        user:user,
+        time:time
+    });
+
+    user.notifications.push(notification);
+    user.save();
+    
+    return res.redirect('/admin/loanRequests');
+}
+

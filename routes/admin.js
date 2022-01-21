@@ -19,5 +19,8 @@ router.post('/addAdmin',passport.checkAdminAuthentication,adminController.addAdm
 router.get('/removeAdmin/:id',passport.checkAdminAuthentication,adminController.removeAdmin);
 router.get('/viewAccountDetails',passport.checkAdminAuthentication,adminController.viewAccountDetails);
 router.post('/showDetails',passport.checkAdminAuthentication,adminController.showDetails);
+router.get('/loanRequests',passport.checkAdminAuthentication,adminController.loanRequests);
+router.get('/approveLoan',passport.checkAdminAuthentication,adminController.approveLoan);
+router.get('/rejectLoan',passport.checkAdminAuthentication,adminController.rejectLoan);
 
 module.exports = router;

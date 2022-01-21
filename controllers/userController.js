@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Account = require('../models/account');
 const Notifications = require('../models/notification');
+const Announcement = require('../models/announcement');
 
 const branchToIFSC={
     "Eastern":"TOB00001234",
@@ -51,8 +52,16 @@ module.exports.profile = async function(req,res){
     }
 }
 
-module.exports.home =  function(req,res){
-    return res.render('./user/home');
+module.exports.home = async function(req,res){
+    try{
+        let announcement = await Announcement.find({}).sort('-createdAt');
+        return res.render('./user/home',{
+            announcements:announcement
+        });
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('back');
+    }
 }
 
 module.exports.create = async function(req,res){

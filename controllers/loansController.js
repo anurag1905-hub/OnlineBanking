@@ -3,6 +3,14 @@ const User = require('../models/user');
 const Loan = require('../models/loan');
 
 module.exports.apply = async function(req,res){
+    if(req.body.approved==true){
+        req.flash('error','Unauthorized');
+        return res.redirect('back');
+    }
+    if(req.body.interest!=10){
+        req.flash('error','Unauthorized');
+        return res.redirect('back');
+    }
     try{
         let user = await User.findById(req.body.user)
         .populate('account')
@@ -19,7 +27,6 @@ module.exports.apply = async function(req,res){
         }
         let loan = await Loan.create(req.body);
         user.loans.push(loan);
-        user.save();
         let message = "Your application for "+req.body.loantype+" has been received and will be processed shortly.";
         let date = new Date();
         let hours = date.getHours().toString();

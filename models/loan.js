@@ -18,7 +18,22 @@ const loanSchema = new mongoose.Schema({
     loantype:{
         type:String,
         required:true
+    },
+    approved:{
+        type:Boolean,
+        required:true
+    },
+    interest:{
+        type:Number,
+        required:true
+    },
+    outstandingAmount:{
+        type:Number,
+    },
+    monthlyInstallments:{
+        type:Number
     }
+
 },{
     timestamps:true
 });

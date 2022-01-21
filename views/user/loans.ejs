@@ -63,10 +63,12 @@
                     </div>
                     <div class="loans-box-desc">
                         <% for(loan of profileUser.loans) { %>
-                            <div class="d-flex flex-column mb-4 flex-loans-box">
-                                <div class="p-2 bg-info mb-1">Amount: Rs <%=loan.amount%></div>
-                                <div class="p-2 bg-info mb-1">Loan Type: <%=loan.loantype%></div>
-                             </div>
+                            <% if(!loan.approved) { %>
+                                <div class="d-flex flex-column mb-4 flex-loans-box">
+                                    <div class="p-2 bg-info mb-1">Amount: Rs <%=loan.amount%></div>
+                                    <div class="p-2 bg-info mb-1">Loan Type: <%=loan.loantype%></div>
+                                </div>
+                            <% } %>
                         <% } %>
                     </div>
                 <% } %>
@@ -82,6 +84,13 @@
                                      <input type="text" class="form-control" id="accountNo" placeholder="Enter Account Number" name="account" required>
                                  </div>
                                  <div class="form-group">
+                                    <label for="interest">Interest Rate:</label>
+                                    <input type="text" class="form-control" id="interest" name="interest" value="10" required readonly>
+                                </div>
+                                 <div class="form-group">
+                                    <input type="hidden" class="form-control" name="approved" value="false" required>
+                                </div>
+                                 <div class="form-group">
                                     <input type="hidden" class="form-control" name="user" value="<%=user._id%>"required>
                                 </div>
                                  <div class="form-group">
@@ -95,10 +104,9 @@
                                  <div class="form-group">
                                     <label for="sel1">Select Type of Loan</label>
                                     <select class="form-control" id="sel1" name="loantype" required>
-                                      <option>Home Loan</option>
-                                      <option>Car Loan</option>
-                                      <option>Education Loan</option>
-                                      <option>Personal Loan</option>
+                                        <option>Home Loan</option>
+                                        <option>Car Loan</option>
+                                        <option>Personal Loan</option>
                                     </select>
                                   </div>
                                  <button type="submit" class="btn btn-primary">Apply</button>

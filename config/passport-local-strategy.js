@@ -69,10 +69,10 @@ passport.checkAdminAuthentication = function(req,res,next){
    if(req.isAuthenticated()){
         User.findById(req.user._id,function(err,user){
             if(err){
-                return res.redirect('/admin/adminLogin');
+                return res.redirect('/');
             }
             else if(!user.isAdmin){
-                return res.redirect('/admin/adminLogin');
+                return res.redirect('/');
             }
             else{
                 return next();
