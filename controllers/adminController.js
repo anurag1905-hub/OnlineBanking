@@ -232,3 +232,7 @@ module.exports.rejectLoan = async function(req,res){
     return res.redirect('/admin/loanRequests');
 }
 
+module.exports.pendingLoanPayments = function(req,res){
+    return res.render('./admin/pendingLoanPayments');
+}
+

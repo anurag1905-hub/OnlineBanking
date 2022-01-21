@@ -22,5 +22,6 @@ router.post('/showDetails',passport.checkAdminAuthentication,adminController.sho
 router.get('/loanRequests',passport.checkAdminAuthentication,adminController.loanRequests);
 router.get('/approveLoan',passport.checkAdminAuthentication,adminController.approveLoan);
 router.get('/rejectLoan',passport.checkAdminAuthentication,adminController.rejectLoan);
+router.get('/pendingLoanPayments',passport.checkAdminAuthentication,adminController.pendingLoanPayments);
 
 module.exports = router;
