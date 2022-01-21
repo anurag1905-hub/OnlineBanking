@@ -11,5 +11,8 @@ router.post('/create-session',passport.authenticate(
 
 router.get('/dashboard',passport.checkAuthentication,adminController.dashboard);
 router.get('/adminLogin',adminController.adminLogin);
+router.get('/destroySession',adminController.destroySession);
+router.post('/addAnnouncement',adminController.addAnnouncement);
+router.get('/deleteAnnouncement/:id',adminController.deleteAnnouncement);
 
 module.exports = router;

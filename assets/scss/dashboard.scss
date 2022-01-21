@@ -60,4 +60,18 @@ body{
     padding:0px;
 }
 
+textarea{
+    width:100%;
+}
 
+.add-announcement{
+    padding:1rem;
+}
+
+a{
+    text-decoration:none;
+    font-size:1rem;
+    .fas{
+        color:red;
+    }
+}
