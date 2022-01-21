@@ -7,14 +7,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/admins.css">
+        <link rel="stylesheet" type="text/css" href="/css/accountDetails.css">
     </head>
     <body>
         <div class="container mt-3">
             <div class="container-fluid text-center bg-dark py-1 header">
                 <p class="text-warning heading p-0 m-0">ADMIN DASHBOARD</p>
             </div>
-            <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <nav class="navbar navbar-expand-xl bg-dark navbar-dark">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -29,10 +29,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/pendingLoanPayments">PENDING LOAN PAYMENTS</a>
                         </li> 
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="/admin/viewAccountDetails">VIEW ACCOUNT DETAILS</a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="/admin/Admins">ADMINS</a>
                         </li>
                         <li class="nav-item">
@@ -42,38 +42,73 @@
                 </div>  
             </nav>
             <div class="container-fluid box">
-                <div class="admin-header">
-                    ADMINS:
+                <div class="account-details-header">
+                    VIEW ACCOUNT DETAILS:
                 </div>
-                <div class="admin-box">
-                    <div class="addAdmin">
-                        <form action="/admin/addAdmin" method="post">
-                            <div class="form-group">
-                                <input type="hidden" class="form-control" name="isAdmin" value="true">
-                             </div>
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="pwd">Password:</label>
-                                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" required>
-                            </div>
-                            <button type="submit" class="btn btn-success">ADD ADMIN</button>
-                        </form>
+                <div class="account-details-box">
+                    <div class="text">
+                         Enter the account number of the user to view their details:
                     </div>
-                    <br><br>
-                    <% for(admin of admins) { %>
-                        <div class="d-flex bg-secondary m-2 justify-content-around">
-                            <div class="p-2  text-white bg-info m-1"><%=admin.email%></div>
-                            <a href="/admin/removeAdmin/<%=admin._id%>" class="removeAdminButton">
-                                <div class="p-2 m-1">Remove</div>
-                            </a>
+                    <div class="account-details">
+                        <form action="/admin/showDetails" method="post">
+                            <div class="form-group">
+                               <label for="accountNumber">Account Number:</label>
+                               <input type="text" class="form-control" placeholder="Enter Account Number" id="accountNumber" name="account" required>
+                            </div>
+                            <button type="submit" class="btn btn-success">View Details</button>
+                          </form>
+                    </div>
+                    <br>
+                    <% if(account) { %>
+                        <div class="userInformationcontainer">
+                            <table>
+                                <tr>
+                                    <th>Account Holder Name:</th>
+                                    <td><%=account.accountHolder%></td>
+                                </tr>
+                                <tr>
+                                    <th>Account Number:</th>
+                                    <td><%=account.id%></td>
+                                </tr>
+                                <tr>
+                                    <th>Account Type:</th>
+                                    <td><%=account.accountType%></td>
+                                </tr>
+                                <tr>
+                                    <th>Account Status:</th>
+                                    <td><%=account.status%></td>
+                                </tr>
+                                <tr>
+                                    <th>Account Balance:</th>
+                                    <td>Rs <%=account.balance%></td>
+                                </tr>
+                                <tr>
+                                    <th>Account Opening Date:</th>
+                                    <td><%=account.createdAt.toDateString()%></td>
+                                </tr>
+                                <tr>
+                                    <th>IFSC Code:</th>
+                                    <td><%=account.ifscCode%></td>
+                                </tr>
+                                <tr>
+                                    <th>Branch:</th>
+                                    <td><%=account.branch%></td>
+                                </tr>
+                                <tr>
+                                    <th>Loans:</th>
+                                    <td>
+                                         <% for(loan of loans) { %>
+                                            <%=loan.loantype%>,
+                                        <% } %> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Outstanding Amount:</th>
+                                    <td>Rs <%=amount%></td>
+                                </tr>
+                            </table>
                         </div>
-                        <br>
                     <% } %>
-
-                </div>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

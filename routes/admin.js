@@ -17,5 +17,7 @@ router.get('/deleteAnnouncement/:id',adminController.deleteAnnouncement);
 router.get('/admins',adminController.admins);
 router.post('/addAdmin',adminController.addAdmin);
 router.get('/removeAdmin/:id',adminController.removeAdmin);
+router.get('/viewAccountDetails',adminController.viewAccountDetails);
+router.post('/showDetails',adminController.showDetails);
 
 module.exports = router;

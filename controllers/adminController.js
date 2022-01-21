@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Announcement = require('../models/announcement');
+const Account = require('../models/account');
 
 module.exports.announcements = async function(req,res){
     try{
@@ -119,4 +120,37 @@ module.exports.removeAdmin = async function(req,res){
 
         return res.redirect('back');
     }
+}
+
+module.exports.viewAccountDetails = function(req,res){
+    return res.render('./admin/accountDetails',{
+        account:''
+    });
+}
+
+module.exports.showDetails = async function(req,res){
+    try{
+        let account = await Account.findById(req.body.account).populate('user')
+        //console.log(account);
+        if(!account){
+            return res.render('./admin/accountDetails',{
+                account:''
+            });
+        }
+        let user = await User.findById(account.user._id).populate('loans');
+        let sum=0;
+        for(loan of user.loans){
+            sum=+sum + +loan.amount;
+        }
+        return res.render('./admin/accountDetails',{
+            account:account,
+            loans:user.loans,
+            amount:sum
+        });
+    }catch(err){
+        console.log('Error',err);
+        req.flash('error','Error');
+        return res.redirect('/admin/announcements');
+    }
+    
 }
