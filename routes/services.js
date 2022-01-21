@@ -10,6 +10,6 @@ router.get('/withdrawFunds',passport.checkAuthentication,servicesController.with
 router.get('/miniStatement',passport.checkAuthentication,servicesController.miniStatement);
 router.get('/accountStatement',passport.checkAuthentication,servicesController.accountStatement);
 router.post('/getaccountStatement',passport.checkAuthentication,servicesController.showaccountStatement);
-
+router.get('/accountSummary',passport.checkAuthentication,servicesController.accountSummary);
 
 module.exports = router;
