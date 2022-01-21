@@ -44,13 +44,44 @@ passport.deserializeUser(function(id,done){
 
 //check if the user is authenticated
 passport.checkAuthentication = function(req,res,next){
-    // if the user is signed in, then pass on the request to the next function (controller's action).
+    // if the person is signed in, check the person is not an admin then pass on the request to the next function (controller's action).
     if(req.isAuthenticated()){
-        return next();
+        User.findById(req.user._id,function(err,user){
+            if(err){
+                return res.redirect('/user/login');
+            }
+            else if(user.isAdmin){
+                return res.redirect('/user/login');
+            }
+            else{
+                return next();
+            }
+        });
     }
+    else{
+        return res.redirect('/user/login');
+    }
+}
 
-    // if the user is not signed in
-    return res.redirect('/user/login');
+//check if the admin is authenticated
+passport.checkAdminAuthentication = function(req,res,next){
+   // if the person is signed in, check the person is an admin then pass on the request to the next function (controller's action).
+   if(req.isAuthenticated()){
+        User.findById(req.user._id,function(err,user){
+            if(err){
+                return res.redirect('/admin/adminLogin');
+            }
+            else if(!user.isAdmin){
+                return res.redirect('/admin/adminLogin');
+            }
+            else{
+                return next();
+            }
+        });
+    }
+    else{
+        return res.redirect('/admin/adminLogin');
+    }
 }
 
 passport.setAuthenticatedUser = function(req,res,next){

@@ -9,15 +9,15 @@ router.post('/create-session',passport.authenticate(
     {failureRedirect:'/admin/login'}
 ),adminController.createSession);
 
-router.get('/announcements',passport.checkAuthentication,adminController.announcements);
+router.get('/announcements',passport.checkAdminAuthentication,adminController.announcements);
 router.get('/adminLogin',adminController.adminLogin);
-router.get('/destroySession',adminController.destroySession);
-router.post('/addAnnouncement',adminController.addAnnouncement);
-router.get('/deleteAnnouncement/:id',adminController.deleteAnnouncement);
-router.get('/admins',adminController.admins);
-router.post('/addAdmin',adminController.addAdmin);
-router.get('/removeAdmin/:id',adminController.removeAdmin);
-router.get('/viewAccountDetails',adminController.viewAccountDetails);
-router.post('/showDetails',adminController.showDetails);
+router.get('/destroySession',passport.checkAdminAuthentication,adminController.destroySession);
+router.post('/addAnnouncement',passport.checkAdminAuthentication,adminController.addAnnouncement);
+router.get('/deleteAnnouncement/:id',passport.checkAdminAuthentication,adminController.deleteAnnouncement);
+router.get('/admins',passport.checkAdminAuthentication,adminController.admins);
+router.post('/addAdmin',passport.checkAdminAuthentication,adminController.addAdmin);
+router.get('/removeAdmin/:id',passport.checkAdminAuthentication,adminController.removeAdmin);
+router.get('/viewAccountDetails',passport.checkAdminAuthentication,adminController.viewAccountDetails);
+router.post('/showDetails',passport.checkAdminAuthentication,adminController.showDetails);
 
 module.exports = router;

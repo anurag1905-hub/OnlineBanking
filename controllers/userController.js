@@ -11,9 +11,22 @@ const branchToIFSC={
 
 module.exports.login = function(req,res){
     if(req.isAuthenticated()){
-        return res.redirect('/user/')
+        User.findById(req.user._id,function(err,user){
+           if(err){
+               return res.redirect('/user/login');
+           }
+           else if(user.isAdmin){
+               req.logout();
+               return res.redirect('/user/login');
+           }
+           else{
+               return res.redirect('/user/')
+           }
+        });
     }
-    return res.render('./user/userLogin');
+    else{
+        return res.render('./user/userLogin');
+    }
 }
 
 module.exports.signup = function(req,res){
