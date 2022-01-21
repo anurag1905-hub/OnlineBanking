@@ -52,6 +52,7 @@
                                 <div class="p-2 bg-info border-bottom border-white">Account Balance-<%=loan.account.balance%></div>
                                 <div class="p-2 bg-info border-bottom border-white">Loan Type-<%=loan.loantype%></div>
                                 <div class="p-2 bg-info border-bottom border-white">Loan Amount-<%=loan.amount%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Loan Duration-<%=loan.duration%></div>
                             </div>
                             <a href="/admin/approveLoan/?loan=<%=loan._id%>&&type=<%=loan.loantype%>&&user=<%=loan.user._id%>">
                                 <button type="button" class="btn btn-success" style="width:100%;margin:0px;">Approve</button>
