@@ -33,9 +33,15 @@ const loanSchema = new mongoose.Schema({
     monthlyInstallments:{
         type:Number
     },
+    nextDueDate:{
+        type:Date
+    },
     duration:{
         type:Number,
         required:true
+    },
+    count:{
+        type:Number,
     }
 },{
     timestamps:true

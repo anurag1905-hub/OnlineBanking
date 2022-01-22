@@ -54,7 +54,7 @@
                                 <div class="p-2 bg-info border-bottom border-white">Loan Amount-<%=loan.amount%></div>
                                 <div class="p-2 bg-info border-bottom border-white">Loan Duration-<%=loan.duration%></div>
                             </div>
-                            <a href="/admin/approveLoan/?loan=<%=loan._id%>&&type=<%=loan.loantype%>&&user=<%=loan.user._id%>">
+                            <a href="/admin/approveLoan/?loan=<%=loan._id%>&&type=<%=loan.loantype%>&&amount=<%=loan.amount%>&&duration=<%=loan.duration%>&&user=<%=loan.user._id%>">
                                 <button type="button" class="btn btn-success" style="width:100%;margin:0px;">Approve</button>
                             </a>
                             <a href="/admin/rejectLoan/?loan=<%=loan._id%>&&type=<%=loan.loantype%>&&user=<%=loan.user._id%>">
