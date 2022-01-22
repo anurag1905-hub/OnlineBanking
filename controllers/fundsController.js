@@ -19,10 +19,9 @@ module.exports.transfer = async function(req,res){
         seconds="0"+seconds;
     }
     let time = hours+":"+minutes+":"+seconds;
-
     if(req.body.mode=="NEFT"){
         await NEFT.create({
-            from:req.user._id,
+            from:req.params.id,
             to:req.body.beneficiaryAccountNumber,
             amount:req.body.amount,
             ifsc:req.body.ifscCode

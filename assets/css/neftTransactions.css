@@ -38,3 +38,11 @@ body {
   min-height: 63vh;
   border: 2px solid red;
   padding: 1rem; }
+
+.neft-box {
+  border: 2px solid black;
+  padding: 2rem;
+  margin-bottom: 2rem; }
+
+a {
+  text-decoration: none; }

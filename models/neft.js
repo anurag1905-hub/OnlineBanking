@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const neftSchema = new mongoose.Schema({
     from:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
+        ref:'Account',
         required:true
     },
     to:{

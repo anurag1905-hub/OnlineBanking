@@ -4,6 +4,7 @@ const Account = require('../models/account');
 const Loan = require('../models/loan');
 const Notifications = require('../models/notification');
 const Transaction = require('../models/transaction');
+const NEFT = require('../models/neft');
 
 module.exports.announcements = async function(req,res){
     try{
@@ -180,7 +181,7 @@ module.exports.showDetails = async function(req,res){
 }
 
 module.exports.loanRequests = async function(req,res){
-    let loans = await Loan.find({approved:false}).sort('-createdAt').populate('account');
+    let loans = await Loan.find({approved:false}).sort('createdAt').populate('account');
     return res.render('./admin/loanRequests',{
         loans:loans
     });
@@ -321,7 +322,73 @@ module.exports.pendingLoanPayments = function(req,res){
     return res.render('./admin/pendingLoanPayments');
 }
 
-module.exports.neftTransactions = function(req,res){
-    return res.render('./admin/neftTransactions');
+module.exports.neftTransactions =  async function(req,res){
+    try{
+        let neft = await NEFT.find({}).sort('createdAt');
+        return res.render('./admin/neftTransactions',{
+            transactions:neft
+        });
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('/admin/announcements');
+    }
 }
+
+module.exports.rejectTransaction = async function(req,res){
+    try{
+        let neftId = req.query.neft;
+        let senderAccount = req.query.sender;
+        
+        let neft = await NEFT.findById(neftId);
+
+        if(!neft){
+            return res.redirect('/admin/neftTransactions');
+        }
+
+        let message = "Your NEFT Transaction to "+" account Number "+neft.to+" for an amount of Rs "+neft.amount+" has been Rejected";
+
+        neft.remove();
+
+        let user = await User.findOne({account:senderAccount});
+
+        if(!user){
+            console.log('Oops cant find user');
+            return res.redirect('/admin/neftTransactions');
+        }
+
+        let date = new Date();
+
+        let hours = date.getHours().toString();
+        if(hours.length==1){
+            hours="0"+hours;
+        }
+        let minutes = date.getMinutes().toString();
+        if(minutes.length==1){
+            minutes="0"+minutes;
+        }
+        let seconds = date.getSeconds().toString();
+        if(seconds.length==1){
+            seconds="0"+seconds;
+        }
+        let time = hours+":"+minutes+":"+seconds;
+
+        let notification = await Notifications.create({
+            content:message,
+            user:user,
+            time:time
+        });
+
+        user.notifications.push(notification);
+        user.save();
+
+        return res.redirect('/admin/neftTransactions');
+
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('/admin/neftTransactions');
+    }
+
+}
+
+
 

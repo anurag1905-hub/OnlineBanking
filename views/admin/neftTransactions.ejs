@@ -44,10 +44,25 @@
             </nav>
             <div class="container-fluid box">
                 <div class="neft-transactions-header">
-                    NEFT TRANSACTIONS:
+                     NEFT TRANSACTIONS:
                 </div>
                 <div class="neft-transactions-box">
-                    
+                    <% for(transaction of transactions) { %>
+                        <div class="neft-box">
+                            <div class="d-flex flex-column mb-3">
+                                <div class="p-2 bg-info border-bottom border-white">Sender's Account No-<%=transaction.from%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Receiver's Account No-<%=transaction.to%></div>
+                                <div class="p-2 bg-info border-bottom border-white">IFSC Given-<%=transaction.ifsc%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Amount- Rs<%=transaction.amount%></div>
+                            </div>
+                            <a href="/admin/approveTransaction/?neft=<%=transaction._id%>&&sender=<%=transaction.from%>&&receiver=<%=transaction.to%>">
+                                <button type="button" class="btn btn-success" style="width:100%;margin:0px;">Approve</button>
+                            </a>
+                            <a href="/admin/rejectTransaction/?neft=<%=transaction._id%>&&sender=<%=transaction.from%>&&receiver=<%=transaction.to%>">
+                                <button type="button" class="btn btn-danger" style="width:100%;margin:0px;">Reject</button>
+                            </a>
+                        </div>
+                    <% } %>
                 </div>  
             </div>
         </div>
