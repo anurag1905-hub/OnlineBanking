@@ -38,11 +38,11 @@ body{
     align-items:center;
     font-size:2rem;
     position:relative;
-}
 
-#user:hover,#admin:hover{
-    color:black;
-    background-color:white;
+    &:hover{
+       color:black;
+       background-color:white;
+    }
 }
 
 a{
