@@ -486,7 +486,6 @@ module.exports.approveTransaction = async function(req,res){
         console.log('Error',err);
         return res.redirect('/admin/announcements');
     }
-    
 }
 
 

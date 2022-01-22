@@ -51,35 +51,31 @@ body {
   align-items: center;
   width: 90%;
   margin: auto; }
-
-#container-body form input {
-  display: block; }
+  #container-body form input {
+    display: block; }
 
 #form-item {
   width: 100%; }
-
-#form-item input {
-  width: 90%;
-  margin: auto;
-  padding: 0.5rem;
-  border: none;
-  border-bottom: 1px solid black;
-  outline: none;
-  font-size: 1.5rem; }
-
-#form-item button {
-  width: 80%;
-  margin: auto;
-  display: block;
-  padding: 0.5rem;
-  font-size: 1.5rem;
-  border: 1px solid black;
-  background-color: green;
-  color: white; }
-
-#form-item button:hover {
-  background-color: white;
-  color: black; }
+  #form-item input {
+    width: 90%;
+    margin: auto;
+    padding: 0.5rem;
+    border: none;
+    border-bottom: 1px solid black;
+    outline: none;
+    font-size: 1.5rem; }
+  #form-item button {
+    width: 80%;
+    margin: auto;
+    display: block;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    border: 1px solid black;
+    background-color: green;
+    color: white; }
+    #form-item button:hover {
+      background-color: white;
+      color: black; }
 
 #login-link {
   font-size: 1.3rem; }
