@@ -24,5 +24,7 @@ router.use('/funds',require('./funds'));
 router.use('/destroy',require('./destroy'));
 router.use('/services',require('./services'));
 router.use('/loans',require('./loan'));
+router.post('/updateLoginInfo',passport.checkAuthentication,userController.updateLoginInfo);
+router.post('/updateAccountInfo/:id',passport.checkAuthentication,userController.updateAccountInfo);
 
 module.exports = router;

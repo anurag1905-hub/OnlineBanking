@@ -212,3 +212,49 @@ module.exports.loans = function(req,res){
         }
     });
 }
+
+module.exports.updateLoginInfo = async function(req,res){
+    try{
+        let user = await User.findById(req.user._id);
+        user.email=req.body.email;
+        user.password=req.body.password;
+        user.save();
+        req.flash('success','Updated Successfully');
+        return res.redirect('/user/personalise');
+    }catch(err){
+        req.flash('error','Error');
+        console.log('Error',err);
+        return res.redirect('/user/personalise');
+    }
+}
+
+module.exports.updateAccountInfo = async function(req,res){
+    try{
+        let accountId = req.params.id;
+        let account = await Account.findById(accountId);
+        if(!account){
+            req.flash('error','Unauthorized');
+            return res.redirect('/user/personalise');
+        }
+        
+        //.id means converting the object id into string.
+        //when we are comparing two object ids both of them should be in strings.
+        if(account.user!=req.user.id){
+            req.flash('error','user mismatch');
+            return res.redirect('/user/personalise');
+        }
+        account.phone = req.body.phone;
+        account.address = req.body.address;
+        account.email = req.body.email;
+
+        account.save();
+
+        req.flash('success','Updated Successfully');
+        return res.redirect('/user/personalise');
+    }catch(err){
+        req.flash('error','Error');
+        console.log('Error',err);
+        return res.redirect('/user/personalise');
+    }
+    
+}

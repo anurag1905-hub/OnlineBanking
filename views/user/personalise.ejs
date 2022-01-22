@@ -3,6 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="/css/personalise.css">
     </head>
@@ -58,7 +60,7 @@
                     LOGIN INFO:
                 </div>
                 <div class="login-info-box">
-                    <form action="" method="post">
+                    <form action="/user/updateLoginInfo" method="post">
                         <div class="form-group">
                            <label for="email">Email:</label>
                            <input type="email" class="form-control" id="email"  name="email" value="<%=user.email%>" required>
@@ -73,9 +75,9 @@
                 <div class="account-info-header">
                      ACCOUNT INFO:
                 </div>
-                <% if(locals.user&&user.account) { %>
+                <% if(user.account) { %>
                     <div class="account-info-box">
-                        <form action="" method="post">
+                        <form action="/user/updateAccountInfo/<%=user.account._id%>" method="post">
                             <div class="form-group">
                                 <label for="account-holder-name">Account Holder Name:</label>
                                 <input type="text" class="form-control" id="account-holder-name" name="accountHolder" value="<%=user.account.accountHolder%>" disabled>
@@ -114,5 +116,25 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+        <script>
+            <% if(flash.success&&flash.success.length>0) { %>
+                new Noty({
+                theme:'relax',
+                text:"<%=flash.success%>",
+                type:'success',
+                layout:'topRight',
+                timeout:1500
+                }).show();
+            <% } %>
+            <% if(flash.error&&flash.error.length>0) { %>
+                new Noty({
+                theme:'relax',
+                text:"<%=flash.error%>",
+                type:'error',
+                layout:'topRight',
+                timeout:1500
+                }).show();
+            <% } %>
+        </script>
     </body>
 </html>
