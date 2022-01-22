@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/loanRequests.css">
+        <link rel="stylesheet" type="text/css" href="/css/neftTransactions.css">
     </head>
     <body>
         <div class="container mt-3">
@@ -21,15 +21,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/announcements">ANNOUNCEMENTS</a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                                 <a class="nav-link" href="/admin/loanRequests">LOAN REQUESTS</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/pendingLoanPayments">LOAN PAYMENTS</a>
-                        </li>
-                        <li class="nav-item">
+                        </li> 
+                        <li class="nav-item active">
                             <a class="nav-link" href="/admin/neftTransactions">NEFT TRANSACTIONS</a>
-                        </li>  
+                        </li> 
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/viewAccountDetails">ACCOUNT DETAILS</a>
                         </li>
@@ -43,28 +43,11 @@
                 </div>  
             </nav>
             <div class="container-fluid box">
-                <div class="loan-requests-header">
-                    LOAN REQUESTS:
+                <div class="neft-transactions-header">
+                    NEFT TRANSACTIONS:
                 </div>
-                <div class="loan-requests-box">
-                    <% for(loan of loans) { %>
-                        <div class="loan-box">
-                            <div class="d-flex flex-column mb-3">
-                                <div class="p-2 bg-info border-bottom border-white">Applicant's Name-<%=loan.account.accountHolder%></div>
-                                <div class="p-2 bg-info border-bottom border-white">Applicant's Account Number-<%=loan.account._id%></div>
-                                <div class="p-2 bg-info border-bottom border-white">Account Balance-<%=loan.account.balance%></div>
-                                <div class="p-2 bg-info border-bottom border-white">Loan Type-<%=loan.loantype%></div>
-                                <div class="p-2 bg-info border-bottom border-white">Loan Amount-<%=loan.amount%></div>
-                                <div class="p-2 bg-info border-bottom border-white">Loan Duration-<%=loan.duration%></div>
-                            </div>
-                            <a href="/admin/approveLoan/?loan=<%=loan._id%>&&type=<%=loan.loantype%>&&amount=<%=loan.amount%>&&duration=<%=loan.duration%>&&user=<%=loan.user._id%>">
-                                <button type="button" class="btn btn-success" style="width:100%;margin:0px;">Approve</button>
-                            </a>
-                            <a href="/admin/rejectLoan/?loan=<%=loan._id%>&&type=<%=loan.loantype%>&&user=<%=loan.user._id%>">
-                                <button type="button" class="btn btn-danger" style="width:100%;margin:0px;">Reject</button>
-                            </a>
-                        </div>
-                    <% } %>
+                <div class="neft-transactions-box">
+                    
                 </div>  
             </div>
         </div>

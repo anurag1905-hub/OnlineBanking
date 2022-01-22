@@ -23,5 +23,6 @@ router.get('/loanRequests',passport.checkAdminAuthentication,adminController.loa
 router.get('/approveLoan',passport.checkAdminAuthentication,adminController.approveLoan);
 router.get('/rejectLoan',passport.checkAdminAuthentication,adminController.rejectLoan);
 router.get('/pendingLoanPayments',passport.checkAdminAuthentication,adminController.pendingLoanPayments);
+router.get('/neftTransactions',passport.checkAdminAuthentication,adminController.neftTransactions);
 
 module.exports = router;

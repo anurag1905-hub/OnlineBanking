@@ -321,3 +321,7 @@ module.exports.pendingLoanPayments = function(req,res){
     return res.render('./admin/pendingLoanPayments');
 }
 
+module.exports.neftTransactions = function(req,res){
+    return res.render('./admin/neftTransactions');
+}
+

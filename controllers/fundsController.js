@@ -2,8 +2,46 @@ const Account = require('../models/account');
 const Transaction = require('../models/transaction');
 const User = require('../models/user');
 const Notifications = require('../models/notification');
+const NEFT = require('../models/neft');
 
 module.exports.transfer = async function(req,res){
+    let date = new Date();
+    let hours = date.getHours().toString();
+    if(hours.length==1){
+        hours="0"+hours;
+    }
+    let minutes = date.getMinutes().toString();
+    if(minutes.length==1){
+        minutes="0"+minutes;
+    }
+    let seconds = date.getSeconds().toString();
+    if(seconds.length==1){
+        seconds="0"+seconds;
+    }
+    let time = hours+":"+minutes+":"+seconds;
+
+    if(req.body.mode=="NEFT"){
+        await NEFT.create({
+            from:req.user._id,
+            to:req.body.beneficiaryAccountNumber,
+            amount:req.body.amount,
+            ifsc:req.body.ifscCode
+        });
+        let message = "Your request for NEFT Transaction has been received and will be processed shortly.";
+        let user = await User.findById(req.user._id);
+
+        let notification = await Notifications.create({
+            content:message,
+            time:time,
+            user:user
+        });
+
+        user.notifications.push(notification);
+        user.save();
+
+        req.flash('success','Transaction request Received');
+        return res.redirect('back');
+    }
     try{
         let targetAccount = await Account.findById(req.params.id);
         if(targetAccount){
@@ -41,20 +79,6 @@ module.exports.transfer = async function(req,res){
                        );
                        beneficiaryUser.transactions.push(secondTransaction);
                        beneficiaryUser.save();
-                       let date = new Date();
-                       let hours = date.getHours().toString();
-                       if(hours.length==1){
-                           hours="0"+hours;
-                       }
-                       let minutes = date.getMinutes().toString();
-                       if(minutes.length==1){
-                           minutes="0"+minutes;
-                       }
-                       let seconds = date.getSeconds().toString();
-                       if(seconds.length==1){
-                           seconds="0"+seconds;
-                       }
-                       let time = hours+":"+minutes+":"+seconds;
 
                        let firstNotification = await Notifications.create(
                             { content: message, user: req.user._id,time:time}, 

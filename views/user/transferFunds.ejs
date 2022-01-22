@@ -63,14 +63,6 @@
                 <div class="transfer-funds-box">
                     <form action="/user/funds/transfer/<%=user.account._id%>" method="post">
                         <div class="form-group">
-                            <label for="beneficiaryName">Beneficiary's Name:</label>
-                            <input type="text" class="form-control" id="beneficiaryName" name="beneficiaryName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="beneficiaryAddress">Beneficiary's Address:</label>
-                            <input type="text" class="form-control" id="beneficiaryAddress" name="beneficiaryAddress" required>
-                        </div>
-                        <div class="form-group">
                             <label for="beneficiaryAccountNumber">Beneficiary's Account Number:</label>
                             <input type="string" class="form-control" id="beneficiaryAccountNumber" name="beneficiaryAccountNumber" required>
                         </div>
@@ -85,8 +77,8 @@
                         <div class="form-group">
                             <label for="sel1">Mode of Transfer:</label>
                             <select class="form-control" id="sel1" name="mode" required>
-                                <option>NEFT</option>
                                 <option>RTGS</option>
+                                <option>NEFT</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-success">Transfer</button>

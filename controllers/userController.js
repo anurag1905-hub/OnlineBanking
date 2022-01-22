@@ -42,7 +42,8 @@ module.exports.profile = async function(req,res){
     try{
         let profileUser = await User.findById(req.user._id)
         .populate('account');
-
+        console.log(profileUser);
+        
         return res.render('./user/userProfile',{
             profileUser:profileUser
         });
