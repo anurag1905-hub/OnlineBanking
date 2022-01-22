@@ -390,5 +390,104 @@ module.exports.rejectTransaction = async function(req,res){
 
 }
 
+module.exports.approveTransaction = async function(req,res){
+    try{
+        let neftId = req.query.neft;
+        let sender = req.query.sender;
+        let receiver = req.query.receiver;
+
+        let neft = await NEFT.findById(neftId);
+        if(!neft){
+            return res.redirect('/admin/neftTransactions');
+        }
+        let senderAccount = await Account.findById(sender);
+        if(!senderAccount){
+            return res.redirect('/admin/neftTransactions');
+        }
+        let receiverAccount = await Account.findById(receiver);
+        if(!receiverAccount){
+            return res.redirect('/admin/neftTransactions');
+        }
+
+        let amount = neft.amount;
+        neft.remove();
+
+        senderAccount.balance = +senderAccount.balance - +amount;
+        senderAccount.save();
+
+        receiverAccount.balance = +receiverAccount.balance + +amount;
+        receiverAccount.save();
+
+        let senderUser = await User.findOne({account:sender});
+
+        let receiverUser = await User.findOne({account:receiver});
+
+        let firstMessage = "An amount of Rs "+amount+ " has been transferred to account number "+receiver;
+
+        let firstTransaction = await Transaction.create({
+        content:firstMessage,
+        user:senderUser,
+        amount:amount,
+        mode:'TO TRANSFER',
+        increasedBalance:false,
+        balance:senderAccount.balance
+        });
+
+        senderUser.transactions.push(firstTransaction);
+
+        let secondMessage = "An amount of Rs "+amount+ " has been transferred to your account.";
+
+        let secondTransaction = await Transaction.create({
+        content:secondMessage,
+        user:receiverUser,
+        amount:amount,
+        mode:'BY TRANSFER',
+        increasedBalance:true,
+        balance:receiverAccount.balance
+        });
+
+        receiverUser.transactions.push(secondTransaction);
+
+        let date = new Date();
+        let hours = date.getHours().toString();
+        if(hours.length==1){
+            hours="0"+hours;
+        }
+        let minutes = date.getMinutes().toString();
+        if(minutes.length==1){
+            minutes="0"+minutes;
+        }
+        let seconds = date.getSeconds().toString();
+        if(seconds.length==1){
+            seconds="0"+seconds;
+        }
+        let time = hours+":"+minutes+":"+seconds;
+
+        let firstNotification = await Notifications.create({
+            content:firstMessage,
+            user:senderUser,
+            time:time
+        });
+
+        senderUser.notifications.push(firstNotification);
+        senderUser.save();
+
+        let secondNotification = await Notifications.create({
+            content:secondMessage,
+            user:receiverUser,
+            time:time
+        });
+
+        receiverUser.notifications.push(secondNotification);
+        receiverUser.save();
+
+        return res.redirect('/admin/neftTransactions');
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('/admin/announcements');
+    }
+    
+}
+
 
 
