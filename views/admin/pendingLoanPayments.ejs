@@ -47,7 +47,21 @@
                      LOAN PAYMENTS:
                 </div>
                 <div class="pending-loan-payments-box">
-                    
+                    <% for(loan of loans) { %>
+                        <div class="loan-box">
+                            <div class="d-flex flex-column mb-3">
+                                <div class="p-2 bg-info border-bottom border-white">Loan Id-<%=loan._id%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Applicant's Account Number-<%=loan.account._id%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Loan Type-<%=loan.loantype%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Monthly Installment- Rs <%=loan.monthlyInstallments%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Paid Installments-<%=loan.count%></div>
+                                <div class="p-2 bg-info border-bottom border-white">Total Duration-<%=loan.duration%> years</div>
+                            </div>
+                            <a href="/admin/sendPaymentNotification/?loan=<%=loan._id%>&&account=<%=loan.account._id%>&&user=<%=loan.user._id%>">
+                                <button type="button" class="btn btn-success" style="width:100%;margin:0px;">Send Notification</button>
+                            </a>
+                        </div>
+                    <% } %>
                 </div>  
             </div>
         </div>

@@ -318,10 +318,6 @@ module.exports.approveLoan = async function (req,res){
     return res.redirect('/admin/loanRequests');
 }
 
-module.exports.pendingLoanPayments = function(req,res){
-    return res.render('./admin/pendingLoanPayments');
-}
-
 module.exports.neftTransactions =  async function(req,res){
     try{
         let neft = await NEFT.find({}).sort('createdAt');
@@ -486,6 +482,27 @@ module.exports.approveTransaction = async function(req,res){
         console.log('Error',err);
         return res.redirect('/admin/announcements');
     }
+}
+
+module.exports.pendingLoanPayments = async function(req,res){
+    let date = new Date();
+    let year = parseInt(date.getFullYear());
+    let month = parseInt(date.getMonth());
+    let day = parseInt(date.getDate());
+
+    //query today up to tonight
+    let loan = await Loan.find({ 
+        nextDueDate: {
+            $gte: new Date(year, month, day), 
+            $lt: new Date(year, month, day+1), 
+        }
+    })
+    .populate('user')
+    .populate('account');
+
+    return res.render('./admin/pendingLoanPayments',{
+        loans:loan
+    });
 }
 
 
