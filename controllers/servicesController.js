@@ -124,5 +124,10 @@ module.exports.accountSummary = async function(req,res){
     });
 }
 
+module.exports.payLoans = function(req,res){
+    
+    return res.render('./user/payloan');
+}
+
 
 
