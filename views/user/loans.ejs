@@ -63,12 +63,14 @@
                         LOANS PENDING APPROVAL:
                     </div>
                     <div class="loans-box-desc">
-                        <% for(loan of profileUser.loans) { %>
-                            <% if(!loan.approved) { %>
-                                <div class="d-flex flex-column mb-4 flex-loans-box">
-                                    <div class="p-2 bg-info mb-1">Amount: Rs <%=loan.amount%></div>
-                                    <div class="p-2 bg-info mb-1">Loan Type: <%=loan.loantype%></div>
-                                </div>
+                        <% if(profileUser.loans.length){ %>
+                            <% for(loan of profileUser.loans) { %>
+                                <% if(!loan.approved) { %>
+                                    <div class="d-flex flex-column mb-4 flex-loans-box">
+                                        <div class="p-2 bg-info mb-1">Amount: Rs <%=loan.amount%></div>
+                                        <div class="p-2 bg-info mb-1">Loan Type: <%=loan.loantype%></div>
+                                    </div>
+                                <% } %>
                             <% } %>
                         <% } %>
                     </div>

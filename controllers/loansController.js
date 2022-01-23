@@ -1,6 +1,7 @@
 const Notifications = require('../models/notification');
 const User = require('../models/user');
 const Loan = require('../models/loan');
+const Transaction = require('../models/transaction');
 
 module.exports.apply = async function(req,res){
     if(req.body.approved==true){
@@ -59,4 +60,98 @@ module.exports.apply = async function(req,res){
         console.log('Error',err);
         return res.redirect('back');
     }
+}
+
+module.exports.pay = async function(req,res){
+
+    let loanId = req.params.id;
+    let loan = await Loan.findById(loanId).populate('user').populate('account');
+    
+    if(!loan){
+        req.flash('error','Unauthorized');
+        return res.redirect('/user/services/payLoans');
+    }
+    //req.user.id is used to convert object id to string.
+    if(loan.user._id!=req.user.id){
+        req.flash('error','Unauthorized');
+        return res.redirect('/user/services/payLoans');
+    }
+
+    if(loan.monthlyInstallments>loan.account.balance){
+        req.flash('error','Insufficient Balance');
+        return res.redirect('/user/services/payLoans');
+    }
+    
+    let totalInstallments = (loan.duration*12);
+
+    loan.outstandingAmount = loan.outstandingAmount-loan.monthlyInstallments;
+    loan.count = loan.count + 1;
+    loan.notificationSent = 0;
+
+    let now = new Date();
+    let next30days = new Date(now.setDate(now.getDate() + 30));
+    let nextduedate = next30days;
+
+    loan.nextDueDate = nextduedate;
+
+    loan.save();
+
+
+    User.updateOne({'loans.id': loanId}, {'$set': {
+        'loans.$.outstandingAmount': loan.outstandingAmount,
+        'loans.$.notificationSent': loan.notificationSent,
+        'loans.$.count': loan.count,
+        'loans.$.nextDueDate': loan.nextDueDate,
+    }});
+
+    let message = "Your payment for "+loan.loantype+" of  Rs "+ loan.monthlyInstallments+" has been received" ;
+    let date = new Date();
+    let hours = date.getHours().toString();
+    if(hours.length==1){
+        hours="0"+hours;
+    }
+    let minutes = date.getMinutes().toString();
+    if(minutes.length==1){
+        minutes="0"+minutes;
+    }
+    let seconds = date.getSeconds().toString();
+    if(seconds.length==1){
+        seconds="0"+seconds;
+    }
+    let time = hours+":"+minutes+":"+seconds;
+
+    let user = await User.findById(req.user._id).populate('account');
+
+    let notification = await Notifications.create({
+        content:message,
+        user:user,
+        time:time
+    });
+
+    user.notifications.push(notification);
+    
+    user.account.balance = user.account.balance - loan.monthlyInstallments;
+    user.account.save();
+
+    let transaction = await Transaction.create({
+        content:message,
+        user:user,
+        amount:loan.monthlyInstallments,
+        mode:'DEBIT',
+        increasedBalance:false,
+        balance:user.account.balance
+    });
+
+    user.transactions.push(transaction);
+    user.save();
+
+    if(loan.count==totalInstallments){
+        loan.remove();
+        await User.findByIdAndUpdate(req.user._id,{$pull:{loans:loanId}});
+        req.flash('success','Installment Paid');
+        return res.redirect('/user/services/payLoans');
+    }
+
+    req.flash('success','Installment Paid');
+    return res.redirect('/user/services/payLoans');
 }

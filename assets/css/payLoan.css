@@ -38,6 +38,18 @@ body {
   min-height: 63vh;
   border: 2px solid red;
   padding: 1rem; }
+  .pay-loan-box .text {
+    padding-top: 1rem;
+    font-size: 1rem;
+    font-weight: 750; }
+
+.loan-box {
+  border: 2px solid black;
+  padding: 2rem;
+  margin-bottom: 2rem; }
+
+a {
+  text-decoration: none; }
 
 .dropdown-menu {
   padding: 0px; }

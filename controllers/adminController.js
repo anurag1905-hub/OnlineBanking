@@ -6,6 +6,7 @@ const Notifications = require('../models/notification');
 const Transaction = require('../models/transaction');
 const NEFT = require('../models/neft');
 
+
 module.exports.announcements = async function(req,res){
     try{
         let announcement = await Announcement.find({}).sort('-createdAt');

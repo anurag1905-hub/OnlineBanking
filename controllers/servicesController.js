@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Transaction = require('../models/transaction');
+const Loan = require('../models/loan');
 
 module.exports.depositFunds = async function(req,res){
     try{
@@ -124,9 +125,20 @@ module.exports.accountSummary = async function(req,res){
     });
 }
 
-module.exports.payLoans = function(req,res){
+module.exports.payLoans = async function(req,res){
     
-    return res.render('./user/payloan');
+    let date = new Date();
+    let year = parseInt(date.getFullYear());
+    let month = parseInt(date.getMonth());
+    let day = parseInt(date.getDate());
+
+    let loan = await Loan.find({user:req.user.id,approved:true,nextDueDate: {
+        $gte: new Date(year, month, day), 
+        $lt: new Date(year, month, day+1), 
+    }});
+    return res.render('./user/payloan',{
+        loans:loan
+    });
 }
 
 

@@ -61,11 +61,30 @@
                     LOAN INSTALLMENTS DUE TODAY:
                 </div>
                 <div class="pay-loan-box">
-                    <% if(user.account){ %>
-                        <form action="/user/funds/deposit" method="post">
-                            
-                        </form>
+                    <% if(loans.length){ %>
+                        <% for(loan of loans) { %>
+                            <div class="loan-box">
+                                    <form action="/user/loans/pay/<%=loan._id%>" method="post">
+                                        <div class="form-group">
+                                            <label for="loantype">Loan Type:</label>
+                                            <input type="text" class="form-control" id="loantype" value="<%=loan.loantype%>" disabled required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="installment">Installment(in Rs):</label>
+                                            <input type="number" class="form-control" id="installment" value="<%=loan.monthlyInstallments%>" disabled required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="outstandingAmount">Outstanding Amount(in Rs):</label>
+                                            <input type="number" class="form-control" id="outstandingAmount" value="<%=loan.outstandingAmount%>" disabled required>
+                                         </div>
+                                        <button type="submit" class="btn btn-success">Pay Installment</button>
+                                    </form>
+                            </div>
+                        <% } %>
+                    <% } else {%>
+                        <p>Currently there are no loan installments to pay .</p>
                     <% } %>
+                    
                 </div>
             </div>
         </div>

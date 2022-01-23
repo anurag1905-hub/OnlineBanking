@@ -77,7 +77,7 @@
                             <tr class="bg-white">
                                 <td><%=profileUser.account._id%></td>
                                 <td><%=profileUser.account.branch%></td>
-                                <td>Rs <%=profileUser.account.balance%></td>
+                                <td>Rs <%=(Math.round(profileUser.account.balance * 100) / 100).toFixed(2)%></td>
                             </tr>
                         </tbody>
                     </table>
@@ -97,7 +97,7 @@
                                     <tr class="bg-white">
                                         <td><%=loan._id%></td>
                                         <td><%=loan.loantype%></td>
-                                        <td>Rs <%=loan.amount%></td>
+                                        <td>Rs <%=(Math.round(loan.outstandingAmount * 100) / 100).toFixed(2)%></td>
                                     </tr>
                                 <% } %>
                             <% } %>

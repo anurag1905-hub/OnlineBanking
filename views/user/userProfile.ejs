@@ -144,7 +144,7 @@
                                    </tr>
                                    <tr>
                                         <th>Account Balance:</th>
-                                        <td>Rs <%=profileUser.account.balance%></td>
+                                        <td>Rs <%=(Math.round(profileUser.account.balance * 100) / 100).toFixed(2)%></td>
                                    </tr>
                                    <tr>
                                         <th>Account Opening Date:</th>
