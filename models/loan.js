@@ -42,6 +42,9 @@ const loanSchema = new mongoose.Schema({
     },
     count:{
         type:Number,
+    },
+    notificationSent:{
+        type:Number
     }
 },{
     timestamps:true

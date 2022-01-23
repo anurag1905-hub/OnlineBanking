@@ -505,5 +505,50 @@ module.exports.pendingLoanPayments = async function(req,res){
     });
 }
 
+module.exports.sendPaymentNotification = async function(req,res){
+    
+    let user = await User.findById(req.query.user);
+
+    if(!user){
+        return res.redirect('/admin/pendingLoanPayments');
+    }
+
+    let loan = await Loan.findById(req.query.loan);
+
+    if(!loan){
+        return res.redirect('/admin/pendingLoanPayments');
+    }
+
+    let message = "Dear user, your monthly installment of Rs "+loan.monthlyInstallments+" for " + loan.loantype + " is due today. You are requested to pay the required amount";
+
+    let date = new Date();
+    let hours = date.getHours().toString();
+    if(hours.length==1){
+        hours="0"+hours;
+    }
+    let minutes = date.getMinutes().toString();
+    if(minutes.length==1){
+        minutes="0"+minutes;
+    }
+    let seconds = date.getSeconds().toString();
+    if(seconds.length==1){
+        seconds="0"+seconds;
+    }
+    let time = hours+":"+minutes+":"+seconds;
+
+    let notification = await Notifications.create({
+        content:message,
+        user:user,
+        time:time
+    });
+
+    user.notifications.push(notification);
+    user.save();
+
+    loan.notificationSent = loan.notificationSent + 1;
+    loan.save();
+
+    return res.redirect('/admin/pendingLoanPayments');
+}
 
 

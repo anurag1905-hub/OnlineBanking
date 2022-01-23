@@ -11,6 +11,10 @@ module.exports.apply = async function(req,res){
         req.flash('error','Unauthorized');
         return res.redirect('back');
     }
+    if(req.body.notificationSent!=0){
+        req.flash('error','Unauthorized');
+        return res.redirect('back');
+    }
     try{
         let user = await User.findById(req.body.user)
         .populate('account')
