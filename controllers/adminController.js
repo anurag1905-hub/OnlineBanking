@@ -6,6 +6,21 @@ const Notifications = require('../models/notification');
 const Transaction = require('../models/transaction');
 const NEFT = require('../models/neft');
 
+var date = new Date();
+var hours = date.getHours().toString();
+if(hours.length==1){
+    hours="0"+hours;
+}
+var minutes = date.getMinutes().toString();
+if(minutes.length==1){
+    minutes="0"+minutes;
+}
+var seconds = date.getSeconds().toString();
+if(seconds.length==1){
+    seconds="0"+seconds;
+}
+var time = hours+":"+minutes+":"+seconds;
+
 
 module.exports.announcements = async function(req,res){
     try{
@@ -203,20 +218,6 @@ module.exports.rejectLoan = async function(req,res){
         User.findByIdAndUpdate(userId,{$pull:{loans:loanId}});
 
         let message = "Unfortunately your request for " +type+ " has been rejected.";
-        let date = new Date();
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
         
         let user = await User.findById(userId);
         console.log(user);
@@ -278,20 +279,6 @@ module.exports.approveLoan = async function (req,res){
     }});
 
     let message = "Your request for "+loan.loantype+" has been approved. Rs "+ amount+" has been credited in your account. Your monthly installments will be Rs "+monthlyInstallments+" and your next due date is "+ next30days.toDateString();
-    let date = new Date();
-    let hours = date.getHours().toString();
-    if(hours.length==1){
-        hours="0"+hours;
-    }
-    let minutes = date.getMinutes().toString();
-    if(minutes.length==1){
-        minutes="0"+minutes;
-    }
-    let seconds = date.getSeconds().toString();
-    if(seconds.length==1){
-        seconds="0"+seconds;
-    }
-    let time = hours+":"+minutes+":"+seconds;
 
     let notification = await Notifications.create({
         content:message,
@@ -352,22 +339,6 @@ module.exports.rejectTransaction = async function(req,res){
             console.log('Oops cant find user');
             return res.redirect('/admin/neftTransactions');
         }
-
-        let date = new Date();
-
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
 
         let notification = await Notifications.create({
             content:message,
@@ -445,21 +416,6 @@ module.exports.approveTransaction = async function(req,res){
 
         receiverUser.transactions.push(secondTransaction);
 
-        let date = new Date();
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
-
         let firstNotification = await Notifications.create({
             content:firstMessage,
             user:senderUser,
@@ -521,21 +477,6 @@ module.exports.sendPaymentNotification = async function(req,res){
     }
 
     let message = "Dear user, your monthly installment of Rs "+loan.monthlyInstallments+" for " + loan.loantype + " is due today. You are requested to pay the required amount";
-
-    let date = new Date();
-    let hours = date.getHours().toString();
-    if(hours.length==1){
-        hours="0"+hours;
-    }
-    let minutes = date.getMinutes().toString();
-    if(minutes.length==1){
-        minutes="0"+minutes;
-    }
-    let seconds = date.getSeconds().toString();
-    if(seconds.length==1){
-        seconds="0"+seconds;
-    }
-    let time = hours+":"+minutes+":"+seconds;
 
     let notification = await Notifications.create({
         content:message,
