@@ -197,10 +197,15 @@ module.exports.showDetails = async function(req,res){
 }
 
 module.exports.loanRequests = async function(req,res){
-    let loans = await Loan.find({approved:false}).sort('createdAt').populate('account');
-    return res.render('./admin/loanRequests',{
-        loans:loans
-    });
+    try{
+        let loans = await Loan.find({approved:false}).sort('createdAt').populate('account');
+        return res.render('./admin/loanRequests',{
+            loans:loans
+        });
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('/admin/announcements')
+    }
 }
 
 module.exports.rejectLoan = async function(req,res){
@@ -239,71 +244,76 @@ module.exports.rejectLoan = async function(req,res){
 }
 
 module.exports.approveLoan = async function (req,res){
-    let loanId = req.query.loan;
-    let userId = req.query.user;
-    let type = req.query.type;
-    let amount = req.query.amount;
-    let duration = req.query.duration;
-    let totalAmountPayable = amount*(1+0.10*duration);
-    totalAmountPayable = (Math.round(totalAmountPayable * 100) / 100).toFixed(2);
-    let monthlyInstallments = totalAmountPayable/(duration*12);
-    monthlyInstallments = (Math.round(monthlyInstallments * 100) / 100).toFixed(2);
-    let now = new Date();
-    let next30days = new Date(now.setDate(now.getDate() + 30));
-    let nextduedate = next30days;
-    
-    let loan = await Loan.findById(loanId);
-    let user = await User.findById(userId).populate('account');
-    if(!loan){
+    try{
+        let loanId = req.query.loan;
+        let userId = req.query.user;
+        let type = req.query.type;
+        let amount = req.query.amount;
+        let duration = req.query.duration;
+        let totalAmountPayable = amount*(1+0.10*duration);
+        totalAmountPayable = (Math.round(totalAmountPayable * 100) / 100).toFixed(2);
+        let monthlyInstallments = totalAmountPayable/(duration*12);
+        monthlyInstallments = (Math.round(monthlyInstallments * 100) / 100).toFixed(2);
+        let now = new Date();
+        let next30days = new Date(now.setDate(now.getDate() + 30));
+        let nextduedate = next30days;
+        
+        let loan = await Loan.findById(loanId);
+        let user = await User.findById(userId).populate('account');
+        if(!loan){
+            return res.redirect('/admin/loanRequests');
+        }
+        if(!user){
+            return res.redirect('/admin/loanRequests'); 
+        }
+        if(loan.user!=userId||loan.loantype!=type||loan.amount!=amount||loan.duration!=duration){
+            return res.redirect('/admin/loanRequests');
+        }
+        loan.outstandingAmount = totalAmountPayable;
+        loan.monthlyInstallments = monthlyInstallments;
+        loan.count = 0;
+        loan.nextDueDate = nextduedate;
+        loan.approved = true;
+        loan.save();
+
+        User.updateOne({'loans.id': loanId}, {'$set': {
+            'loans.$.outstandingAmount': totalAmountPayable,
+            'loans.$.monthlyInstallments': monthlyInstallments,
+            'loans.$.count': 0,
+            'loans.$.nextDueDate': nextduedate,
+            'loans.$.approved': true,
+        }});
+
+        let message = "Your request for "+loan.loantype+" has been approved. Rs "+ amount+" has been credited in your account. Your monthly installments will be Rs "+monthlyInstallments+" and your next due date is "+ next30days.toDateString();
+
+        let notification = await Notifications.create({
+            content:message,
+            user:user,
+            time:time
+        });
+
+        user.notifications.push(notification);
+        
+        user.account.balance = +user.account.balance + +amount;
+        user.account.save();
+
+        let transaction = await Transaction.create({
+            content:message,
+            user:user,
+            amount:amount,
+            mode:'CREDIT',
+            increasedBalance:true,
+            balance:user.account.balance
+        });
+
+        user.transactions.push(transaction);
+        user.save();
+
         return res.redirect('/admin/loanRequests');
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('/admin/announcements');
     }
-    if(!user){
-        return res.redirect('/admin/loanRequests'); 
-    }
-    if(loan.user!=userId||loan.loantype!=type||loan.amount!=amount||loan.duration!=duration){
-        return res.redirect('/admin/loanRequests');
-    }
-    loan.outstandingAmount = totalAmountPayable;
-    loan.monthlyInstallments = monthlyInstallments;
-    loan.count = 0;
-    loan.nextDueDate = nextduedate;
-    loan.approved = true;
-    loan.save();
-
-    User.updateOne({'loans.id': loanId}, {'$set': {
-        'loans.$.outstandingAmount': totalAmountPayable,
-        'loans.$.monthlyInstallments': monthlyInstallments,
-        'loans.$.count': 0,
-        'loans.$.nextDueDate': nextduedate,
-        'loans.$.approved': true,
-    }});
-
-    let message = "Your request for "+loan.loantype+" has been approved. Rs "+ amount+" has been credited in your account. Your monthly installments will be Rs "+monthlyInstallments+" and your next due date is "+ next30days.toDateString();
-
-    let notification = await Notifications.create({
-        content:message,
-        user:user,
-        time:time
-    });
-
-    user.notifications.push(notification);
-    
-    user.account.balance = +user.account.balance + +amount;
-    user.account.save();
-
-    let transaction = await Transaction.create({
-        content:message,
-        user:user,
-        amount:amount,
-        mode:'CREDIT',
-        increasedBalance:true,
-        balance:user.account.balance
-    });
-
-    user.transactions.push(transaction);
-    user.save();
-
-    return res.redirect('/admin/loanRequests');
 }
 
 module.exports.neftTransactions =  async function(req,res){
@@ -442,55 +452,68 @@ module.exports.approveTransaction = async function(req,res){
 }
 
 module.exports.pendingLoanPayments = async function(req,res){
-    let date = new Date();
-    let year = parseInt(date.getFullYear());
-    let month = parseInt(date.getMonth());
-    let day = parseInt(date.getDate());
-
-    //query today up to tonight
-    let loan = await Loan.find({ 
-        nextDueDate: {
-            $gte: new Date(year, month, day), 
-            $lt: new Date(year, month, day+1), 
-        }
-    })
-    .populate('user')
-    .populate('account');
-
-    return res.render('./admin/pendingLoanPayments',{
-        loans:loan
-    });
+    try{
+        let date = new Date();
+        let year = parseInt(date.getFullYear());
+        let month = parseInt(date.getMonth());
+        let day = parseInt(date.getDate());
+    
+        //query today up to tonight
+        let loan = await Loan.find({ 
+            nextDueDate: {
+                $gte: new Date(year, month, day), 
+                $lt: new Date(year, month, day+1), 
+            }
+        })
+        .populate('user')
+        .populate('account');
+    
+        return res.render('./admin/pendingLoanPayments',{
+            loans:loan
+        });
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('/admin/announcements');
+    }
+    
 }
 
 module.exports.sendPaymentNotification = async function(req,res){
+
+    try{
+        let user = await User.findById(req.query.user);
+
+        if(!user){
+            return res.redirect('/admin/pendingLoanPayments');
+        }
+
+        let loan = await Loan.findById(req.query.loan);
+
+        if(!loan){
+            return res.redirect('/admin/pendingLoanPayments');
+        }
+
+        let message = "Dear user, your monthly installment of Rs "+loan.monthlyInstallments+" for " + loan.loantype + " is due today. You are requested to pay the required amount";
+
+        let notification = await Notifications.create({
+            content:message,
+            user:user,
+            time:time
+        });
+
+        user.notifications.push(notification);
+        user.save();
+
+        loan.notificationSent = loan.notificationSent + 1;
+        loan.save();
+
+        return res.redirect('/admin/pendingLoanPayments');
+    }catch(err){
+        console.log('Error',err);
+        return res.redirect('/admin/announcements');
+    }
     
-    let user = await User.findById(req.query.user);
-
-    if(!user){
-        return res.redirect('/admin/pendingLoanPayments');
-    }
-
-    let loan = await Loan.findById(req.query.loan);
-
-    if(!loan){
-        return res.redirect('/admin/pendingLoanPayments');
-    }
-
-    let message = "Dear user, your monthly installment of Rs "+loan.monthlyInstallments+" for " + loan.loantype + " is due today. You are requested to pay the required amount";
-
-    let notification = await Notifications.create({
-        content:message,
-        user:user,
-        time:time
-    });
-
-    user.notifications.push(notification);
-    user.save();
-
-    loan.notificationSent = loan.notificationSent + 1;
-    loan.save();
-
-    return res.redirect('/admin/pendingLoanPayments');
+    
 }
 
 
