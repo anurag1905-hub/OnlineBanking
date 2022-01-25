@@ -43,9 +43,12 @@ module.exports.profile = async function(req,res){
         let profileUser = await User.findById(req.user._id)
         .populate('account');
         console.log(profileUser);
+
+        let unreadNotifications = profileUser.notifications.length-profileUser.lastCount;
         
         return res.render('./user/userProfile',{
-            profileUser:profileUser
+            profileUser:profileUser,
+            unreadNotifications:unreadNotifications
         });
     }catch(err){
         console.log('Error',err);
@@ -106,25 +109,38 @@ module.exports.faq = function(req,res){
     return res.render('./user/faq');
 }
 
-module.exports.personalise = function(req,res){
+module.exports.personalise = async function(req,res){
 
-    User.findById(req.user._id)
-    .populate('account')
-    .exec(function(err,user){
-        if(err){
-            console.log('Error in finding the user',err);
-            return;
-        }
-        else{
-            return res.render('./user/personalise',{
-                user:user
-            });
-        }
-    });
+    try{
+        let user = await User.findById(req.user._id)
+        .populate('account');
+
+        let unreadNotifications = user.notifications.length-user.lastCount;
+        
+        return res.render('./user/personalise',{
+            user:user,
+            unreadNotifications:unreadNotifications
+        });
+    }catch(err){
+        console.log('Error',err);
+        req.flash('error','Error');
+        return res.redirect('/user/profile');
+    }
+    
 }
 
 module.exports.transferFunds = function(req,res){
-    return res.render('./user/transferFunds');
+    User.findById(req.user._id,function(err,user){
+        if(err){
+            return res.redirect('back');
+        }
+        else{
+            let unreadNotifications = user.notifications.length-user.lastCount;
+            return res.render('./user/transferFunds',{
+                unreadNotifications:unreadNotifications
+            });
+        }
+    });
 }
 
 module.exports.createAccount = async function(req,res){
@@ -162,11 +178,14 @@ module.exports.notifications = async function(req,res){
                 sort:{createdAt:-1}
             }
         });
+        user.lastCount = user.notifications.length;
+        user.save();
         return res.render('./user/notifications',{
             notifications:user.notifications
         });
     }catch(err){
         console.log('Error',err);
+        return res.redirect('/user/profile')
     }
 }
 
@@ -206,8 +225,10 @@ module.exports.loans = function(req,res){
             return;
         }
         else{
+            let unreadNotifications = user.notifications.length-user.lastCount;
             return res.render('./user/loans',{
-                profileUser:user
+                profileUser:user,
+                unreadNotifications:unreadNotifications
             });
         }
     });

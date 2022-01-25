@@ -27,7 +27,12 @@
                             <a class="nav-link" href="/user/loans">LOANS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/notifications">NOTIFICATIONS</a>
+                            <a class="nav-link" href="/user/notifications">
+                                NOTIFICATIONS
+                                <%if(unreadNotifications){ %>
+                                    <sup style="color:white"><%=unreadNotifications%></sup>
+                                <% } %>
+                            </a>
                         </li> 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -116,7 +121,7 @@
                                             <td>DFT NO 23765</td>
                                         <% } %>
                                         <td><%=transaction.mode%></td>
-                                        <td>Rs <%=transaction.balance%></td>
+                                        <td>Rs <%=(Math.round(transaction.balance * 100) / 100).toFixed(2)%></td>
                                     </tr>
                                 </tbody>
                             <% } %>

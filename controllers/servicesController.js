@@ -9,8 +9,10 @@ module.exports.depositFunds = async function(req,res){
             return res.redirect('/user/profile');
         }
         else{
+            let unreadNotifications = user.notifications.length-user.lastCount;
             return res.render('./user/depositFunds',{
-                profileUser:user
+                profileUser:user,
+                unreadNotifications:unreadNotifications
             });
         }
     }catch(err){
@@ -26,8 +28,10 @@ module.exports.withdrawFunds = async function(req,res){
             return res.redirect('/user/profile');
         }
         else{
+            let unreadNotifications = user.notifications.length-user.lastCount;
             return res.render('./user/withdrawFunds',{
-                profileUser:user
+                profileUser:user,
+                unreadNotifications:unreadNotifications
             });
         }
     }catch(err){
@@ -51,9 +55,11 @@ module.exports.miniStatement = async function(req,res){
             return res.redirect('/user/profile');
         }
         const date = new Date();
+        let unreadNotifications = user.notifications.length-user.lastCount;
         return res.render('./user/miniStatement',{
             transactions:user.transactions,
-            date:date
+            date:date,
+            unreadNotifications:unreadNotifications
         });
     }catch(err){
         console.log('Error',err);
@@ -67,9 +73,11 @@ module.exports.accountStatement = async function(req,res){
         if(!user||!user.account){
             return res.redirect('/user/profile');
         }
+        let unreadNotifications = user.notifications.length-user.lastCount;
         return res.render('./user/accountStatement',{
             account:user.account,
-            transactions:user.something
+            transactions:user.something,
+            unreadNotifications:unreadNotifications
         });
     }catch(err){
         console.log('Error',err);
@@ -95,10 +103,12 @@ module.exports.showaccountStatement = async function(req,res){
         });
         req.body="";
         let content = "Account statements for the period from "+startdate + " to "+enddate;
+        let unreadNotifications = user.notifications.length-user.lastCount;
         return res.render('./user/accountStatement',{
             account:user.account,
             transactions:user.transactions,
-            content:content
+            content:content,
+            unreadNotifications:unreadNotifications
         });
    }catch(err){
        console.log('Error',err);
@@ -122,12 +132,14 @@ module.exports.accountSummary = async function(req,res){
             seconds="0"+seconds;
         }
         let time = hours+":"+minutes+":"+seconds;
-        const months = ["Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sept","Oct","Nov","Dec"]
+        const months = ["Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sept","Oct","Nov","Dec"];
+        let unreadNotifications = user.notifications.length-user.lastCount;
         return res.render('./user/accountSummary',{
             profileUser:user,
             time:time,
             date:date,
-            months:months
+            months:months,
+            unreadNotifications:unreadNotifications
         });
     }catch(err){
         console.log('Error',err);
@@ -146,8 +158,11 @@ module.exports.payLoans = async function(req,res){
             $gte: new Date(year, month, day), 
             $lt: new Date(year, month, day+1), 
         }});
+        let user = await User.findById(req.user._id);
+        let unreadNotifications = user.notifications.length-user.lastCount;
         return res.render('./user/payloan',{
-            loans:loan
+            loans:loan,
+            unreadNotifications:unreadNotifications
         });
     }catch(err){
         console.log('Error',err);

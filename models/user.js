@@ -30,7 +30,11 @@ const userSchema = new mongoose.Schema({
     notifications:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Notifications'
-    }]
+    }],
+    lastCount:{
+        type:Number,
+        default:0
+    }
 },{
     timestamps:true
 });
