@@ -27,4 +27,7 @@ router.use('/loans',require('./loan'));
 router.post('/updateLoginInfo',passport.checkAuthentication,userController.updateLoginInfo);
 router.post('/updateAccountInfo/:id',passport.checkAuthentication,userController.updateAccountInfo);
 
+router.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}));
+router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/user/login'}),userController.createSession);
+
 module.exports = router;
