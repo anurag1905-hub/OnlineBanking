@@ -2,6 +2,9 @@ const User = require('../models/user');
 const Account = require('../models/account');
 const Notifications = require('../models/notification');
 const Announcement = require('../models/announcement');
+const jwt = require('jsonwebtoken');
+const resetPassword = require('../models/reset-password');
+const passwordsMailer = require('../mailers/passwords_mailer');
 
 const branchToIFSC={
     "Eastern":"TOB00001234",
@@ -278,4 +281,80 @@ module.exports.updateAccountInfo = async function(req,res){
         return res.redirect('/user/personalise');
     }
     
+}
+
+module.exports.reset = function(req,res){
+    return res.render('reset-password');
+}
+
+module.exports.sendResetLink = async function(req,res){
+    try{
+        let user = await User.findOne({email:req.body.email});
+        if(!user){
+            console.log('User not found!');
+            return res.redirect('back');
+        }
+        let reset_password = await resetPassword.create({
+            user: user._id,
+            accesstoken: jwt.sign(user.toJSON(),'OnlineBanking',{expiresIn:'10000000'}),
+            isValid: true
+        });
+        let reset_Password = await resetPassword.findById(reset_password._id).populate('user');
+        passwordsMailer.reset(reset_Password);
+        return res.end('A link to reset password has been sent to your email account');
+    }catch(err){
+        console.log('Unable to send reset Password link',err);
+        return res.redirect('back');
+    }
+}
+
+module.exports.resetPassword = async function(req,res){
+    try{
+        let accessToken = req.params.token;
+        let user_account = await resetPassword.findOne({accesstoken:accessToken});
+        if(user_account){
+            return res.render('changePassword',{
+                token:accessToken
+            });
+        }
+        else{
+            return res.end('Invalid or expired token');
+        }
+    }catch(err){
+        console.log('Error while resetting password',err);
+        return res.redirect('/user/login');
+    }
+}
+
+module.exports.changePassword = async function(req,res){
+    let password = req.body.password;
+    let confirm_password = req.body.confirmPassword;
+    //console.log(req.body);
+    if(password!=confirm_password){
+        //console.log(password);
+        //console.log(confirm_password);
+        return res.redirect('back');
+    }
+    let accessToken = req.params.token;
+    let user_account = await resetPassword.findOne({accesstoken:accessToken});
+    //console.log(user_account.isValid);
+    if(user_account&&user_account.isValid==true){
+        let user = await User.findById(user_account.user);
+        //console.log(user);
+        if(user){
+            user.password = password;
+            user.save();
+            user_account.isValid=false;
+            user_account.save();
+            //console.log(user_account.isValid);
+            return res.redirect('/user/login');
+        }
+        else{
+            console.log('Could not find the user');
+            return res.redirect('back');
+        }
+    }
+    else{
+         return res.send('Invalid or Expired Token');
+    }
 }
