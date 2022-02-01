@@ -507,6 +507,15 @@ module.exports.sendPaymentNotification = async function(req,res){
         loan.notificationSent = loan.notificationSent + 1;
         loan.save();
 
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    loan:loan
+                },
+                message:"Notification Sent"
+            });
+        }
+
         return res.redirect('/admin/pendingLoanPayments');
     }catch(err){
         console.log('Error',err);
