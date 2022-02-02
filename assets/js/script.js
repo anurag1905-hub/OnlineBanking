@@ -19,6 +19,14 @@
                     $(`.loan-${data.data.loan._id}`).text(`Notifications Sent-${data.data.loan.notificationSent} times`);
                }
            }).fail(function(){
+                new Noty({
+                    theme: 'relax',
+                    text: "Error",
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1500
+                    
+                }).show();
                console.log('Error');
            });
 

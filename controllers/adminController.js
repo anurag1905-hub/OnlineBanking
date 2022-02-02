@@ -235,6 +235,16 @@ module.exports.rejectLoan = async function(req,res){
 
         user.notifications.push(notification);
         user.save();
+
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    loan:loan
+                },
+                message:"Loan Approved"
+            });
+        }
+        
         req.success('error','Loan Rejected');
         return res.redirect('/admin/loanRequests');
     }catch(err){
@@ -308,6 +318,15 @@ module.exports.approveLoan = async function (req,res){
 
         user.transactions.push(transaction);
         user.save();
+
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    loan:loan
+                },
+                message:"Loan Approved"
+            });
+        }
 
         return res.redirect('/admin/loanRequests');
     }catch(err){
