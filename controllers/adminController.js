@@ -88,6 +88,15 @@ module.exports.addAnnouncement = function(req,res){
           return res.redirect('back');
       }
       else{
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    announcement:announcement
+                },
+                message:"Announcement Created"
+            });
+        }
+
         req.flash('success','Announcement Added');
         return res.redirect('/admin/announcements');
       }
@@ -100,6 +109,14 @@ module.exports.deleteAnnouncement = function(req,res){
            return res.redirect('back');
        }
        else{
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    id:req.params.id
+                },
+                message:"Announcement Deleted"
+            });
+        }
            return res.redirect('/admin/announcements');
        }
     });

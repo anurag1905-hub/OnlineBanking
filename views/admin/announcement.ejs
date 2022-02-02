@@ -50,7 +50,7 @@
                 </div>
                 <div class="announcement-box">
                     <div class="add-announcement">
-                        <form action="/admin/addAnnouncement" method="post">
+                        <form action="/admin/addAnnouncement" method="post" class="newAnnouncementForm">
                             <textarea id="w3review" name="content" rows="5" required>
                             
                             </textarea>
@@ -58,12 +58,12 @@
                             <button type="submit" class="btn btn-success">ADD ANNOUNCEMENT</button>
                         </form>
                     </div>
-                    <ul>
+                    <ul class="announcements-container">
                         <%for(announcement of announcements) { %>
-                            <li>
+                            <li class="announcement-<%=announcement._id%>">
                                 <%=announcement.content%>
                                 <br>
-                                <a href="/admin/deleteAnnouncement/<%=announcement._id%>">
+                                <a href="/admin/deleteAnnouncement/<%=announcement._id%>" class="deleteAnnouncement">
                                     <span style="color:blue;text-decoration: none;">Delete Announcement&nbsp;</span> <i class="fas fa-trash-alt"></i>
                                 </a>
                             </li>
@@ -73,8 +73,9 @@
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+        <script src="/js/announcements.js"></script>
         <script>
             <% if(flash.success&&flash.success.length>0) { %>
                 new Noty({
