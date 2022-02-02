@@ -378,6 +378,16 @@ module.exports.rejectTransaction = async function(req,res){
         user.notifications.push(notification);
         user.save();
 
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    neft:neft
+                },
+                message:"NEFT Rejected"
+            });
+        }
+
+
         return res.redirect('/admin/neftTransactions');
 
     }catch(err){
@@ -435,12 +445,12 @@ module.exports.approveTransaction = async function(req,res){
         let secondMessage = "An amount of Rs "+amount+ " has been transferred to your account.";
 
         let secondTransaction = await Transaction.create({
-        content:secondMessage,
-        user:receiverUser,
-        amount:amount,
-        mode:'BY TRANSFER',
-        increasedBalance:true,
-        balance:receiverAccount.balance
+            content:secondMessage,
+            user:receiverUser,
+            amount:amount,
+            mode:'BY TRANSFER',
+            increasedBalance:true,
+            balance:receiverAccount.balance
         });
 
         receiverUser.transactions.push(secondTransaction);
@@ -462,6 +472,15 @@ module.exports.approveTransaction = async function(req,res){
 
         receiverUser.notifications.push(secondNotification);
         receiverUser.save();
+
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    neft:neft
+                },
+                message:"NEFT Approved"
+            });
+        }
 
         return res.redirect('/admin/neftTransactions');
     }catch(err){
