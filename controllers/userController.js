@@ -203,6 +203,16 @@ module.exports.destroyNotification = async function(req,res){
                 let userId = notification.user;
                 notification.remove();
                 await User.findByIdAndUpdate(userId,{$pull:{notifications:req.params.id}});
+
+                if(req.xhr){
+                    return res.status(200).json({
+                        data:{
+                            notification:notification
+                        },
+                        message:"Notification Deleted"
+                    });
+                }
+
                 return res.redirect('back');
             }
         }
