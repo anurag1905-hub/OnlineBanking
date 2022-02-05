@@ -112,7 +112,7 @@ module.exports.faq = function(req,res){
     return res.render('./user/faq');
 }
 
-module.exports.personalise = async function(req,res){
+module.exports.settings = async function(req,res){
 
     try{
         let user = await User.findById(req.user._id)
@@ -120,7 +120,7 @@ module.exports.personalise = async function(req,res){
 
         let unreadNotifications = user.notifications.length-user.lastCount;
         
-        return res.render('./user/personalise',{
+        return res.render('./user/settings',{
             user:user,
             unreadNotifications:unreadNotifications
         });
@@ -254,11 +254,11 @@ module.exports.updateLoginInfo = async function(req,res){
         user.password=req.body.password;
         user.save();
         req.flash('success','Updated Successfully');
-        return res.redirect('/user/personalise');
+        return res.redirect('/user/settings');
     }catch(err){
         req.flash('error','Error');
         console.log('Error',err);
-        return res.redirect('/user/personalise');
+        return res.redirect('/user/settings');
     }
 }
 
@@ -268,14 +268,14 @@ module.exports.updateAccountInfo = async function(req,res){
         let account = await Account.findById(accountId);
         if(!account){
             req.flash('error','Unauthorized');
-            return res.redirect('/user/personalise');
+            return res.redirect('/user/settings');
         }
         
         //.id means converting the object id into string.
         //when we are comparing two object ids both of them should be in strings.
         if(account.user!=req.user.id){
             req.flash('error','user mismatch');
-            return res.redirect('/user/personalise');
+            return res.redirect('/user/settings');
         }
         account.phone = req.body.phone;
         account.address = req.body.address;
@@ -284,11 +284,11 @@ module.exports.updateAccountInfo = async function(req,res){
         account.save();
 
         req.flash('success','Updated Successfully');
-        return res.redirect('/user/personalise');
+        return res.redirect('/user/settings');
     }catch(err){
         req.flash('error','Error');
         console.log('Error',err);
-        return res.redirect('/user/personalise');
+        return res.redirect('/user/settings');
     }
     
 }

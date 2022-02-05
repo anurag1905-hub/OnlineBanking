@@ -17,7 +17,7 @@ router.get('/notifications',userController.notifications);
 router.get('/contact',userController.contact);
 router.get('/branches',userController.branches);
 router.get('/faq',userController.faq);
-router.get('/personalise',userController.personalise);
+router.get('/settings',userController.settings);
 router.get('/transferFunds',userController.transferFunds);
 router.post('/createAccount',userController.createAccount);
 router.use('/funds',require('./funds'));
