@@ -368,3 +368,7 @@ module.exports.changePassword = async function(req,res){
          return res.send('Invalid or Expired Token');
     }
 }
+
+module.exports.contactMessage = function(req,res){
+    return res.redirect('back');
+}
