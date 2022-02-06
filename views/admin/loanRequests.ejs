@@ -7,9 +7,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/loanRequests.css">
+        <link rel="stylesheet" type="text/css" href="<%=assetPath('css/loanRequests.css')%>">
     </head>
-    <body>
+    <body style="background-image: url('<%=assetPath(`images/backgroundimage.jpg`)%>');">
         <div class="container mt-3">
             <div class="container-fluid text-center bg-dark py-1 header">
                 <p class="text-warning heading p-0 m-0">ADMIN DASHBOARD</p>
@@ -72,7 +72,7 @@
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-        <script src="/js/loanRequest.js"></script>
+        <script src="<%=assetPath('js/loanRequest.js')%>"></script>
         <script>
             <% if(flash.success&&flash.success.length>0) { %>
                 new Noty({
