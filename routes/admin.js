@@ -6,7 +6,7 @@ const adminController = require('../controllers/adminController');
 
 router.post('/create-session',passport.authenticate(
     'local',
-    {failureRedirect:'/admin/login'}
+    {failureRedirect:'/admin/adminLogin'}
 ),adminController.createSession);
 
 router.get('/announcements',passport.checkAdminAuthentication,adminController.announcements);
