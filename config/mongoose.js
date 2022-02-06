@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const env = require('./environment');
 
-mongoose.connect('mongodb://localhost/clients');
+mongoose.connect(`mongodb://localhost/${env.db}`);
 
 //Connection of mongoose with the database gives us the access to database.
 const db = mongoose.connection;

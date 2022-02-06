@@ -2,12 +2,13 @@ const passport = require('passport');
 const googleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const crypto = require('crypto');  // Used for generating random passwords.
 const User = require('../models/user');
+const env = require('./environment');
 
 //tell passport to use a new strategy for google login
 passport.use(new googleStrategy({
-    clientID:"791695523309-gb6p0fv7peuah0gf216tfrg8sltpnkb8.apps.googleusercontent.com",
-    clientSecret:"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",
-    callbackURL:"http://localhost:9000/user/auth/google/callback",
+    clientID:env.google_client_ID,
+    clientSecret:env.google_client_Secret,
+    callbackURL:env.google_callback_URL,
 },
 
 function(accessToken,refreshToken,profile,done){

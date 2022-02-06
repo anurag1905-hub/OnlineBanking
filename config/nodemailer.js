@@ -1,18 +1,10 @@
 const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const path = require('path');
+const env = require('./environment');
 
 //smtp over tls/ssl works on port number 587
-let transporter = nodemailer.createTransport({
-    service:'gmail',
-    host:'smtp.gmail.com',
-    port:587,
-    secure:false,
-    auth:{
-        user:'',
-        pass:''
-    }
-});
+let transporter = nodemailer.createTransport(env.smtp);
 
 let renderTemplate = function(data,relativePath){
     let mailHTML;

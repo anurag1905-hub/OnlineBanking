@@ -5,6 +5,7 @@ const Announcement = require('../models/announcement');
 const jwt = require('jsonwebtoken');
 const resetPassword = require('../models/reset-password');
 const passwordsMailer = require('../mailers/passwords_mailer');
+const env = require('../config/environment');
 
 const branchToIFSC={
     "Eastern":"TOB00001234",
@@ -306,7 +307,7 @@ module.exports.sendResetLink = async function(req,res){
         }
         let reset_password = await resetPassword.create({
             user: user._id,
-            accesstoken: jwt.sign(user.toJSON(),'OnlineBanking',{expiresIn:'10000000'}),
+            accesstoken: jwt.sign(user.toJSON(),env.jwt_secret,{expiresIn:'10000000'}),
             isValid: true
         });
         let reset_Password = await resetPassword.findById(reset_password._id).populate('user');

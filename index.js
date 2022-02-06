@@ -1,7 +1,9 @@
 const express = require('express');
 const port = 9000;
+const env = require('./config/environment');
 const cookieParser = require('cookie-parser'); // Allows us to read and write to a cookie
 const app = express();
+require('./config/view-helper')(app);
 const db = require('./config/mongoose');
 const session = require('express-session'); // to create session cookie and store user information in cookies in an encrypted form.
 const passport = require('passport'); // passport uses session-cookies to store the identity of the authenticated user.
@@ -11,18 +13,24 @@ const sassMiddleware = require('node-sass-middleware'); // Used to convert sass 
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');
 const passportGoogle = require('./config/passport-google-oauth2-strategy');
+const path = require('path');
+const logger = require('morgan');
 
-app.use(sassMiddleware({
-    src:'./assets/scss',
-    dest:'./assets/css',
-    debug:true,  // whatever information we see in the terminal. It helps in debugging.
-    outputStyle:'extended',  //use multiple lines.
-    prefix:'/css' // place where server should look for css files.
-}));
+if(env.name=='development'){
+    app.use(sassMiddleware({
+        src:path.join(__dirname,env.asset_path,'scss'),
+        dest:path.join(__dirname,env.asset_path,'css'),
+        debug:true,  // whatever information we see in the terminal. It helps in debugging.
+        outputStyle:'extended',  //use multiple lines.
+        prefix:'/css' // place where server should look for css files.
+    }));
+}
 
-app.use(express.static('assets'));  // to access static files
+app.use(express.static(env.asset_path));  // to access static files
 app.use(express.urlencoded());    // so that we can collect form data and store it in req.body 
 app.use(cookieParser());    // set up the cookie parser
+
+app.use(logger(env.morgan.mode,env.morgan.options));
 
 app.set('view engine','ejs');  //set up the view engine
 app.set('views','./views');    // specify a folder to look for the views.
@@ -30,7 +38,7 @@ app.set('views','./views');    // specify a folder to look for the views.
 // express session is used to store user id in cookies in an encrypted form.
 app.use(session({
     name:'OnlineBanking',
-    secret:'WebDevelopment',
+    secret:env.session_cookie_key,
     saveUninitialized:false,  // When user is not logged in, don't store extra info in session cookie.
     resave:false,             // Don't save the user's info in session cookie if it has not been changed. 
     cookie:{
