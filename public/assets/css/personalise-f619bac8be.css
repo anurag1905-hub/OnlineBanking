@@ -1,0 +1,55 @@
+html {
+  font-size: 16px; }
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background-image: url("/images/backgroundimage.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center; }
+
+.heading {
+  font-size: 2rem; }
+
+.header {
+  border-bottom: 4px solid red; }
+
+.navbar-item {
+  background-color: orange;
+  border-right: 4px solid red; }
+
+.box {
+  height: auto;
+  background-color: lightgrey;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column; }
+
+.login-info-header {
+  font-size: 2rem;
+  color: red;
+  height: 10%; }
+
+.login-info-box {
+  height: 90%;
+  border: 2px solid red;
+  margin-bottom: 2rem;
+  padding: 1rem; }
+
+.account-info-header {
+  font-size: 2rem;
+  color: red;
+  height: 10%; }
+
+.account-info-box {
+  height: 90%;
+  border: 2px solid red;
+  width: 100%;
+  padding: 1rem; }
+
+.dropdown-menu {
+  padding: 0px; }
+  .dropdown-menu a {
+    border-bottom: 1px solid black; }

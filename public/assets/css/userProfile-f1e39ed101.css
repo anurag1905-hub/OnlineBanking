@@ -1,0 +1,62 @@
+html {
+  font-size: 16px; }
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background-image: url("/images/backgroundimage.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center; }
+
+.heading {
+  font-size: 2rem; }
+
+.header {
+  border-bottom: 4px solid red; }
+
+.navbar-item {
+  background-color: orange;
+  border-right: 4px solid red; }
+
+.box {
+  height: auto;
+  min-height: 70vh;
+  background-color: lightgrey;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column; }
+
+.create-account-header {
+  font-size: 2rem;
+  color: red;
+  height: 10%; }
+
+.create-account-box {
+  height: 90%;
+  min-height: 63vh;
+  border: 2px solid red; }
+
+.text {
+  font-weight: 800;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem; }
+
+.account-opening-form {
+  padding: 0.5rem; }
+
+.userInformationcontainer {
+  width: 100%; }
+  .userInformationcontainer table {
+    width: 100%; }
+    .userInformationcontainer table td, .userInformationcontainer table tr, .userInformationcontainer table th {
+      border: 2px solid black;
+      height: 100%;
+      padding: 1rem; }
+
+.dropdown-menu {
+  padding: 0px; }
+  .dropdown-menu a {
+    border-bottom: 1px solid black; }
