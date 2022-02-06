@@ -46,7 +46,6 @@ module.exports.profile = async function(req,res){
     try{
         let profileUser = await User.findById(req.user._id)
         .populate('account');
-        console.log(profileUser);
 
         let unreadNotifications = profileUser.notifications.length-profileUser.lastCount;
         
@@ -204,6 +203,10 @@ module.exports.destroyNotification = async function(req,res){
                 let userId = notification.user;
                 notification.remove();
                 await User.findByIdAndUpdate(userId,{$pull:{notifications:req.params.id}});
+
+                let user = await User.findById(req.user._id);
+                user.lastCount = user.notifications.length;
+                user.save();
 
                 if(req.xhr){
                     return res.status(200).json({

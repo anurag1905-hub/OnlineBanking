@@ -4,9 +4,9 @@ const path = require('path');
 
 module.exports = (app)=>{
     app.locals.assetPath = function(filePath){
-        //console.log(filePath);
         if(env.name=='development'){
-            return filePath;
+            console.log('returning',"/"+filePath);
+            return "/"+filePath;
         }
         else{
             //console.log(path.join(__dirname,'../public/assets/rev-manifest.json'));
