@@ -1,0 +1,31 @@
+html{
+    font-size:12px;
+}
+
+body{
+    margin:0px;
+    padding:0px;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-position:center;
+}
+
+.container{
+    width:75vw;
+    height:50vh;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border:2px solid green;
+    background-color:white;
+
+}
+
+.text{
+    font-size:2rem;
+    padding:1rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight:750;
+}

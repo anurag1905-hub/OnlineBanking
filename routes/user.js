@@ -33,6 +33,7 @@ router.get('/reset-password',userController.reset);
 router.post('/reset-password',userController.sendResetLink);
 router.get('/reset-password/:token',userController.resetPassword);
 router.post('/changePassword/:token',userController.changePassword);
+router.get('/verify-email/:token',userController.verifyUserEmail);
 router.post('/contactMessage',userController.contactMessage);
 
 module.exports = router;

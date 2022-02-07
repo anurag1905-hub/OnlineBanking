@@ -5,7 +5,9 @@ const Announcement = require('../models/announcement');
 const jwt = require('jsonwebtoken');
 const resetPassword = require('../models/reset-password');
 const passwordsMailer = require('../mailers/passwords_mailer');
+const emailVerificationMailer = require('../mailers/emailverification_mailer');
 const env = require('../config/environment');
+const verifyEmail = require('../models/verifyEmail');
 
 const branchToIFSC={
     "Eastern":"TOB00001234",
@@ -78,12 +80,49 @@ module.exports.create = async function(req,res){
             return res.redirect('/user/signup');
         }
         else{
-            await User.create(req.body);
-            return res.redirect('/user/login');
+
+            let verifyemail = await verifyEmail.create({
+                email:req.body.email,
+                accesstoken: jwt.sign({email:req.body.email},env.jwt_secret,{expiresIn:'10000000'}),
+                isValid: true,
+                password:req.body.password
+            });
+
+            emailVerificationMailer.verify(verifyemail);
+
+            return res.render('notification-template',{
+                message:"An email has been sent to your email account for verification"
+            });
         }
     }catch(err){
         console.log('Error',err);
         return res.redirect('/user/signup');
+    }
+}
+
+module.exports.verifyUserEmail = async function(req,res){
+    try{
+        let accessToken = req.params.token;
+        let email_to_verify = await verifyEmail.findOne({accesstoken:accessToken});
+        if(email_to_verify){
+            let user = await User.create({
+                email:email_to_verify.email,
+                password:email_to_verify.password,
+                isAdmin:false
+            });
+
+            email_to_verify.remove();
+            
+            return res.redirect('/user/login');
+        }
+        else{
+            return res.render('notification-template',{
+                message:"Invalid or expired token"
+            });
+        }
+    }catch(err){
+        console.log('Error while resetting password',err);
+        return res.redirect('/user/login');
     }
 }
 
@@ -315,7 +354,11 @@ module.exports.sendResetLink = async function(req,res){
         });
         let reset_Password = await resetPassword.findById(reset_password._id).populate('user');
         passwordsMailer.reset(reset_Password);
-        return res.end('A link to reset password has been sent to your email account');
+
+        return res.render('notification-template',{
+            message:"A link to reset password has been sent to your email account"
+        });
+
     }catch(err){
         console.log('Unable to send reset Password link',err);
         return res.redirect('back');
@@ -332,7 +375,9 @@ module.exports.resetPassword = async function(req,res){
             });
         }
         else{
-            return res.end('Invalid or expired token');
+            return res.render('notification-template',{
+                message:"Invalid or expired token"
+            });
         }
     }catch(err){
         console.log('Error while resetting password',err);
@@ -369,7 +414,9 @@ module.exports.changePassword = async function(req,res){
         }
     }
     else{
-         return res.send('Invalid or Expired Token');
+        return res.render('notification-template',{
+            message:"Invalid or Expired Token"
+        });
     }
 }
 

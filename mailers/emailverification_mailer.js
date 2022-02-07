@@ -1,12 +1,12 @@
 const nodeMailer = require('../config/nodemailer');
 
-module.exports.reset = function(resetPassword){
-    let htmlString = nodeMailer.renderTemplate({resetPassword:resetPassword},'/passwords/resetPassword.ejs');
+module.exports.verify = function(verifyEmail){
+    let htmlString = nodeMailer.renderTemplate({verifyEmail:verifyEmail},'/emailVerifier/verifyEmail.ejs');
 
     nodeMailer.transporter.sendMail({
        from:'dummyemail584@gmail.com',
-       to:resetPassword.user.email,
-       subject:"Password Reset Email",
+       to:verifyEmail.email,
+       subject:"Verify Your Email",
        html:htmlString
     },function(err,info){
         if(err){
