@@ -34,25 +34,22 @@ body {
   font-size: 4rem;
   font-weight: 550;
   font-family: Verdana, Tahoma, sans-serif; }
-
-.container-header-text:hover {
-  color: red; }
+  .container-header-text:hover {
+    color: red; }
 
 #container-body {
   height: 85%; }
-
-/*Log In Form */
-#container-body form {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 90%;
-  margin: auto; }
-  #container-body form input {
-    display: block; }
+  #container-body form {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 90%;
+    margin: auto; }
+    #container-body form input {
+      display: block; }
 
 #form-item {
   width: 100%; }
@@ -86,11 +83,11 @@ body {
     position: absolute;
     background-color: white;
     height: 80vh;
-    width: 75vw;
+    width: 90vw;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); }
   
-    html{
-      font-size:12px;
-    }}
+  html{
+    font-size:12px;
+  }}

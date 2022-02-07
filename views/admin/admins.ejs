@@ -67,10 +67,10 @@
                     </div>
                     <br><br>
                     <% for(admin of admins) { %>
-                        <div class="d-flex bg-secondary m-2 justify-content-around">
-                            <div class="p-2  text-white bg-info m-1"><%=admin.email%></div>
+                        <div class="d-flex bg-secondary justify-content-around">
+                            <div class="p-2  text-white bg-info"><%=admin.email%></div>
                             <a href="/admin/removeAdmin/<%=admin._id%>" class="removeAdminButton">
-                                <div class="p-2 m-1">Remove</div>
+                                <div class="p-2">Remove</div>
                             </a>
                         </div>
                         <br>

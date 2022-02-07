@@ -407,7 +407,12 @@ module.exports.changePassword = async function(req,res){
             user_account.isValid=false;
             user_account.save();
             //console.log(user_account.isValid);
-            return res.redirect('/user/login');
+            if(user.isAdmin){
+                return res.redirect('/admin/adminLogin');
+            }
+            else{
+                return res.redirect('/user/login');
+            }
         }
         else{
             console.log('Could not find the user');
