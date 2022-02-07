@@ -8,6 +8,7 @@ const passwordsMailer = require('../mailers/passwords_mailer');
 const emailVerificationMailer = require('../mailers/emailverification_mailer');
 const env = require('../config/environment');
 const verifyEmail = require('../models/verifyEmail');
+const messageMailer = require('../mailers/messageMailer');
 
 const branchToIFSC={
     "Eastern":"TOB00001234",
@@ -427,5 +428,7 @@ module.exports.changePassword = async function(req,res){
 }
 
 module.exports.contactMessage = function(req,res){
+    messageMailer.sendMessage(req.body);
+    req.flash('success','Message Sent');
     return res.redirect('back');
 }
