@@ -89,4 +89,8 @@ body {
     width: 75vw;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); } }
+    transform: translate(-50%, -50%); }
+  
+    html{
+      font-size:12px;
+    }}

@@ -14,7 +14,7 @@ passport.use(new localStrategy(
        //Find a user and establish the identity
        User.findOne({email:email},function(err,user){
          if(err){
-             req.flash('error','Error!')
+             req.flash('error','Error!');
              return done(err);
          }
          if(!user||user.password!=password){

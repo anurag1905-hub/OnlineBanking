@@ -112,7 +112,8 @@ module.exports.verifyUserEmail = async function(req,res){
             });
 
             email_to_verify.remove();
-            
+
+            req.flash('success','Email Verified');
             return res.redirect('/user/login');
         }
         else{

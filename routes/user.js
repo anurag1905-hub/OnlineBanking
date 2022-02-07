@@ -10,7 +10,7 @@ router.post('/create',userController.create);
 router.get('/profile',passport.checkAuthentication,userController.profile);
 router.post('/create-session',passport.authenticate(
     'local',
-    {failureRedirect:'/user/signup'}
+    {failureRedirect:'/user/login'}
 ),userController.createSession);
 router.get('/signout',passport.checkAuthentication,userController.destroySession);
 router.get('/notifications',passport.checkAuthentication,userController.notifications);
