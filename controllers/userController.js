@@ -112,6 +112,8 @@ module.exports.verifyUserEmail = async function(req,res){
                 isAdmin:false
             });
 
+            await verifyEmail.deleteMany({email:email_to_verify.email});
+
             email_to_verify.remove();
 
             req.flash('success','Email Verified');
@@ -405,9 +407,11 @@ module.exports.changePassword = async function(req,res){
         if(user){
             user.password = password;
             user.save();
-            user_account.isValid=false;
-            user_account.save();
-            //console.log(user_account.isValid);
+
+            await resetPassword.deleteMany({user:user_account.user});
+
+            user_account.remove();
+            
             if(user.isAdmin){
                 return res.redirect('/admin/adminLogin');
             }
