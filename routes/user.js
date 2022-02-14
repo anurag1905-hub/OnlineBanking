@@ -36,4 +36,10 @@ router.post('/changePassword/:token',userController.changePassword);
 router.get('/verify-email/:token',userController.verifyUserEmail);
 router.post('/contactMessage',userController.contactMessage);
 
+router.get('*',function(req,res){
+    return res.render('notification-template',{
+       message:"Not Found!"
+    });
+});
+
 module.exports = router;

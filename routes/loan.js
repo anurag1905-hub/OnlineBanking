@@ -9,4 +9,10 @@ router.get('/',passport.checkAuthentication,userController.loans);
 router.post('/apply',passport.checkAuthentication,loanController.apply);
 router.post('/pay/:id',passport.checkAuthentication,loanController.pay);
 
+router.get('*',function(req,res){
+    return res.render('notification-template',{
+       message:"Not Found!"
+    });
+});
+
 module.exports = router;

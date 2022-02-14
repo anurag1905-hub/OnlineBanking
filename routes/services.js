@@ -13,4 +13,10 @@ router.get('/accountStatement',passport.checkAuthentication,servicesController.a
 router.post('/getaccountStatement',passport.checkAuthentication,servicesController.showaccountStatement);
 router.get('/accountSummary',passport.checkAuthentication,servicesController.accountSummary);
 
+router.get('*',function(req,res){
+    return res.render('notification-template',{
+       message:"Not Found!"
+    });
+});
+
 module.exports = router;

@@ -5,4 +5,10 @@ const userController = require('../controllers/userController');
 
 router.get('/Notification/:id',passport.checkAuthentication,userController.destroyNotification);
 
+router.get('*',function(req,res){
+    return res.render('notification-template',{
+       message:"Not Found!"
+    });
+});
+
 module.exports = router;

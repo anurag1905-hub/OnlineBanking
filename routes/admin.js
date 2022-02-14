@@ -28,4 +28,11 @@ router.get('/rejectTransaction',passport.checkAdminAuthentication,adminControlle
 router.get('/approveTransaction',passport.checkAdminAuthentication,adminController.approveTransaction);
 router.get('/sendPaymentNotification',passport.checkAdminAuthentication,adminController.sendPaymentNotification);
 
+
+router.get('*',function(req,res){
+    return res.render('notification-template',{
+       message:"Not Found!"
+    });
+});
+
 module.exports = router;

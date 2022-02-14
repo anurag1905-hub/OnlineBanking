@@ -9,4 +9,10 @@ router.post('/transfer/:id',passport.checkAuthentication,fundsController.transfe
 router.post('/deposit',passport.checkAuthentication,fundsController.deposit);
 router.post('/withdraw',passport.checkAuthentication,fundsController.withdraw);
 
+router.get('*',function(req,res){
+    return res.render('notification-template',{
+       message:"Not Found!"
+    });
+});
+
 module.exports = router;
