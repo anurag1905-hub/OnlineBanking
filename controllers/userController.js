@@ -4,11 +4,14 @@ const Notifications = require('../models/notification');
 const Announcement = require('../models/announcement');
 const jwt = require('jsonwebtoken');
 const resetPassword = require('../models/reset-password');
-const passwordsMailer = require('../mailers/passwords_mailer');
-const emailVerificationMailer = require('../mailers/emailverification_mailer');
+const emailVerificationMailer = require('../mailers/emailVerification_mailer');
 const env = require('../config/environment');
 const verifyEmail = require('../models/verifyEmail');
 const messageMailer = require('../mailers/messageMailer');
+const resetPasswordWorker = require('../workers/reset_password_worker');
+const verifyEmailWorker = require('../workers/verify_email_worker');
+const messageAdminWorker = require('../workers/message_email_worker');
+const queue = require('../config/kue');
 
 const branchToIFSC={
     "Eastern":"TOB00001234",
@@ -89,7 +92,16 @@ module.exports.create = async function(req,res){
                 password:req.body.password
             });
 
-            emailVerificationMailer.verify(verifyemail);
+            //emailVerificationMailer.verify(verifyemail);
+
+            let job = queue.create('verifyEmail',verifyemail).priority('critical').save(function(err){
+                if(err){
+                    console.log('Error in creating a queue');
+                }
+                else{
+                    console.log(job.id);
+                }
+             });
 
             return res.render('notification-template',{
                 message:"An email has been sent to your email account for verification"
@@ -357,7 +369,16 @@ module.exports.sendResetLink = async function(req,res){
             isValid: true
         });
         let reset_Password = await resetPassword.findById(reset_password._id).populate('user');
-        passwordsMailer.reset(reset_Password);
+        //passwordsMailer.reset(reset_Password);
+        
+        let job = queue.create('resetPassword',reset_Password).priority('critical').save(function(err){
+            if(err){
+                console.log('Error in creating a queue');
+            }
+            else{
+                console.log(job.id);
+            }
+         });
 
         return res.render('notification-template',{
             message:"A link to reset password has been sent to your email account"
@@ -432,7 +453,16 @@ module.exports.changePassword = async function(req,res){
 }
 
 module.exports.contactMessage = function(req,res){
-    messageMailer.sendMessage(req.body);
+
+    let job = queue.create('messageAdmin',req.body).priority('normal').save(function(err){
+        if(err){
+            console.log('Error in creating a queue');
+        }
+        else{
+            console.log(job.id);
+        }
+     });
+
     req.flash('success','Message Sent');
     return res.redirect('back');
 }
