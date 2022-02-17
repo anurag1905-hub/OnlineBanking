@@ -4,23 +4,22 @@ const User = require('../models/user');
 const Notifications = require('../models/notification');
 const NEFT = require('../models/neft');
 
-
-var date = new Date();
-var hours = date.getHours().toString();
-if(hours.length==1){
-    hours="0"+hours;
-}
-var minutes = date.getMinutes().toString();
-if(minutes.length==1){
-    minutes="0"+minutes;
-}
-var seconds = date.getSeconds().toString();
-if(seconds.length==1){
-    seconds="0"+seconds;
-}
-var time = hours+":"+minutes+":"+seconds;
-
 module.exports.transfer = async function(req,res){
+
+    let date = new Date();
+    let hours = date.getHours().toString();
+    if(hours.length==1){
+        hours="0"+hours;
+    }
+    let minutes = date.getMinutes().toString();
+    if(minutes.length==1){
+        minutes="0"+minutes;
+    }
+    let seconds = date.getSeconds().toString();
+    if(seconds.length==1){
+        seconds="0"+seconds;
+    }
+    let time = hours+":"+minutes+":"+seconds;
 
     if(req.body.mode=="NEFT"){
         await NEFT.create({
@@ -133,6 +132,22 @@ module.exports.deposit = async function(req,res){
             balance:user.account.balance
         });
         user.transactions.push(transaction);
+
+        let date = new Date();
+        let hours = date.getHours().toString();
+        if(hours.length==1){
+            hours="0"+hours;
+        }
+        let minutes = date.getMinutes().toString();
+        if(minutes.length==1){
+            minutes="0"+minutes;
+        }
+        let seconds = date.getSeconds().toString();
+        if(seconds.length==1){
+            seconds="0"+seconds;
+        }
+        let time = hours+":"+minutes+":"+seconds;
+
         let notification = await Notifications.create({
             content:message,
             user:user,
@@ -169,6 +184,21 @@ module.exports.withdraw = async function(req,res){
             balance:user.account.balance
         });
         user.transactions.push(transaction);
+
+        let date = new Date();
+        let hours = date.getHours().toString();
+        if(hours.length==1){
+            hours="0"+hours;
+        }
+        let minutes = date.getMinutes().toString();
+        if(minutes.length==1){
+            minutes="0"+minutes;
+        }
+        let seconds = date.getSeconds().toString();
+        if(seconds.length==1){
+            seconds="0"+seconds;
+        }
+        let time = hours+":"+minutes+":"+seconds;
         
         let notification = await Notifications.create({
             content:message,
