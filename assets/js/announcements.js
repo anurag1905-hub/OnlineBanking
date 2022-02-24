@@ -74,7 +74,6 @@
                             timeout: 1500
                             
                         }).show();
-                    console.log('Error');
                 });
         });
     }
@@ -105,7 +104,6 @@
                  timeout: 1500
                  
              }).show();
-            console.log('Error');
         });
 
         });

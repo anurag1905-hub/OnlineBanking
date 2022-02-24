@@ -14,7 +14,6 @@ module.exports.announcements = async function(req,res){
             announcements:announcement
         });
     }catch(err){
-        console.log('Error',err);
         return res.redirect('back');
     }
 }
@@ -22,7 +21,6 @@ module.exports.announcements = async function(req,res){
 module.exports.adminLogin = async function(req,res){
     try{
         if(req.isAuthenticated()){
-            console.log(req.user);
             let user = await User.findById(req.user._id);
             if(user.isAdmin){
                 return res.redirect('/admin/announcements');
@@ -36,7 +34,6 @@ module.exports.adminLogin = async function(req,res){
         }
     }catch(err){
         req.flash('error','Error');
-        console.log('Error',err);
         return res.redirect('/');
     }
 }
@@ -69,7 +66,6 @@ module.exports.destroySession = function(req,res){
 module.exports.addAnnouncement = function(req,res){
    Announcement.create(req.body,function(err,announcement){
       if(err){
-          console.log('Error',err);
           return res.redirect('back');
       }
       else{
@@ -110,7 +106,6 @@ module.exports.deleteAnnouncement = function(req,res){
 module.exports.admins = function(req,res){
     User.find({isAdmin:true},function(err,admins){
         if(err){
-            console.log('Error',err);
             return res.redirect('back');
         }
         else{
@@ -138,7 +133,6 @@ module.exports.addAdmin = async function(req,res){
         req.flash('success','Admin Added');
         return res.redirect('back');
     }catch(err){
-        console.log('Error',err);
         req.flash('error','Error');
         return res.redirect('back');
     }
@@ -157,7 +151,6 @@ module.exports.removeAdmin = async function(req,res){
             return res.redirect('back');
         }
     }catch(err){
-        console.log('Error',err);
 
         return res.redirect('back');
     }
@@ -172,7 +165,6 @@ module.exports.viewAccountDetails = function(req,res){
 module.exports.showDetails = async function(req,res){
     try{
         let account = await Account.findById(req.body.account).populate('user')
-        //console.log(account);
         if(!account){
             return res.render('./admin/accountDetails',{
                 account:''
@@ -191,7 +183,6 @@ module.exports.showDetails = async function(req,res){
             amount:sum
         });
     }catch(err){
-        console.log('Error',err);
         req.flash('error','Error');
         return res.redirect('/admin/announcements');
     }
@@ -205,7 +196,6 @@ module.exports.loanRequests = async function(req,res){
             loans:loans
         });
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/admin/announcements')
     }
 }
@@ -227,7 +217,6 @@ module.exports.rejectLoan = async function(req,res){
         let message = "Unfortunately your request for " +type+ " has been rejected.";
         
         let user = await User.findById(userId);
-        console.log(user);
 
         let date = new Date();
         let hours = date.getHours().toString();
@@ -265,7 +254,6 @@ module.exports.rejectLoan = async function(req,res){
         req.success('error','Loan Rejected');
         return res.redirect('/admin/loanRequests');
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/admin/loanRequests');
     }
 }
@@ -362,7 +350,6 @@ module.exports.approveLoan = async function (req,res){
 
         return res.redirect('/admin/loanRequests');
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/admin/announcements');
     }
 }
@@ -374,7 +361,6 @@ module.exports.neftTransactions =  async function(req,res){
             transactions:neft
         });
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/admin/announcements');
     }
 }
@@ -397,7 +383,6 @@ module.exports.rejectTransaction = async function(req,res){
         let user = await User.findOne({account:senderAccount});
 
         if(!user){
-            console.log('Oops cant find user');
             return res.redirect('/admin/neftTransactions');
         }
 
@@ -438,7 +423,6 @@ module.exports.rejectTransaction = async function(req,res){
         return res.redirect('/admin/neftTransactions');
 
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/admin/neftTransactions');
     }
 
@@ -546,7 +530,6 @@ module.exports.approveTransaction = async function(req,res){
 
         return res.redirect('/admin/neftTransactions');
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/admin/announcements');
     }
 }
@@ -572,7 +555,6 @@ module.exports.pendingLoanPayments = async function(req,res){
             loans:loan
         });
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/admin/announcements');
     }
     
@@ -633,7 +615,6 @@ module.exports.sendPaymentNotification = async function(req,res){
 
         return res.redirect('/admin/pendingLoanPayments');
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/admin/announcements');
     }
     

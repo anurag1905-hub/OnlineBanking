@@ -59,7 +59,6 @@ module.exports.apply = async function(req,res){
         req.flash('success','Applied Successfully'); 
         return res.redirect('back');
     }catch(err){
-        console.log('Error',err);
         return res.redirect('back');
     }
 }
@@ -160,7 +159,6 @@ module.exports.pay = async function(req,res){
         req.flash('success','Installment Paid');
         return res.redirect('/user/services/payLoans');
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/user/services/payLoans');
     }
 }

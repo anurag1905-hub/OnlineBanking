@@ -2,7 +2,6 @@
     function deleteNotification(){
         $('.deleteNotification').click(function(event){
            event.preventDefault();
-           console.log($(this).prop('href'));
            $.ajax({
                url:$(this).prop('href'),
                type: 'get',

@@ -60,7 +60,6 @@ module.exports.profile = async function(req,res){
             unreadNotifications:unreadNotifications
         });
     }catch(err){
-        console.log('Error',err);
         return res.redirect('back');
     }
 }
@@ -72,7 +71,6 @@ module.exports.home = async function(req,res){
             announcements:announcement
         });
     }catch(err){
-        console.log('Error',err);
         return res.redirect('back');
     }
 }
@@ -98,9 +96,6 @@ module.exports.create = async function(req,res){
                 if(err){
                     console.log('Error in creating a queue');
                 }
-                else{
-                    console.log(job.id);
-                }
              });
 
             return res.render('notification-template',{
@@ -108,7 +103,6 @@ module.exports.create = async function(req,res){
             });
         }
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/user/signup');
     }
 }
@@ -137,7 +131,6 @@ module.exports.verifyUserEmail = async function(req,res){
             });
         }
     }catch(err){
-        console.log('Error while resetting password',err);
         return res.redirect('/user/login');
     }
 }
@@ -180,7 +173,6 @@ module.exports.settings = async function(req,res){
             unreadNotifications:unreadNotifications
         });
     }catch(err){
-        console.log('Error',err);
         req.flash('error','Error');
         return res.redirect('/user/profile');
     }
@@ -205,11 +197,9 @@ module.exports.createAccount = async function(req,res){
    try{
        let user = await User.findById(req.body.user);
        if(!user){
-            console.log('User not found');
             return res.redirect('back');
         }
         else if(user.account){
-            console.log('User already has an account');
             return res.redirect('back');
         }
         else{
@@ -222,7 +212,6 @@ module.exports.createAccount = async function(req,res){
             return res.redirect('back');
         }
    }catch(err){
-        console.log('Error',err);
         return res.redirect('back');
    }
 }
@@ -242,7 +231,6 @@ module.exports.notifications = async function(req,res){
             notifications:user.notifications
         });
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/user/profile')
     }
 }
@@ -279,7 +267,6 @@ module.exports.destroyNotification = async function(req,res){
             return res.redirect('back');
         }
     }catch(err){
-        console.log('Error',err);
         return res.redirect('back');
     }
 }
@@ -293,7 +280,6 @@ module.exports.loans = function(req,res){
     .populate('loans')
     .exec(function(err,user){
         if(err){
-            console.log('Error in finding the user',err);
             return;
         }
         else{
@@ -316,7 +302,6 @@ module.exports.updateLoginInfo = async function(req,res){
         return res.redirect('/user/settings');
     }catch(err){
         req.flash('error','Error');
-        console.log('Error',err);
         return res.redirect('/user/settings');
     }
 }
@@ -346,7 +331,6 @@ module.exports.updateAccountInfo = async function(req,res){
         return res.redirect('/user/settings');
     }catch(err){
         req.flash('error','Error');
-        console.log('Error',err);
         return res.redirect('/user/settings');
     }
     
@@ -360,7 +344,6 @@ module.exports.sendResetLink = async function(req,res){
     try{
         let user = await User.findOne({email:req.body.email});
         if(!user){
-            console.log('User not found!');
             return res.redirect('back');
         }
         let reset_password = await resetPassword.create({
@@ -375,9 +358,6 @@ module.exports.sendResetLink = async function(req,res){
             if(err){
                 console.log('Error in creating a queue');
             }
-            else{
-                console.log(job.id);
-            }
          });
 
         return res.render('notification-template',{
@@ -385,7 +365,6 @@ module.exports.sendResetLink = async function(req,res){
         });
 
     }catch(err){
-        console.log('Unable to send reset Password link',err);
         return res.redirect('back');
     }
 }
@@ -405,7 +384,6 @@ module.exports.resetPassword = async function(req,res){
             });
         }
     }catch(err){
-        console.log('Error while resetting password',err);
         return res.redirect('/user/login');
     }
 }
@@ -413,18 +391,13 @@ module.exports.resetPassword = async function(req,res){
 module.exports.changePassword = async function(req,res){
     let password = req.body.password;
     let confirm_password = req.body.confirmPassword;
-    //console.log(req.body);
     if(password!=confirm_password){
-        //console.log(password);
-        //console.log(confirm_password);
         return res.redirect('back');
     }
     let accessToken = req.params.token;
     let user_account = await resetPassword.findOne({accesstoken:accessToken});
-    //console.log(user_account.isValid);
     if(user_account&&user_account.isValid==true){
         let user = await User.findById(user_account.user);
-        //console.log(user);
         if(user){
             user.password = password;
             user.save();
@@ -441,7 +414,6 @@ module.exports.changePassword = async function(req,res){
             }
         }
         else{
-            console.log('Could not find the user');
             return res.redirect('back');
         }
     }
@@ -457,9 +429,6 @@ module.exports.contactMessage = function(req,res){
     let job = queue.create('messageAdmin',req.body).priority('normal').save(function(err){
         if(err){
             console.log('Error in creating a queue');
-        }
-        else{
-            console.log(job.id);
         }
      });
 

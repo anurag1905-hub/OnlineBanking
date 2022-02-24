@@ -16,7 +16,6 @@ module.exports.depositFunds = async function(req,res){
             });
         }
     }catch(err){
-        console.log('Error',err);
         return res.redirect('back');
     }
 }
@@ -35,7 +34,6 @@ module.exports.withdrawFunds = async function(req,res){
             });
         }
     }catch(err){
-        console.log('Error',err);
         return res.redirect('back');
     }
 }
@@ -62,7 +60,6 @@ module.exports.miniStatement = async function(req,res){
             unreadNotifications:unreadNotifications
         });
     }catch(err){
-        console.log('Error',err);
         return res.redirect('back');
     }
 }
@@ -80,7 +77,6 @@ module.exports.accountStatement = async function(req,res){
             unreadNotifications:unreadNotifications
         });
     }catch(err){
-        console.log('Error',err);
         res.redirect('/user/profile')
     }
 }
@@ -111,7 +107,7 @@ module.exports.showaccountStatement = async function(req,res){
             unreadNotifications:unreadNotifications
         });
    }catch(err){
-       console.log('Error',err);
+        return res.redirect('/user/profile');
    }
 }
 
@@ -142,7 +138,6 @@ module.exports.accountSummary = async function(req,res){
             unreadNotifications:unreadNotifications
         });
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/user/profile');
     }
 }
@@ -165,7 +160,6 @@ module.exports.payLoans = async function(req,res){
             unreadNotifications:unreadNotifications
         });
     }catch(err){
-        console.log('Error',err);
         return res.redirect('/user/profile');
     }
 }

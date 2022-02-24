@@ -105,7 +105,6 @@ module.exports.transfer = async function(req,res){
         }
     }catch(err){
         req.flash('error','Error');
-        console.log(err);
         return res.redirect('back');
     }
 }
@@ -158,7 +157,6 @@ module.exports.deposit = async function(req,res){
         req.flash('success','Deposited');
         return res.redirect('back');
     }catch(err){
-        console.log('Error',err);
         return res.redirect('back');
     }
 }
@@ -210,7 +208,6 @@ module.exports.withdraw = async function(req,res){
         req.flash('success','Withdrawn');
         return res.redirect('back');
     }catch(err){
-        console.log('Error',err);
         return res.redirect('back');
     }
 }
