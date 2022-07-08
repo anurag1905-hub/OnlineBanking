@@ -9,7 +9,7 @@ An Online Banking Application using HTML,CSS,Javascript,Node.js and MongoDB. Thi
 
 # Running the Project
 * Install Mongodb
-* Install Node js.
+* Install Node.js.
 * Install required npm packages using npm install command.
 * Run the server and open the web page localhost:9000 using your web browser.
 
