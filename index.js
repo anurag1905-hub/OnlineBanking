@@ -44,15 +44,10 @@ app.use(session({
     cookie:{
         maxAge:(1000*60*100)
     },
-    store: new MongoStore(
-        {
-            mongooseConnection:db,
-            autoRemove:'disabled'
-        },
-        function(err){
-            console.log(err || 'connect-mongodb setup ok');
-        }
-    )
+    store: new MongoStore({
+        uri: `mongodb://localhost:27017/${env.db}`,
+        collection: 'mySessions'
+    })
 }));
 
 app.use(passport.initialize());
