@@ -3,6 +3,24 @@ const User = require('../models/user');
 const Loan = require('../models/loan');
 const Transaction = require('../models/transaction');
 
+function getTime(){
+    let date = new Date();
+    let hours = date.getHours().toString();
+    if(hours.length==1){
+        hours="0"+hours;
+    }
+    let minutes = date.getMinutes().toString();
+    if(minutes.length==1){
+        minutes="0"+minutes;
+    }
+    let seconds = date.getSeconds().toString();
+    if(seconds.length==1){
+        seconds="0"+seconds;
+    }
+    let time = hours+":"+minutes+":"+seconds;
+    return time;
+}
+
 module.exports.apply = async function(req,res){
     if(req.body.approved==true){
         req.flash('error','Unauthorized');
@@ -34,20 +52,7 @@ module.exports.apply = async function(req,res){
         user.loans.push(loan);
         let message = "Your application for "+req.body.loantype+" has been received and will be processed shortly.";
 
-        let date = new Date();
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
+        let time = getTime();
 
         let notification = await Notifications.create({
             content:message,
@@ -107,24 +112,11 @@ module.exports.pay = async function(req,res){
             'loans.$.nextDueDate': loan.nextDueDate,
         }});
 
-        let message = "Your payment for "+loan.loantype+" of  Rs "+ loan.monthlyInstallments+" has been received" ;
+        let message = "Your monthly installment for "+loan.loantype+" of  Rs "+ loan.monthlyInstallments+" has been received" ;
 
         let user = await User.findById(req.user._id).populate('account');
 
-        let date = new Date();
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
+        let time = getTime();
 
         let notification = await Notifications.create({
             content:message,
