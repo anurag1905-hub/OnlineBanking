@@ -6,6 +6,23 @@ const Notifications = require('../models/notification');
 const Transaction = require('../models/transaction');
 const NEFT = require('../models/neft');
 
+function getTime(){
+    let date = new Date();
+    let hours = date.getHours().toString();
+    if(hours.length==1){
+        hours="0"+hours;
+    }
+    let minutes = date.getMinutes().toString();
+    if(minutes.length==1){
+        minutes="0"+minutes;
+    }
+    let seconds = date.getSeconds().toString();
+    if(seconds.length==1){
+        seconds="0"+seconds;
+    }
+    let time = hours+":"+minutes+":"+seconds;
+    return time;
+}
 
 module.exports.announcements = async function(req,res){
     try{
@@ -172,9 +189,9 @@ module.exports.showDetails = async function(req,res){
         }
         let user = await User.findById(account.user._id).populate('loans');
         let sum=0;
-        for(loan of user.loans){
+        for(let loan of user.loans){
             if(loan.approved){
-              sum=+sum + +loan.amount;
+              sum=+sum + +loan.outstandingAmount;
             }
         }
         return res.render('./admin/accountDetails',{
@@ -218,25 +235,10 @@ module.exports.rejectLoan = async function(req,res){
         
         let user = await User.findById(userId);
 
-        let date = new Date();
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
-
         let notification = await Notifications.create({
             content:message,
             user:user,
-            time:time
+            time:getTime()
         });
 
         user.notifications.push(notification);
@@ -291,35 +293,12 @@ module.exports.approveLoan = async function (req,res){
         loan.approved = true;
         loan.save();
 
-        User.updateOne({'loans.id': loanId}, {'$set': {
-            'loans.$.outstandingAmount': totalAmountPayable,
-            'loans.$.monthlyInstallments': monthlyInstallments,
-            'loans.$.count': 0,
-            'loans.$.nextDueDate': nextduedate,
-            'loans.$.approved': true,
-        }});
-
         let message = "Your request for "+loan.loantype+" has been approved. Rs "+ amount+" has been credited in your account. Your monthly installments will be Rs "+monthlyInstallments+" and your next due date is "+ next30days.toDateString();
-
-        let date = new Date();
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
 
         let notification = await Notifications.create({
             content:message,
             user:user,
-            time:time
+            time:getTime()
         });
 
         user.notifications.push(notification);
@@ -386,25 +365,10 @@ module.exports.rejectTransaction = async function(req,res){
             return res.redirect('/admin/neftTransactions');
         }
 
-        let date = new Date();
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
-
         let notification = await Notifications.create({
             content:message,
             user:user,
-            time:time
+            time:getTime()
         });
 
         user.notifications.push(notification);
@@ -430,6 +394,7 @@ module.exports.rejectTransaction = async function(req,res){
 
 module.exports.approveTransaction = async function(req,res){
     try{
+        let time = getTime();
         let neftId = req.query.neft;
         let sender = req.query.sender;
         let receiver = req.query.receiver;
@@ -485,21 +450,6 @@ module.exports.approveTransaction = async function(req,res){
         });
 
         receiverUser.transactions.push(secondTransaction);
-
-        let date = new Date();
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
 
         let firstNotification = await Notifications.create({
             content:firstMessage,
@@ -577,25 +527,10 @@ module.exports.sendPaymentNotification = async function(req,res){
 
         let message = "Dear user, your monthly installment of Rs "+loan.monthlyInstallments+" for " + loan.loantype + " is due today. You are requested to pay the required amount";
 
-        let date = new Date();
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
-
         let notification = await Notifications.create({
             content:message,
             user:user,
-            time:time
+            time:getTime()
         });
 
         user.notifications.push(notification);
@@ -617,8 +552,6 @@ module.exports.sendPaymentNotification = async function(req,res){
     }catch(err){
         return res.redirect('/admin/announcements');
     }
-    
-    
 }
 
 
