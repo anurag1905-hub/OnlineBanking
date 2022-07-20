@@ -9,10 +9,6 @@ const verifyEmailSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    isValid:{
-        type:Boolean,
-        required:true
-    },
     password:{
         type:String,
         required:true
