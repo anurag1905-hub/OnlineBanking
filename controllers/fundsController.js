@@ -4,8 +4,7 @@ const User = require('../models/user');
 const Notifications = require('../models/notification');
 const NEFT = require('../models/neft');
 
-module.exports.transfer = async function(req,res){
-
+function getTime(){
     let date = new Date();
     let hours = date.getHours().toString();
     if(hours.length==1){
@@ -20,6 +19,12 @@ module.exports.transfer = async function(req,res){
         seconds="0"+seconds;
     }
     let time = hours+":"+minutes+":"+seconds;
+    return time;
+}
+
+module.exports.transfer = async function(req,res){
+
+    let time = getTime();
 
     if(req.body.mode=="NEFT"){
         await NEFT.create({
@@ -111,6 +116,7 @@ module.exports.transfer = async function(req,res){
 
 module.exports.deposit = async function(req,res){
     try{
+        let time = getTime();
         let user = await User.findById(req.body.user).populate('account');
         
         if(!user || user.password!=req.body.password||user.account.id!=req.body.accountNumber||req.body.amount<=0){
@@ -132,21 +138,6 @@ module.exports.deposit = async function(req,res){
         });
         user.transactions.push(transaction);
 
-        let date = new Date();
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
-
         let notification = await Notifications.create({
             content:message,
             user:user,
@@ -163,6 +154,7 @@ module.exports.deposit = async function(req,res){
 
 module.exports.withdraw = async function(req,res){
     try{
+        let time = getTime();
         let user = await User.findById(req.body.user).populate('account');
         
         if(!user || user.password!=req.body.password||user.account.id!=req.body.accountNumber||user.account.balance<req.body.amount||req.body.amount<=0){
@@ -182,21 +174,6 @@ module.exports.withdraw = async function(req,res){
             balance:user.account.balance
         });
         user.transactions.push(transaction);
-
-        let date = new Date();
-        let hours = date.getHours().toString();
-        if(hours.length==1){
-            hours="0"+hours;
-        }
-        let minutes = date.getMinutes().toString();
-        if(minutes.length==1){
-            minutes="0"+minutes;
-        }
-        let seconds = date.getSeconds().toString();
-        if(seconds.length==1){
-            seconds="0"+seconds;
-        }
-        let time = hours+":"+minutes+":"+seconds;
         
         let notification = await Notifications.create({
             content:message,
