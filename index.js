@@ -8,7 +8,7 @@ const db = require('./config/mongoose');
 const session = require('express-session'); // to create session cookie and store user information in cookies in an encrypted form.
 const passport = require('passport'); // passport uses session-cookies to store the identity of the authenticated user.
 const passportLocal = require('./config/passport-local-strategy');
-const MongoStore = require('connect-mongodb-session')(session);  // Used for storing cookies, otherwies cookies get deleted as soon as server restarts due to limited storage.
+const MongoStore = require('connect-mongodb-session')(session);  // Used for storing session data in the database. Without it, the user gets logged out, as the server restarts becuase server resets the session-cookie.
 const sassMiddleware = require('node-sass-middleware'); // Used to convert sass files to css.
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');
@@ -36,6 +36,7 @@ app.set('view engine','ejs');  //set up the view engine
 app.set('views','./views');    // specify a folder to look for the views.
 
 // express session is used to store user id in cookies in an encrypted form.
+//mongo store is used to store the session data in the database. Without it, the user gets logged out, as the server restarts because the server resets the session-cookie.
 app.use(session({
     name:'OnlineBanking',
     secret:env.session_cookie_key,
