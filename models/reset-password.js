@@ -8,10 +8,6 @@ const resetPasswordSchema = new mongoose.Schema({
     accesstoken:{
         type:String,
         required:true
-    },
-    isValid:{
-        type:Boolean,
-        required:true
     }
 },{
     timestamps:true
