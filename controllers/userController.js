@@ -20,6 +20,11 @@ const branchToIFSC={
     "Southern":"TOB00004567"
 };
 
+function getNumberOfUnreadNotifications(user){
+    let unreadNotifications = user.notifications.length-user.lastCount;
+    return unreadNotifications;
+}
+
 module.exports.login = function(req,res){
     if(req.isAuthenticated()){
         User.findById(req.user._id,function(err,user){
@@ -52,12 +57,10 @@ module.exports.profile = async function(req,res){
     try{
         let profileUser = await User.findById(req.user._id)
         .populate('account');
-
-        let unreadNotifications = profileUser.notifications.length-profileUser.lastCount;
         
         return res.render('./user/userProfile',{
             profileUser:profileUser,
-            unreadNotifications:unreadNotifications
+            unreadNotifications:getNumberOfUnreadNotifications(profileUser)
         });
     }catch(err){
         return res.redirect('back');
@@ -86,7 +89,6 @@ module.exports.create = async function(req,res){
             let verifyemail = await verifyEmail.create({
                 email:req.body.email,
                 accesstoken: jwt.sign({email:req.body.email},env.jwt_secret,{expiresIn:'10000000'}),
-                isValid: true,
                 password:req.body.password
             });
 
@@ -119,8 +121,6 @@ module.exports.verifyUserEmail = async function(req,res){
             });
 
             await verifyEmail.deleteMany({email:email_to_verify.email});
-
-            email_to_verify.remove();
 
             req.flash('success','Email Verified');
             return res.redirect('/user/login');
@@ -165,12 +165,10 @@ module.exports.settings = async function(req,res){
     try{
         let user = await User.findById(req.user._id)
         .populate('account');
-
-        let unreadNotifications = user.notifications.length-user.lastCount;
         
         return res.render('./user/settings',{
             user:user,
-            unreadNotifications:unreadNotifications
+            unreadNotifications:getNumberOfUnreadNotifications(user)
         });
     }catch(err){
         req.flash('error','Error');
@@ -185,9 +183,8 @@ module.exports.transferFunds = function(req,res){
             return res.redirect('back');
         }
         else{
-            let unreadNotifications = user.notifications.length-user.lastCount;
             return res.render('./user/transferFunds',{
-                unreadNotifications:unreadNotifications
+                unreadNotifications:getNumberOfUnreadNotifications(user)
             });
         }
     });
@@ -283,10 +280,9 @@ module.exports.loans = function(req,res){
             return;
         }
         else{
-            let unreadNotifications = user.notifications.length-user.lastCount;
             return res.render('./user/loans',{
                 profileUser:user,
-                unreadNotifications:unreadNotifications
+                unreadNotifications:getNumberOfUnreadNotifications(user)
             });
         }
     });
@@ -349,7 +345,6 @@ module.exports.sendResetLink = async function(req,res){
         let reset_password = await resetPassword.create({
             user: user._id,
             accesstoken: jwt.sign(user.toJSON(),env.jwt_secret,{expiresIn:'10000000'}),
-            isValid: true
         });
         let reset_Password = await resetPassword.findById(reset_password._id).populate('user');
         //passwordsMailer.reset(reset_Password);
@@ -396,15 +391,13 @@ module.exports.changePassword = async function(req,res){
     }
     let accessToken = req.params.token;
     let user_account = await resetPassword.findOne({accesstoken:accessToken});
-    if(user_account&&user_account.isValid==true){
+    if(user_account){
         let user = await User.findById(user_account.user);
         if(user){
             user.password = password;
             user.save();
 
             await resetPassword.deleteMany({user:user_account.user});
-
-            user_account.remove();
             
             if(user.isAdmin){
                 return res.redirect('/admin/adminLogin');
