@@ -46,7 +46,7 @@ module.exports.transfer = async function(req,res){
     try{
         let targetAccount = await Account.findById(req.params.id);
         if(targetAccount){
-            if(targetAccount.user!=req.user.id){
+            if(targetAccount.user!=req.user.id||req.body.amount<=0){
                 req.flash('error','Unauthorized');
                 return res.redirect('back');
             }
@@ -113,7 +113,7 @@ module.exports.deposit = async function(req,res){
     try{
         let user = await User.findById(req.body.user).populate('account');
         
-        if(!user || user.password!=req.body.password||user.account.id!=req.body.accountNumber){
+        if(!user || user.password!=req.body.password||user.account.id!=req.body.accountNumber||req.body.amount<=0){
             req.flash('error','Unauthorized');
             return res.redirect('back');
         }
@@ -165,7 +165,7 @@ module.exports.withdraw = async function(req,res){
     try{
         let user = await User.findById(req.body.user).populate('account');
         
-        if(!user || user.password!=req.body.password||user.account.id!=req.body.accountNumber||user.account.balance<req.body.amount){
+        if(!user || user.password!=req.body.password||user.account.id!=req.body.accountNumber||user.account.balance<req.body.amount||req.body.amount<=0){
             req.flash('error','Unauthorized');
             return res.redirect('back');
         }
